@@ -905,6 +905,11 @@ document.getElementById('year').textContent = new Date().getFullYear();
       return '¡Hasta luego! Si necesitás algo más, acá estaré.';
     }
 
+    // --- Agradecimientos ---
+    if (/^(gracias|muchas gracias|te lo agradezco|se lo agradezco|thanks|thank you|gracias por todo)$/i.test(t)) {
+      return '¡De nada! Si tenés otra duda, acá estoy.';
+    }
+
     // --- ¿Quién es / Sobre mí ---
     if (/qu[ié]n es|sobre mí|sobre mauricio|perfil|quién es mauricio/.test(t)) {
       return 'Mauricio Gori es desarrollador de software, enfocado en Python, JavaScript y automatización creativa. Tiene experiencia en modding de juegos (motor GEM2 / Call to Arms), pipelines automatizados, análisis de logs y herramientas para entornos creativos como Blender.';
