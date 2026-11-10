@@ -961,7 +961,14 @@ document.getElementById('year').textContent = new Date().getFullYear();
           'ese tema no lo cubro',
           'no sé', 'no cover', 'no tengo detalles',
           'lo siento, tuve un error',
-          'respuesta vacía'
+          'respuesta vacía',
+          'modo demo',
+          'puedo responder sobre',
+          'preguntarme sobre',
+          'inténtalo con algo sobre',
+          'intenta con algo sobre',
+          'no cubro en el modo demo',
+          'no lo cubro en el modo demo'
         ];
         const esGenerica = frasesGenericas.some(f => respuestaLower.includes(f));
         if (esGenerica) {
