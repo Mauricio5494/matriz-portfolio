@@ -718,11 +718,12 @@
 
     document.addEventListener('mousemove', (e) => {
       const els = document.elementsFromPoint(e.clientX, e.clientY);
-      // Buscar el elemento más específico (el último que no sea body/html)
+      // elementsFromPoint devuelve de más específico (topmost) a menos específico
+      // Tomamos el primer elemento que no sea body/html y que tenga texto
       let el = null;
-      for (let i = els.length - 1; i >= 0; i--) {
+      for (let i = 0; i < els.length; i++) {
         const candidate = els[i];
-        if (candidate.tagName !== 'BODY' && candidate.tagName !== 'HTML') {
+        if (candidate.tagName !== 'BODY' && candidate.tagName !== 'HTML' && candidate.textContent && candidate.textContent.trim()) {
           el = candidate;
           break;
         }
