@@ -570,6 +570,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
   }
 
   render(idiomaActual);
+  window.cambiarIdiomaPortfolio = render;
 
   // Volver a poner el año tras cada render (el innerHTML recrea el span)
   const yearSpan = document.getElementById('year');
@@ -884,6 +885,11 @@ document.getElementById('year').textContent = new Date().getFullYear();
       const data = await resp.json();
       if (data.respuesta) {
         const fuente = data.fuente === 'memoria' ? ' (aprendido antes)' : '';
+        // Si el backend solicita cambio de idioma de la página
+        if (data.accion === 'cambiar_idioma' && data.idioma && typeof window.cambiarIdiomaPortfolio === 'function') {
+          window.cambiarIdiomaPortfolio(data.idioma);
+          return `Idioma cambiado a ${data.idioma}. ${data.respuesta}${fuente}`;
+        }
         return data.respuesta + fuente;
       }
       throw new Error('Respuesta vacía');
@@ -1049,6 +1055,21 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
   function respuestaDemo(texto) {
     const t = texto.trim().toLowerCase();
+
+    // --- Cambio de idioma (modo demo) ---
+    const cambioIdioma = t.match(/cambiar.*(español|ingl[ée]s|ruso|hindi)|idioma.*(español|ingl[ée]s|ruso|hindi)|pon.*(español|ingl[ée]s|ruso|hindi)|idioma a (español|ingl[ée]s|ruso|hindi)|quiero (en |en )?(español|ingl[ée]s|ruso|hindi)/i);
+    if (cambioIdioma && typeof window.cambiarIdiomaPortfolio === 'function') {
+      const mapaIdiomas = { español: 'es', ingles: 'en', inglés: 'en', ruso: 'ru', hindi: 'hi' };
+      let clave = '';
+      for (let i = 1; i < cambioIdioma.length; i++) {
+        if (cambioIdioma[i]) { clave = cambioIdioma[i]; break; }
+      }
+      const codigo = mapaIdiomas[clave.toLowerCase()];
+      if (codigo) {
+        window.cambiarIdiomaPortfolio(codigo);
+        return `Idioma cambiado a ${clave}. ${RESPUESTAS_GENERICAS[0]}`;
+      }
+    }
 
     // Ordenar por prioridad descendente para que los intents más específicos ganen
     const ordenados = [...INTENTOS_DEMO].sort((a, b) => b.prioridad - a.prioridad);
