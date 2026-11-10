@@ -840,7 +840,51 @@ document.getElementById('year').textContent = new Date().getFullYear();
     setTimeout(() => agregarMensaje(texto, quien), delay);
   }
 
-  // CHAT EN MODO DEMO — respuestas simuladas (sin backend externo)
+  // URL del backend en Railway (memoria tipo Cleverbot + demo fallback)
+  const RAILWAY_BACKEND_URL = 'https://railway-chat-backend-production.up.railway.app';
+
+  // Consulta al backend: primero busca en memoria guardada, si no usa demo
+  async function respuestaIA(texto) {
+    // Comando para enseñarle al bot: "enséñame: ¿cómo estás? -> estoy bien"
+    const match = texto.match(/^ens[eé]ñame:\s*(.+?)\s*->\s*(.+)$/i);
+    if (match) {
+      const pregunta = match[1].trim();
+      const respuesta = match[2].trim();
+      try {
+        const resp = await fetch(`${RAILWAY_BACKEND_URL}/api/teach`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pregunta, respuesta }),
+        });
+        if (resp.ok) {
+          return `Aprendido. Si preguntás "${pregunta}", responderé "${respuesta}".`;
+        }
+        return 'No pude guardar esa respuesta. Probá de nuevo más tarde.';
+      } catch (e) {
+        return 'Error al conectar con el backend para guardar la respuesta.';
+      }
+    }
+
+    try {
+      const resp = await fetch(`${RAILWAY_BACKEND_URL}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mensaje: texto }),
+      });
+      if (!resp.ok) throw new Error('Error del servidor');
+      const data = await resp.json();
+      if (data.respuesta) {
+        const fuente = data.fuente === 'memoria' ? ' (aprendido antes)' : '';
+        return data.respuesta + fuente;
+      }
+      throw new Error('Respuesta vacía');
+    } catch (e) {
+      console.warn('Backend no disponible, usando demo:', e.message);
+      return respuestaDemo(texto);
+    }
+  }
+
+  // Respuestas simuladas (demo) como fallback absoluto si el backend no responde
   function respuestaDemo(texto) {
     const t = texto.toLowerCase().trim();
 
@@ -918,7 +962,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
     // --- Preguntas sobre el asistente ---
     if (/eres tú|quién sos|qué eres|asistente|chat|bot/.test(t)) {
-      return 'Soy el asistente virtual demo de Mauricio. Puedo responder sobre sus proyectos, habilidades, experiencia y cómo contactarlo. Para respuestas con IA real haría falta conectar una API externa.';
+      return 'Soy el asistente virtual demo de Mauricio. Puedo aprender nuevas respuestas si me enseñás, o responder sobre sus proyectos, habilidades y contacto.';
     }
 
     // --- Fallback genérico ---
@@ -928,11 +972,6 @@ document.getElementById('year').textContent = new Date().getFullYear();
       'Ese tema no lo cubro en el modo demo. Intentá con algo sobre sus proyectos, habilidades o cómo escribirle.',
     ];
     return respuestasGenericas[Math.floor(Math.random() * respuestasGenericas.length)];
-  }
-
-  // Función de compatibilidad: responde directamente con el demo
-  async function respuestaIA(texto) {
-    return respuestaDemo(texto);
   }
 
   async function enviar() {
