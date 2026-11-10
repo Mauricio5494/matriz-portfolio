@@ -44,19 +44,24 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    z-index: -5;
+    z-index: -6;
   }
 
   #particle-canvas {
-    z-index: -2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
   }
 
+  /* Overlay muy sutil, detrás de todo, solo para dar profundidad */
   .bg-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.35);
-    z-index: -3;
-    backdrop-filter: blur(2px);
+    background: rgba(0, 0, 0, 0.15);
+    z-index: -5;
     pointer-events: none;
   }
 
@@ -486,7 +491,7 @@
     resize();
 
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%+-/[~]{}|';
-    const fontSize = 14;
+    const fontSize = 12;
     const columns = Math.floor(width / fontSize);
     const drops = [];
 
@@ -495,8 +500,8 @@
     }
 
     function draw() {
-      // Trail suave (no negro sólido) para dejar rastro difuminado
-      ctx.fillStyle = 'rgba(5, 5, 5, 0.1)';
+      // Trail más sutil para dejar rastro difuminado sin apagar las partículas
+      ctx.fillStyle = 'rgba(5, 5, 5, 0.15)';
       ctx.fillRect(0, 0, width, height);
       ctx.font = fontSize + 'px monospace';
 
@@ -504,18 +509,19 @@
         const char = chars[Math.floor(Math.random() * chars.length)];
         const x = i * fontSize;
 
-        ctx.fillStyle = '#ffaa00';
+        // Letra principal en ámbar suave, letras traseras en rojo tenue
+        ctx.fillStyle = 'rgba(255, 170, 0, 0.45)';
         ctx.fillText(char, x, drops[i] * fontSize);
 
-        ctx.fillStyle = '#ff1a1a';
+        ctx.fillStyle = 'rgba(255, 26, 26, 0.3)';
         ctx.fillText(char, x, (drops[i] - 1) * fontSize);
         ctx.fillText(char, x, (drops[i] - 2) * fontSize);
 
-        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+        if (drops[i] * fontSize > height && Math.random() > 0.985) {
           drops[i] = 0;
         }
 
-        drops[i]++;
+        drops[i] += 0.7;
       }
     }
 
@@ -539,9 +545,9 @@
     let mouse = { x: null, y: null, active: false };
 
     // Configuración de partículas (estilo Codrops creative coding)
-    const PARTICLE_COUNT = 120;
-    const CONNECT_DIST = 150;
-    const MOUSE_ATTRACT_DIST = 200;
+    const PARTICLE_COUNT = 150;
+    const CONNECT_DIST = 160;
+    const MOUSE_ATTRACT_DIST = 220;
 
     class Particle {
       constructor() {
@@ -551,10 +557,10 @@
       reset() {
         this.x = Math.random() * pwidth;
         this.y = Math.random() * pheight;
-        this.vx = (Math.random() - 0.5) * 0.4;
-        this.vy = (Math.random() - 0.5) * 0.4;
-        this.size = Math.random() * 2.5 + 0.5;
-        this.alpha = Math.random() * 0.6 + 0.1;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.size = Math.random() * 3 + 1;
+        this.alpha = Math.random() * 0.7 + 0.2;
         this.originalAlpha = this.alpha;
       }
 
@@ -576,7 +582,7 @@
             this.vx += (dx / dist) * force * 0.015;
             this.vy += (dy / dist) * force * 0.015;
             // Brillar más cuando el cursor está cerca
-            this.alpha = Math.min(0.9, this.originalAlpha + force * 0.3);
+            this.alpha = Math.min(0.95, this.originalAlpha + force * 0.4);
           } else {
             this.alpha = Math.max(0.1, this.alpha - 0.01);
           }
@@ -619,11 +625,11 @@
     }
 
     function pdraw() {
-      // Trail suave con fade-out (técnica de creative coding)
-      pctx.fillStyle = 'rgba(5, 5, 5, 0.2)';
+      // Trail suave con fade-out (técnica de creative coding) — más sutil para dejar ver el Matrix detrás
+      pctx.fillStyle = 'rgba(5, 5, 5, 0.12)';
       pctx.fillRect(0, 0, pwidth, pheight);
 
-      // Dibujar líneas entre partículas cercanas
+      // Dibujar líneas entre partículas cercanas — más visibles
       pctx.beginPath();
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
@@ -631,11 +637,11 @@
           const dy = particles[i].y - particles[j].y;
           const dist = Math.hypot(dx, dy);
           if (dist < CONNECT_DIST) {
-            const opacity = (1 - dist / CONNECT_DIST) * 0.5;
+            const opacity = (1 - dist / CONNECT_DIST) * 0.7;
             pctx.moveTo(particles[i].x, particles[i].y);
             pctx.lineTo(particles[j].x, particles[j].y);
             pctx.strokeStyle = `rgba(255, 170, 0, ${opacity})`;
-            pctx.lineWidth = opacity;
+            pctx.lineWidth = opacity * 1.2;
           }
         }
       }
