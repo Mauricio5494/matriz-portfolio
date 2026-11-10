@@ -373,7 +373,13 @@ document.getElementById('year').textContent = new Date().getFullYear();
       'contacto.p1': '¿Tienes un proyecto en mente? Escríbeme:',
       'contacto.email': 'mauriciogorilluberas@gmail.com',
       'contacto.github': 'GitHub',
-      'footer.copyright': '© <span id="year"></span> Mauricio · Construido con código abierto'
+      'footer.copyright': '© <span id="year"></span> Mauricio · Construido con código abierto',
+      'chat.qr.quien_es': '¿Quién es Mauricio?',
+      'chat.qr.proyectos': '¿Qué proyectos tiene?',
+      'chat.qr.habilidades': '¿Qué habilidades tiene?',
+      'chat.qr.contacto': '¿Cómo contacto a Mauricio?',
+      'chat.qr.contratar': '¿Está disponible para contratar?',
+      'chat.qr.idiomas': '¿Qué idiomas tiene el sitio?'
     },
     en: {
       'nav.sobre-mi': 'About me',
@@ -428,7 +434,13 @@ document.getElementById('year').textContent = new Date().getFullYear();
       'contacto.p1': 'Do you have a project in mind? Write to me:',
       'contacto.email': 'mauriciogorilluberas@gmail.com',
       'contacto.github': 'GitHub',
-      'footer.copyright': '© <span id="year"></span> Mauricio · Built with open source code'
+      'footer.copyright': '© <span id="year"></span> Mauricio · Built with open source code',
+      'chat.qr.quien_es': 'Who is Mauricio?',
+      'chat.qr.proyectos': 'What projects does he have?',
+      'chat.qr.habilidades': 'What skills does he have?',
+      'chat.qr.contacto': 'How do I contact Mauricio?',
+      'chat.qr.contratar': 'Is he available for hire?',
+      'chat.qr.idiomas': 'What languages does the site have?'
     },
     ru: {
       'nav.sobre-mi': 'Обо мне',
@@ -483,7 +495,13 @@ document.getElementById('year').textContent = new Date().getFullYear();
       'contacto.p1': 'Есть проект? Напишите мне:',
       'contacto.email': 'mauriciogorilluberas@gmail.com',
       'contacto.github': 'GitHub',
-      'footer.copyright': '© <span id="year"></span> Mauricio · Сделано с открытым исходным кодом'
+      'footer.copyright': '© <span id="year"></span> Mauricio · Сделано с открытым исходным кодом',
+      'chat.qr.quien_es': 'Кто такой Маурисио?',
+      'chat.qr.proyectos': 'Какие у него проекты?',
+      'chat.qr.habilidades': 'Какие у него навыки?',
+      'chat.qr.contacto': 'Как связаться с Маурисио?',
+      'chat.qr.contratar': 'Доступен ли он для найма?',
+      'chat.qr.idiomas': 'На каких языках сайт?'
     },
     hi: {
       'nav.sobre-mi': 'मेरे बारे में',
@@ -538,7 +556,13 @@ document.getElementById('year').textContent = new Date().getFullYear();
       'contacto.p1': 'क्या आपके मन में कोई परियोजना है? मुझे लिखें:',
       'contacto.email': 'mauriciogorilluberas@gmail.com',
       'contacto.github': 'गिटहब',
-      'footer.copyright': '© <span id="year"></span> Mauricio · ओपन सोर्स कोड के साथ बनाया गया'
+      'footer.copyright': '© <span id="year"></span> Mauricio · ओपन सोर्स कोड के साथ बनाया गया',
+      'chat.qr.quien_es': 'मॉरिसियो कौन हैं?',
+      'chat.qr.proyectos': 'उनके पास क्या प्रोजेक्ट्स हैं?',
+      'chat.qr.habilidades': 'उनके पास क्या कौशल हैं?',
+      'chat.qr.contacto': 'मैं मॉरिसियो से कैसे संपर्क करूँ?',
+      'chat.qr.contratar': 'क्या वे काम के लिए उपलब्ध हैं?',
+      'chat.qr.idiomas': 'साइट पर कौन सी भाषा है?'
     }
   };
 
@@ -554,6 +578,15 @@ document.getElementById('year').textContent = new Date().getFullYear();
       const texto = t[clave];
       if (texto !== undefined) {
         el.innerHTML = texto;
+      }
+    });
+
+    // Actualizar data-q de los quick replies del chat con el texto traducido
+    document.querySelectorAll('.qr[data-q-key]').forEach(function (btn) {
+      const key = btn.getAttribute('data-q-key');
+      const texto = t[key];
+      if (texto !== undefined) {
+        btn.setAttribute('data-q', texto);
       }
     });
 
