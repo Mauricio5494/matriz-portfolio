@@ -717,7 +717,16 @@
     }
 
     document.addEventListener('mousemove', (e) => {
-      const el = document.elementFromPoint(e.clientX, e.clientY);
+      const els = document.elementsFromPoint(e.clientX, e.clientY);
+      // Buscar el elemento más específico (el último que no sea body/html)
+      let el = null;
+      for (let i = els.length - 1; i >= 0; i--) {
+        const candidate = els[i];
+        if (candidate.tagName !== 'BODY' && candidate.tagName !== 'HTML') {
+          el = candidate;
+          break;
+        }
+      }
       if (el !== lastEl) {
         quitarNeon(lastEl);
         lastEl = el;
