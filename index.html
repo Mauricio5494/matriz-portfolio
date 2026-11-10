@@ -5,26 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portafolio — Desarrollo de Software</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
+
   :root {
     --bg: #050505;
     --panel: #0a0a0a;
     --text: #e0e0e0;
     --matrix-red: #ff1a1a;
-    --matrix-red-dark: #8b0000;
+    --matrix-red-dark: #660000;
     --matrix-amber: #ffaa00;
     --border: #330000;
     --accent-glow: rgba(255, 26, 26, 0.35);
+    --font-mono: 'Courier Prime', Courier, monospace;
   }
 
-  * { box-sizing: border-box; }
+  * {
+    box-sizing: border-box;
+  }
 
   html, body {
     margin: 0;
     padding: 0;
     background: var(--bg);
     color: var(--text);
-    font-family: 'Courier New', Courier, monospace;
-    line-height: 1.6;
+    font-family: var(--font-mono);
+    line-height: 1.7;
     overflow-x: hidden;
   }
 
@@ -36,7 +41,7 @@
     width: 100vw;
     height: 100vh;
     z-index: -1;
-    opacity: 0.55;
+    opacity: 0.45;
   }
 
   /* Navegación */
@@ -44,8 +49,8 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(6px);
-    background: rgba(5, 5, 5, 0.85);
+    backdrop-filter: blur(8px);
+    background: rgba(5, 5, 5, 0.9);
     border-bottom: 1px solid var(--border);
   }
 
@@ -63,12 +68,13 @@
     text-decoration: none;
     font-weight: bold;
     letter-spacing: 1px;
-    transition: color 0.2s;
+    font-size: 0.95rem;
+    transition: color 0.2s, text-shadow 0.2s;
   }
 
   nav a:hover {
     color: var(--matrix-amber);
-    text-shadow: 0 0 8px var(--accent-glow);
+    text-shadow: 0 0 10px var(--accent-glow);
   }
 
   /* Contenedor principal */
@@ -87,18 +93,20 @@
     border: 1px solid var(--border);
     background: var(--panel);
     border-radius: 8px;
-    box-shadow: 0 0 20px rgba(255, 26, 26, 0.08);
+    box-shadow: 0 0 25px rgba(255, 26, 26, 0.06);
+    margin-bottom: 3rem;
   }
 
   .hero h1 {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     margin: 0.5rem 0;
     color: var(--matrix-amber);
-    text-shadow: 0 0 10px var(--accent-glow);
+    text-shadow: 0 0 12px var(--accent-glow);
+    letter-spacing: 1px;
   }
 
   .hero h2 {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     color: var(--matrix-red);
     margin: 0.5rem 0;
     font-weight: normal;
@@ -106,20 +114,27 @@
 
   .hero p {
     color: var(--text);
-    max-width: 600px;
+    max-width: 620px;
     margin: 1rem auto;
     opacity: 0.9;
+    font-size: 1rem;
   }
 
   .badge {
     display: inline-block;
     margin-top: 1rem;
-    padding: 0.4rem 1rem;
+    padding: 0.5rem 1.25rem;
     border: 1px solid var(--matrix-red);
     color: var(--matrix-red);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     letter-spacing: 2px;
     text-transform: uppercase;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .badge:hover {
+    background: var(--matrix-red);
+    color: #000;
   }
 
   /* Secciones */
@@ -128,148 +143,177 @@
   }
 
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: var(--matrix-amber);
     border-bottom: 2px solid var(--border);
-    padding-bottom: 0.5rem;
-    margin-bottom: 1.5rem;
+    padding-bottom: 0.6rem;
+    margin-bottom: 1.75rem;
+    letter-spacing: 0.5px;
   }
 
   /* Sobre mí */
   .sobre-mi p {
     text-align: justify;
-    opacity: 0.9;
+    opacity: 0.95;
+    font-size: 1rem;
+    margin-bottom: 1rem;
   }
 
   /* Habilidades */
   .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1.75rem;
   }
 
   .skill-card {
     background: var(--panel);
     border: 1px solid var(--border);
-    padding: 1.25rem;
-    border-radius: 6px;
-    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
   }
 
   .skill-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 15px rgba(255, 26, 26, 0.12);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(255, 26, 26, 0.1);
     border-color: var(--matrix-red);
   }
 
   .skill-card h3 {
     margin-top: 0;
     color: var(--matrix-red);
-    font-size: 1rem;
+    font-size: 1.05rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 0.4rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
   }
 
   .skill-card ul {
     list-style: none;
     padding: 0;
-    margin: 0.75rem 0 0;
+    margin: 0;
   }
 
   .skill-card li {
-    padding: 0.35rem 0;
-    border-bottom: 1px solid rgba(255, 26, 26, 0.1);
+    padding: 0.45rem 0;
+    border-bottom: 1px solid rgba(255, 26, 26, 0.08);
     color: var(--text);
-    font-size: 0.9rem;
+    font-size: 0.92rem;
+    transition: padding-left 0.2s;
   }
 
   .skill-card li:last-child { border-bottom: none; }
 
+  .skill-card li:hover { padding-left: 0.5rem; color: var(--matrix-amber); }
+
   /* Proyectos */
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.75rem;
   }
 
   .project-card {
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1.25rem;
-    transition: transform 0.2s, border-color 0.2s;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
   }
 
   .project-card:hover {
     border-color: var(--matrix-red);
-    transform: translateY(-3px);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(255, 26, 26, 0.1);
   }
 
   .project-card h3 {
     margin-top: 0;
     color: var(--matrix-amber);
     font-size: 1.1rem;
+    margin-bottom: 0.75rem;
   }
 
   .project-card p {
-    font-size: 0.9rem;
-    opacity: 0.85;
-    margin: 0.75rem 0;
+    font-size: 0.92rem;
+    opacity: 0.9;
+    margin: 0.75rem 0 1.25rem;
   }
 
   .project-card .tags {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
-    margin-top: 1rem;
   }
 
   .project-card .tag {
-    font-size: 0.7rem;
-    padding: 0.15rem 0.5rem;
+    font-size: 0.72rem;
+    padding: 0.2rem 0.55rem;
     border: 1px solid var(--matrix-red-dark);
     color: var(--matrix-red);
-    border-radius: 3px;
+    border-radius: 4px;
+    background: rgba(255, 26, 26, 0.05);
   }
 
   /* Contacto */
   .contacto {
     text-align: center;
-    padding: 2rem;
+    padding: 2.5rem;
     background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 8px;
   }
 
+  .contacto h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
   .contacto p {
-    margin: 0.5rem 0;
+    margin: 0.6rem 0;
+    opacity: 0.95;
   }
 
   .contacto a {
     color: var(--matrix-red);
     text-decoration: none;
+    border-bottom: 1px solid rgba(255, 26, 26, 0.3);
+    transition: color 0.2s, border-color 0.2s;
   }
 
   .contacto a:hover {
     color: var(--matrix-amber);
-    text-decoration: underline;
+    border-bottom-color: rgba(255, 170, 0, 0.6);
+  }
+
+  /* Animación de entrada */
+  .fade-in {
+    animation: fadeIn 0.8s ease-out both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   footer {
     text-align: center;
-    padding: 2rem;
-    font-size: 0.8rem;
-    opacity: 0.6;
+    padding: 2.5rem;
+    font-size: 0.78rem;
+    opacity: 0.55;
     border-top: 1px solid var(--border);
+    letter-spacing: 0.5px;
   }
 
   /* Responsive */
-  @media (max-width: 600px) {
-    .hero h1 { font-size: 1.6rem; }
-    nav ul { gap: 1.2rem; font-size: 0.9rem; }
-    .container { padding: 2rem 1rem; }
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.8rem; }
+    nav ul { gap: 1.2rem; font-size: 0.85rem; }
+    .container { padding: 2.5rem 1rem; }
+    h2 { font-size: 1.4rem; }
   }
 </style>
 </head>
@@ -287,14 +331,14 @@
 </nav>
 
 <div class="container">
-  <header class="hero">
+  <header class="hero fade-in">
     <h1>Desarrollador de Software</h1>
     <h2>Enfoque en Python, JavaScript y automatización creativa</h2>
     <p>Construyendo herramientas que resuelven problemas reales. Enfocado en pilas tecnológicas demandadas por el mercado actual.</p>
     <span class="badge">Código abierto &middot; En constante aprendizaje</span>
   </header>
 
-  <section id="sobre-mi">
+  <section id="sobre-mi" class="fade-in">
     <h2>Sobre mí</h2>
     <div class="sobre-mi">
       <p>Soy desarrollador de software con interés en crear soluciones prácticas para problemas concretos. Mi experiencia abarca scripting en Python, desarrollo web con JavaScript/TypeScript, y herramientas de automatización para entornos creativos como Blender.</p>
@@ -302,7 +346,7 @@
     </div>
   </section>
 
-  <section id="habilidades">
+  <section id="habilidades" class="fade-in">
     <h2>Habilidades</h2>
     <div class="skills-grid">
       <div class="skill-card">
@@ -343,7 +387,7 @@
     </div>
   </section>
 
-  <section id="proyectos">
+  <section id="proyectos" class="fade-in">
     <h2>Proyectos</h2>
     <div class="projects-grid">
       <div class="project-card">
@@ -366,7 +410,7 @@
       </div>
       <div class="project-card">
         <h3>Panel de administración Full Stack</h3>
-        <p>Panel web con autenticación, gestión de usuarios y gráficos de datos, construido con React y Node.js.</p>
+        <p>Panel web con autenticación JWT, gestión de usuarios, subida de imágenes y exportación a CSV.</p>
         <div class="tags">
           <span class="tag">React</span>
           <span class="tag">Node.js</span>
@@ -376,11 +420,11 @@
     </div>
   </section>
 
-  <section id="contacto" class="contacto">
+  <section id="contacto" class="contacto fade-in">
     <h2>Contacto</h2>
     <p>¿Tienes un proyecto en mente? Escríbeme:</p>
-    <p><a href="mailto:tu-email@ejemplo.com">tu-email@ejemplo.com</a></p>
-    <p><a href="https://github.com/tu-usuario" target="_blank" rel="noopener">GitHub</a></p>
+    <p><a href="mailto:mauriciogorilluberas@gmail.com">mauriciogorilluberas@gmail.com</a></p>
+    <p><a href="https://github.com/Mauricio5494" target="_blank" rel="noopener">GitHub</a></p>
   </section>
 </div>
 
@@ -413,7 +457,6 @@
   }
 
   function draw() {
-    // Fondo semitransparente para estela
     ctx.fillStyle = 'rgba(5, 5, 5, 0.15)';
     ctx.fillRect(0, 0, width, height);
 
@@ -423,7 +466,6 @@
       const char = chars[Math.floor(Math.random() * chars.length)];
       const x = i * fontSize;
 
-      // Cabeza de la columna en ámbar, cuerpo en rojo
       ctx.fillStyle = '#ffaa00';
       ctx.fillText(char, x, drops[i] * fontSize);
 
