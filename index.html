@@ -690,6 +690,46 @@
     // Inicializar partículas tras un pequeño delay
     setTimeout(initParticles, 100);
   })();
+
+  /* ============================================================
+     EFECTO NEÓN INTERACTIVO AL PASAR EL MOUSE SOBRE LETRAS
+     JavaScript detecta el elemento bajo el cursor y le aplica
+     un brillo neón rojo/ámbar que se desvanece al moverse.
+     ============================================================ */
+  (function () {
+    let lastEl = null;
+
+    function aplicarNeon(el) {
+      if (!el || el === document.body || el === document.documentElement) return;
+      const txt = el.textContent || '';
+      if (!txt.trim()) return;
+
+      el.style.textShadow = '0 0 10px #ff1a1a, 0 0 20px #ffaa00, 0 0 35px #ff1a1a';
+      el.style.transition = 'text-shadow 0.15s ease';
+      el.style.color = '#ffaa00';
+    }
+
+    function quitarNeon(el) {
+      if (!el) return;
+      el.style.textShadow = '';
+      el.style.transition = '';
+      el.style.color = '';
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      if (el !== lastEl) {
+        quitarNeon(lastEl);
+        lastEl = el;
+        aplicarNeon(el);
+      }
+    });
+
+    document.addEventListener('mouseleave', () => {
+      quitarNeon(lastEl);
+      lastEl = null;
+    });
+  })();
 </script>
 
 </body>
