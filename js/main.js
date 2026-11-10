@@ -844,10 +844,11 @@ document.getElementById('year').textContent = new Date().getFullYear();
   if (!toggle || !panel || !input || !send || !messages) return;
 
   let abierto = false;
+  let enviando = false; // evita envíos concurrentes y respuestas fuera de orden
 
   toggle.addEventListener('click', () => {
     abierto = !abierto;
-    panel.style.display = abierto ? 'flex' : 'none';
+    panel.classList.toggle('open', abierto);
     if (abierto) input.focus();
   });
 
@@ -855,13 +856,20 @@ document.getElementById('year').textContent = new Date().getFullYear();
   document.addEventListener('click', (e) => {
     if (abierto && !panel.contains(e.target) && e.target !== toggle) {
       abierto = false;
-      panel.style.display = 'none';
+      panel.classList.remove('open');
     }
   });
 
-  // Convierte URLs y emails en enlaces clickeables
+  // Escapa HTML para prevenir XSS antes de inyectar como innerHTML
+  function escapeHtml(texto) {
+    const div = document.createElement('div');
+    div.textContent = texto;
+    return div.innerHTML;
+  }
+
+  // Convierte URLs y emails en enlaces clickeables (texto ya escapado)
   function enlazarTexto(texto) {
-    return texto
+    return escapeHtml(texto)
       // Enlaces http/https
       .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
       // Correos electrónicos
@@ -881,6 +889,19 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
   function escribir(texto, quien, delay = 0) {
     setTimeout(() => agregarMensaje(texto, quien), delay);
+  }
+
+  function mostrarEscribiendo() {
+    const div = document.createElement('div');
+    div.className = 'typing-indicator';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+    return div;
+  }
+
+  function ocultarEscribiendo(div) {
+    if (div && div.parentNode === messages) div.remove();
   }
 
   // URL del backend en Railway (memoria tipo Cleverbot + demo fallback)
@@ -909,11 +930,15 @@ document.getElementById('year').textContent = new Date().getFullYear();
     }
 
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 s timeout
       const resp = await fetch(`${RAILWAY_BACKEND_URL}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mensaje: texto }),
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
       if (!resp.ok) throw new Error('Error del servidor');
       const data = await resp.json();
       if (data.respuesta) {
@@ -922,6 +947,11 @@ document.getElementById('year').textContent = new Date().getFullYear();
         if (data.accion === 'cambiar_idioma' && data.idioma && typeof window.cambiarIdiomaPortfolio === 'function') {
           window.cambiarIdiomaPortfolio(data.idioma);
           return `Idioma cambiado a ${data.idioma}. ${data.respuesta}${fuente}`;
+        }
+        // Si el backend respondió con su demo local, usamos nuestro propio respuestaDemo() local
+        // que tiene mejor detección de intents y respuestas multidioma más completas
+        if (data.fuente === 'demo') {
+          return respuestaDemo(texto);
         }
         return data.respuesta + fuente;
       }
@@ -1085,6 +1115,12 @@ document.getElementById('year').textContent = new Date().getFullYear();
     if (/[Ѐ-ӿ]/.test(t)) return 'ru';           // cirílico → ruso
     if (/[ऀ-ॿ]/.test(t)) return 'hi';           // devanagari → hindi
     const tl = t.toLowerCase();
+    // Transliteración latina de ruso (teclado fonético) — solo palabras distintivas del cirílico
+    const ruLatWords = ['privet','zdravstvuy','kak dela','spasibo','do svidaniya','poka','kto takoy','proekty','nachki','kontakt','yazyk','yazyki','perevod','russkij','hindij'];
+    for (const p of ruLatWords) if (tl.includes(p)) return 'ru';
+    // Transliteración latina de hindi (Hinglish) — solo palabras distintivas del devanagari
+    const hiLatWords = ['namaste','namaskar','kaise ho','dhanyavad','phir milenge','alvida','koun hai','likhein','bhasha','bhashayen','anuvad','hindij'];
+    for (const p of hiLatWords) if (tl.includes(p)) return 'hi';
     const enWords = ['hello','hi ',' hi','hey','how are','what is','who is','can you','projects','skills','contact','thank','goodbye','bye','can i','how can'];
     for (const p of enWords) if (tl.includes(p)) return 'en';
     const esWords = ['hola','buenas','gracias','proyecto','proyectos','habilidad','habilidades','contacto','¿quién','quien','sobre','python','javascript','idioma','idiomas','español','cambiar','puedes','cómo','cuál','¿qué'];
@@ -1233,12 +1269,20 @@ document.getElementById('year').textContent = new Date().getFullYear();
   async function enviar() {
     const texto = input.value.trim();
     if (!texto) return;
+    if (enviando) return; // bloquea envíos concurrentes
+    enviando = true;
     colapsarQuickReplies();
     agregarMensaje(texto, 'user');
     input.value = '';
     setTimeout(async () => {
-      const respuesta = await respuestaIA(texto);
-      escribir(respuesta, 'bot');
+      const typingDiv = mostrarEscribiendo();
+      try {
+        const respuesta = await respuestaIA(texto);
+        escribir(respuesta, 'bot');
+      } finally {
+        ocultarEscribiendo(typingDiv);
+        enviando = false;
+      }
     }, 400);
   }
 
