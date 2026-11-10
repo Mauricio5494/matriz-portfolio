@@ -28,7 +28,7 @@
   html, body {
     margin: 0;
     padding: 0;
-    background: var(--bg);
+    background: transparent;
     color: var(--text);
     font-family: var(--font-mono);
     line-height: 1.7;
@@ -49,15 +49,13 @@
 
   #particle-canvas {
     z-index: -2;
-    mix-blend-mode: screen;
-    opacity: 0.8;
   }
 
   .bg-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: -4;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: -1;
     backdrop-filter: blur(2px);
     pointer-events: none;
   }
@@ -104,7 +102,6 @@
     padding: 3.5rem 1.5rem 4rem;
     position: relative;
     z-index: 1;
-    isolation: isolate;
   }
 
   /* Hero */
@@ -464,7 +461,8 @@
 
   /* ============================================================
      EFECTO MATRIX (lluvia de código roja/ámbar)
-     Generado enteramente por JavaScript.
+     Generado enteramente por JavaScript con fondo NEGRO dentro del canvas.
+     body es completamente transparente.
      ============================================================ */
   (function () {
     const canvas = document.createElement('canvas');
@@ -475,8 +473,6 @@
     canvas.style.width = '100vw';
     canvas.style.height = '100vh';
     canvas.style.zIndex = '-1';
-    canvas.style.opacity = '0.4';
-    canvas.style.mixBlendMode = 'screen';
     document.body.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
@@ -499,7 +495,8 @@
     }
 
     function draw() {
-      ctx.fillStyle = 'rgba(5, 5, 5, 0.1)';
+      // Fondo NEGRO sólido dentro del canvas (no transparente)
+      ctx.fillStyle = '#050505';
       ctx.fillRect(0, 0, width, height);
       ctx.font = fontSize + 'px monospace';
 
@@ -528,6 +525,7 @@
   /* ============================================================
      FONDO INTERACTIVO DE PARTÍCULAS (constelación)
      PC: sigue el ratón. Móvil: sigue el dedo.
+     Fondo negro dentro del canvas.
      ============================================================ */
   (function () {
     const pcanvas = document.getElementById('particle-canvas');
@@ -604,7 +602,9 @@
     }
 
     function pdraw() {
-      pctx.clearRect(0, 0, pwidth, pheight);
+      // Fondo NEGRO sólido dentro del canvas de partículas
+      pctx.fillStyle = '#050505';
+      pctx.fillRect(0, 0, pwidth, pheight);
 
       pctx.beginPath();
       for (let i = 0; i < particles.length; i++) {
