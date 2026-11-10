@@ -587,8 +587,9 @@ document.getElementById('year').textContent = new Date().getFullYear();
   const cursor = document.getElementById('cursor-custom');
   const trailCanvas = document.getElementById('cursor-trail');
   const trailCtx = trailCanvas.getContext('2d');
-  const impactContainer = document.getElementById('cursor-impact');
-  if (!cursor || !trailCanvas || !impactContainer) return;
+  const impactoCanvas = document.getElementById('cursor-impact');
+  const impactoCtx = impactoCanvas.getContext('2d');
+  if (!cursor || !trailCanvas || !impactoCanvas) return;
 
   const interactivos = 'a, button, select, input, .badge, [data-i18n="proyecto3.demo"]';
   let lastX = 0;
@@ -596,8 +597,9 @@ document.getElementById('year').textContent = new Date().getFullYear();
   let quietoTimeout = null;
   let twidth, theight;
   let particles = [];
+  let impactParticles = [];
 
-  // Colores mágicos de fantasía para el trail
+  // Colores mágicos de fantasía para el trail y los impactos
   const COLORES_MAGICOS = [
     '#bf00ff', // morado brujo
     '#ff00ff', // rosa mágico
@@ -611,6 +613,8 @@ document.getElementById('year').textContent = new Date().getFullYear();
   function resize() {
     twidth = trailCanvas.width = window.innerWidth;
     theight = trailCanvas.height = window.innerHeight;
+    impactoCanvas.width = window.innerWidth;
+    impactoCanvas.height = window.innerHeight;
   }
   window.addEventListener('resize', resize);
   resize();
@@ -642,6 +646,45 @@ document.getElementById('year').textContent = new Date().getFullYear();
       ctx.globalAlpha = this.alpha;
       ctx.fillStyle = this.color;
       ctx.shadowBlur = 10;
+      ctx.shadowColor = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // Clase Partícula para el impacto mágico al hacer clic (estilo Canvas)
+  class ImpactParticle {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+      const angulo = Math.random() * Math.PI * 2;
+      const velocidad = Math.random() * 6 + 2;
+      this.vx = Math.cos(angulo) * velocidad;
+      this.vy = Math.sin(angulo) * velocidad;
+      this.size = Math.random() * 5 + 2;
+      this.alpha = Math.random() * 0.4 + 0.6;
+      this.color = COLORES_MAGICOS[Math.floor(Math.random() * COLORES_MAGICOS.length)];
+      this.life = 1.0;
+      this.decay = Math.random() * 0.04 + 0.02;
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.vx *= 0.92;
+      this.vy *= 0.92;
+      this.life -= this.decay;
+      this.alpha = this.life;
+      this.size *= 0.94;
+    }
+
+    draw(ctx) {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle = this.color;
+      ctx.shadowBlur = 12;
       ctx.shadowColor = this.color;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -713,32 +756,30 @@ document.getElementById('year').textContent = new Date().getFullYear();
   }
   drawTrail();
 
-  // --- Partículas de impacto mágico al hacer clic (mantidas en divs) ---
+  // Bucle de animación de partículas de impacto en Canvas
+  function drawImpact() {
+    // Limpiar completamente cada frame (sin estela, son explosiones puntuales)
+    impactoCtx.clearRect(0, 0, twidth, theight);
+
+    // Actualizar y dibujar partículas de impacto
+    for (let i = impactParticles.length - 1; i >= 0; i--) {
+      const p = impactParticles[i];
+      p.update();
+      p.draw(impactoCtx);
+      if (p.life <= 0 || p.size < 0.5) {
+        impactParticles.splice(i, 1);
+      }
+    }
+
+    requestAnimationFrame(drawImpact);
+  }
+  drawImpact();
+
+  // --- Partículas de impacto mágico al hacer clic (Canvas) ---
   function crearImpactoMagico(x, y) {
-    const cantidad = 12;
+    const cantidad = 14;
     for (let i = 0; i < cantidad; i++) {
-      const p = document.createElement('div');
-      p.className = 'impact-particle';
-      const size = Math.random() * 7 + 4;
-      p.style.width = size + 'px';
-      p.style.height = size + 'px';
-      const color = COLORES_MAGICOS[Math.floor(Math.random() * COLORES_MAGICOS.length)];
-      p.style.background = color;
-      p.style.left = (x - size / 2) + 'px';
-      p.style.top = (y - size / 2) + 'px';
-
-      const angulo = (i / cantidad) * Math.PI * 2;
-      const distancia = 50 + Math.random() * 80;
-      const tx = Math.cos(angulo) * distancia;
-      const ty = Math.sin(angulo) * distancia;
-      p.style.setProperty('--tx', tx + 'px');
-      p.style.setProperty('--ty', ty + 'px');
-
-      impactContainer.appendChild(p);
-
-      setTimeout(() => {
-        if (p.parentNode) p.parentNode.removeChild(p);
-      }, 700);
+      impactParticles.push(new ImpactParticle(x, y));
     }
   }
 

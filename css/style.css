@@ -439,7 +439,7 @@ footer {
   mix-blend-mode: screen;
 }
 
-/* Partículas de clic/impacto mágico */
+/* Partículas de clic/impacto mágico (Canvas) */
 #cursor-impact {
   position: fixed;
   top: 0;
@@ -448,31 +448,8 @@ footer {
   height: 100vh;
   pointer-events: none;
   z-index: 9997;
-  overflow: hidden;
-}
-
-.impact-particle {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9997;
   mix-blend-mode: screen;
-  animation: impactoMagico 0.6s ease-out forwards;
-}
-
-@keyframes impactoMagico {
-  0% {
-    opacity: 0.9;
-    transform: scale(0) translate(0, 0);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.4) translate(var(--tx), var(--ty));
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0) translate(var(--tx), var(--ty));
-  }
+  display: block;
 }
 
 /* Ajuste en móviles: no hay cursor que siga al dedo */
