@@ -524,8 +524,11 @@
 
   /* ============================================================
      FONDO INTERACTIVO DE PARTÍCULAS (constelación)
-     PC: sigue el ratón. Móvil: sigue el dedo.
-     Fondo negro dentro del canvas.
+     Técnicas de creative coding (Codrops / web.dev):
+     - requestAnimationFrame para animación fluida
+     - Partículas con trail suave y fade-out
+     - Líneas que cambian de grosor según distancia
+     - Partículas atraídas suavemente hacia el cursor
      ============================================================ */
   (function () {
     const pcanvas = document.getElementById('particle-canvas');
@@ -535,6 +538,11 @@
     let particles = [];
     let mouse = { x: null, y: null, active: false };
 
+    // Configuración de partículas (estilo Codrops creative coding)
+    const PARTICLE_COUNT = 120;
+    const CONNECT_DIST = 150;
+    const MOUSE_ATTRACT_DIST = 200;
+
     class Particle {
       constructor() {
         this.reset();
@@ -543,37 +551,46 @@
       reset() {
         this.x = Math.random() * pwidth;
         this.y = Math.random() * pheight;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.size = Math.random() * 2 + 1;
-        this.alpha = Math.random() * 0.5 + 0.1;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.size = Math.random() * 2.5 + 0.5;
+        this.alpha = Math.random() * 0.6 + 0.1;
+        this.originalAlpha = this.alpha;
       }
 
       update() {
         this.x += this.vx;
         this.y += this.vy;
 
+        // Rebote en bordes
         if (this.x < 0 || this.x > pwidth) this.vx *= -1;
         if (this.y < 0 || this.y > pheight) this.vy *= -1;
 
+        // Atracción suave hacia el cursor
         if (mouse.active) {
           const dx = mouse.x - this.x;
           const dy = mouse.y - this.y;
           const dist = Math.hypot(dx, dy);
-          if (dist < 200) {
-            const force = (200 - dist) / 200;
-            this.vx += (dx / dist) * force * 0.02;
-            this.vy += (dy / dist) * force * 0.02;
+          if (dist < MOUSE_ATTRACT_DIST) {
+            const force = (MOUSE_ATTRACT_DIST - dist) / MOUSE_ATTRACT_DIST;
+            this.vx += (dx / dist) * force * 0.015;
+            this.vy += (dy / dist) * force * 0.015;
+            // Brillar más cuando el cursor está cerca
+            this.alpha = Math.min(0.9, this.originalAlpha + force * 0.3);
+          } else {
+            this.alpha = Math.max(0.1, this.alpha - 0.01);
           }
         }
 
+        // Limitar velocidad
         const speed = Math.hypot(this.vx, this.vy);
-        if (speed > 1.5) {
-          this.vx = (this.vx / speed) * 1.5;
-          this.vy = (this.vy / speed) * 1.5;
+        if (speed > 1.2) {
+          this.vx = (this.vx / speed) * 1.2;
+          this.vy = (this.vy / speed) * 1.2;
         }
 
-        if (this.alpha > 0) this.alpha -= 0.001;
+        // Desvanecer lentamente
+        if (this.alpha > 0) this.alpha -= 0.0005;
         if (this.alpha <= 0) this.reset();
       }
 
@@ -582,6 +599,7 @@
         pctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         pctx.fillStyle = `rgba(255, 26, 26, ${this.alpha})`;
         pctx.fill();
+        pctx.closePath();
       }
     }
 
@@ -594,45 +612,48 @@
     presize();
 
     function initParticles() {
-      const count = Math.min(80, Math.floor((pwidth * pheight) / 20000));
       particles = [];
-      for (let i = 0; i < count; i++) {
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
         particles.push(new Particle());
       }
     }
 
     function pdraw() {
-      // Fondo NEGRO sólido dentro del canvas de partículas
-      pctx.fillStyle = '#050505';
+      // Trail suave con fade-out (técnica de creative coding)
+      pctx.fillStyle = 'rgba(5, 5, 5, 0.2)';
       pctx.fillRect(0, 0, pwidth, pheight);
 
+      // Dibujar líneas entre partículas cercanas
       pctx.beginPath();
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.hypot(dx, dy);
-          if (dist < 150) {
-            const opacity = 1 - dist / 150;
+          if (dist < CONNECT_DIST) {
+            const opacity = (1 - dist / CONNECT_DIST) * 0.5;
             pctx.moveTo(particles[i].x, particles[i].y);
             pctx.lineTo(particles[j].x, particles[j].y);
-            pctx.strokeStyle = `rgba(255, 170, 0, ${opacity * 0.4})`;
-            pctx.lineWidth = 0.8;
+            pctx.strokeStyle = `rgba(255, 170, 0, ${opacity})`;
+            pctx.lineWidth = opacity;
           }
         }
       }
       pctx.stroke();
 
+      // Actualizar y dibujar partículas
       particles.forEach(p => {
         p.update();
         p.draw();
       });
 
+      // Cursor interactivo (punto más grande que atrae partículas)
       if (mouse.active) {
         pctx.beginPath();
-        pctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
-        pctx.fillStyle = 'rgba(255, 170, 0, 0.8)';
+        pctx.arc(mouse.x, mouse.y, 6, 0, Math.PI * 2);
+        pctx.fillStyle = 'rgba(255, 170, 0, 0.6)';
         pctx.fill();
+        pctx.closePath();
       }
 
       requestAnimationFrame(pdraw);
@@ -656,6 +677,7 @@
 
     window.addEventListener('touchend', () => setMouse(null, null, false));
 
+    // Inicializar partículas tras un pequeño delay
     setTimeout(initParticles, 100);
   })();
 </script>
