@@ -19,6 +19,8 @@
     --font-mono: 'Courier Prime', Courier, monospace;
     --particle-color: rgba(255, 26, 26, 0.35);
     --particle-line: rgba(255, 170, 0, 0.15);
+    --bloom: 0 0 8px rgba(255, 26, 26, 0.18);
+    --bloom-amber: 0 0 8px rgba(255, 170, 0, 0.18);
   }
 
   * {
@@ -34,6 +36,8 @@
     line-height: 1.7;
     overflow-x: hidden;
     height: 100%;
+    /* Bloom sutil en todas las letras de la página */
+    text-shadow: var(--bloom);
   }
 
   /* Capas de fondo */
