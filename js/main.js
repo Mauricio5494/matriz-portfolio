@@ -1020,8 +1020,8 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
     // --- Idiomas del sitio ---
     {
-      patrones: [/idioma|idiomas|español|ingl[ée]s|ruso|hindi|traducci[oó]n/i],
-      respuesta: 'El portfolio está disponible en español, inglés, ruso e hindi. Podés cambiar el idioma desde el selector en el menú de navegación.',
+      patrones: [/idioma|idiomas|en\s+qué\s+idiomas|idiomas\s+disponibles|qué\s+lenguas|lenguas|traducci[oó]n|traducir|español|ingl[ée]s|ruso|hindi|multidioma/i],
+      respuesta: 'El portfolio está disponible en cuatro idiomas: español, inglés, ruso e hindi. Podés cambiar el idioma desde el selector en el menú de navegación (arriba a la derecha).',
       prioridad: 70,
     },
 
