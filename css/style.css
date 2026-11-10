@@ -603,6 +603,50 @@ footer {
 
 #chat-input::placeholder { color: rgba(201,201,201,0.4); }
 
+/* Quick replies del chat */
+.chat-quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.4rem 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid var(--border);
+}
+
+.chat-quick-replies .qr {
+  background: transparent;
+  border: 1px solid var(--matrix-red);
+  color: var(--matrix-amber);
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+}
+
+.chat-quick-replies .qr:hover {
+  background: var(--matrix-red);
+  color: #000;
+}
+
+/* Botón borrar chat */
+.chat-clear {
+  background: transparent;
+  border: 1px solid var(--matrix-red-dark);
+  color: var(--matrix-red);
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.chat-clear:hover {
+  background: var(--matrix-red-dark);
+  color: #fff;
+}
+
 @media (max-width: 640px) {
   #chat-panel {
     width: calc(100vw - 30px);
