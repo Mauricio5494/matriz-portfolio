@@ -840,47 +840,99 @@ document.getElementById('year').textContent = new Date().getFullYear();
     setTimeout(() => agregarMensaje(texto, quien), delay);
   }
 
-  // URLs — ajustá RAILWAY_BACKEND_URL al dominio de tu backend en Railway
-  const RAILWAY_BACKEND_URL = 'https://railway-chat-backend-production.up.railway.app';
-
-  // Respuestas de IA: intenta Railway, si falla usa demo simulado
-  async function respuestaIA(texto) {
-    try {
-      const resp = await fetch(`${RAILWAY_BACKEND_URL}/api/chat`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mensaje: texto }),
-      });
-      if (!resp.ok) throw new Error('Error del servidor');
-      const data = await resp.json();
-      if (data.respuesta) return data.respuesta;
-      throw new Error('Respuesta vacía');
-    } catch (e) {
-      console.warn('Backend no disponible, usando demo:', e.message);
-      return respuestaDemo(texto);
-    }
-  }
-
-  // Respuestas simuladas (demo) como fallback
+  // CHAT EN MODO DEMO — respuestas simuladas (sin backend externo)
   function respuestaDemo(texto) {
-    const t = texto.toLowerCase();
+    const t = texto.toLowerCase().trim();
 
-    if (/hola|buenas|buen dia|buenas tardes|buenas noches/.test(t)) {
-      return '¡Hola! Soy el asistente de Mauricio. En qué puedo ayudarte.';
+    // --- Saludos y despedidas ---
+    if (/^(hola|buenas|buen día|buenas tardes|buenas noches|hey|hello|hi)$/.test(t)) {
+      return '¡Hola! Soy el asistente virtual de Mauricio. Pregúntame sobre sus proyectos, habilidades, experiencia o cómo contactarlo.';
     }
+    if (/^(adiós|chao|hasta luego|nos vemos|bye|goodbye)$/.test(t)) {
+      return '¡Hasta luego! Si necesitás algo más, acá estaré.';
+    }
+
+    // --- ¿Quién es / Sobre mí ---
+    if (/qu[ié]n es|sobre mí|sobre mauricio|perfil|quién es mauricio/.test(t)) {
+      return 'Mauricio Gori es desarrollador de software, enfocado en Python, JavaScript y automatización creativa. Tiene experiencia en modding de juegos (motor GEM2 / Call to Arms), pipelines automatizados, análisis de logs y herramientas para entornos creativos como Blender.';
+    }
+    if (/experiencia|trayectoria|historia|background/.test(t)) {
+      return 'Su experiencia abarca scripting en Python, desarrollo web con JavaScript/TypeScript, automatización de pipelines, análisis de game.log para Proton/Wine y creación de herramientas de modding para motores de juegos.';
+    }
+    if (/educación|formación|estudios|carrera|universidad/.test(t)) {
+      return 'No tengo detalles específicos de su formación académica en este modo demo, pero su perfil se centra en el desarrollo práctico de software y la automatización creativa.';
+    }
+
+    // --- Proyectos ---
     if (/proyecto|proyectos/.test(t)) {
-      return 'Tiene tres proyectos principales: un validador de assets para motores de juegos en Python, un analizador de game.log para Proton/Wine y un panel de administración Full Stack con React y Node.js.';
+      return 'Tiene tres proyectos principales: (1) Validador de assets para motor de juegos en Python — valida archivos .inc, .ext, .mdl antes de instalar mods. (2) Analizador de game.log para Proton/Wine — traduce errores del motor a pasos de solución. (3) Panel de administración Full Stack — con autenticación JWT, gestión de usuarios, subida de imágenes y exportación a CSV.';
     }
-    if (/habilidad|skill|python|javascript|typescript|react|node|docker|git|blender/.test(t)) {
-      return 'Sus habilidades incluyen Python, JavaScript, TypeScript, React, HTML/CSS, Tailwind, Node.js, Docker, Git, CI/CD básico y Blender (Python API).';
+    if (/validador|assets|motor de juegos|modding|gems?2|iron nest/.test(t)) {
+      return 'El validador de assets es una herramienta en Python para detectar errores comunes en archivos de motor (.inc, .ext, .mdl) antes de instalar mods en juegos basados en el motor GEM2 / Call to Arms.';
     }
-    if (/contacto|email|contratar|escribir|mail/.test(t)) {
+    if (/game.log|proton|wine|analizador|logs/.test(t)) {
+      return 'El analizador de game.log lee registros de juegos ejecutados bajo Proton/Wine y traduce los errores del motor en pasos de solución para modders.';
+    }
+    if (/panel|administración|full stack|react|node|jwt|csv/.test(t)) {
+      return 'El panel de administración Full Stack incluye autenticación JWT, gestión de usuarios, subida de imágenes y exportación a CSV. Tiene demo en vivo disponible en su portfolio.';
+    }
+
+    // --- Habilidades y tecnologías ---
+    if (/habilidad|skill|tecnología|tecnologías|stack|qué sabe/.test(t)) {
+      return 'Sus habilidades incluyen: Python, JavaScript, TypeScript, React, HTML5/CSS3, Tailwind CSS, Node.js, Docker, Git, CI/CD básico, SQL, análisis de logs y Blender (Python API).';
+    }
+    if (/python/.test(t)) {
+      return 'Python es uno de sus lenguajes principales. Lo usa para scripting, automatización, herramientas de modding y el validador de assets del motor de juegos.';
+    }
+    if (/javascript|js|node|node\.js/.test(t)) {
+      return 'Trabaja con JavaScript y Node.js para desarrollo web, APIs y paneles de administración. También usa TypeScript para mayor tipado y mantenibilidad.';
+    }
+    if (/react|frontend|frontend|html|css|tailwind/.test(t)) {
+      return 'En frontend usa React, HTML5/CSS3 y Tailwind CSS. Este mismo portfolio está construido con HTML, CSS y JavaScript vanilla.';
+    }
+    if (/docker|git|ci\/cd|github|version control/.test(t)) {
+      return 'Usa Docker para contenedores, Git para control de versiones (repositorios en GitHub) y tiene conocimientos básicos de CI/CD.';
+    }
+    if (/blender|3d|modelado|pipeline creativo/.test(t)) {
+      return 'Trabaja con Blender mediante su Python API para automatizar pipelines creativos y herramientas de modelado 3D.';
+    }
+    if (/sql|base de datos|base de datos/.test(t)) {
+      return 'Tiene conocimientos de SQL para trabajo con bases de datos relacionales.';
+    }
+
+    // --- Contacto y contratación ---
+    if (/contacto|email|correo|escribir|mail/.test(t)) {
       return 'Podés escribirle a mauriciogorilluberas@gmail.com o visitar su GitHub en github.com/Mauricio5494.';
     }
-    if (/sobre|qui[eé]n|quiere saber|quién es/.test(t)) {
-      return 'Mauricio es desarrollador de software, enfocado en Python, JavaScript y automatización creativa, con experiencia en modding de juegos y pipelines automatizados.';
+    if (/contratar|freelance|disponible|precio|presupuesto|costo|tarifa/.test(t)) {
+      return 'Para consultas sobre contratación o disponibilidad, escribí directamente a mauriciogorilluberas@gmail.com.';
     }
-    return 'Interesante pregunta. Soy un asistente demo; para respuestas reales conectá una API de IA. Podés preguntarme sobre sus proyectos, habilidades o cómo contactarlo.';
+    if (/github|repositorio|código fuente/.test(t)) {
+      return 'Su código está en GitHub: github.com/Mauricio5494. Podés explorar sus proyectos allí.';
+    }
+
+    // --- Idiomas del sitio ---
+    if (/idioma|idiomas|español|inglés|ruso|hindi|traducción/.test(t)) {
+      return 'El portfolio está disponible en español, inglés, ruso e hindi. Podés cambiar el idioma desde el selector en el menú de navegación.';
+    }
+
+    // --- Preguntas sobre el asistente ---
+    if (/eres tú|quién sos|qué eres|asistente|chat|bot/.test(t)) {
+      return 'Soy el asistente virtual demo de Mauricio. Puedo responder sobre sus proyectos, habilidades, experiencia y cómo contactarlo. Para respuestas con IA real haría falta conectar una API externa.';
+    }
+
+    // --- Fallback genérico ---
+    const respuestasGenericas = [
+      'Interesante pregunta. En este modo demo puedo responder sobre sus proyectos, habilidades, experiencia, tecnologías y cómo contactarlo.',
+      'Aún no tengo esa información en el modo demo. Probá preguntarme sobre sus proyectos, habilidades (Python, JavaScript, React, etc.) o su email de contacto.',
+      'Ese tema no lo cubro en el modo demo. Intentá con algo sobre sus proyectos, habilidades o cómo escribirle.',
+    ];
+    return respuestasGenericas[Math.floor(Math.random() * respuestasGenericas.length)];
+  }
+
+  // Función de compatibilidad: responde directamente con el demo
+  async function respuestaIA(texto) {
+    return respuestaDemo(texto);
   }
 
   async function enviar() {
