@@ -580,20 +580,22 @@ document.getElementById('year').textContent = new Date().getFullYear();
    CURSOR PERSONALIZADO — WITCH PUSHEEN
    - Gatito quieto (idle) y moviéndose (move) según el mouse
    - Rota según la dirección del movimiento
-   - Trail mágico con colores de fantasía
+   - Trail mágico con Canvas y partículas brillantes
    - Partículas de impacto mágico al hacer clic
    ============================================================ */
 (function () {
   const cursor = document.getElementById('cursor-custom');
-  const trailContainer = document.getElementById('cursor-trail');
+  const trailCanvas = document.getElementById('cursor-trail');
+  const trailCtx = trailCanvas.getContext('2d');
   const impactContainer = document.getElementById('cursor-impact');
-  if (!cursor || !trailContainer || !impactContainer) return;
+  if (!cursor || !trailCanvas || !impactContainer) return;
 
   const interactivos = 'a, button, select, input, .badge, [data-i18n="proyecto3.demo"]';
   let lastX = 0;
   let lastY = 0;
-  let trailIndex = 0;
   let quietoTimeout = null;
+  let twidth, theight;
+  let particles = [];
 
   // Colores mágicos de fantasía para el trail
   const COLORES_MAGICOS = [
@@ -604,6 +606,49 @@ document.getElementById('year').textContent = new Date().getFullYear();
     '#e0bbff', // lavanda
     '#ff69b4', // rosa fuerte
   ];
+
+  // Ajustar tamaño del canvas del trail
+  function resize() {
+    twidth = trailCanvas.width = window.innerWidth;
+    theight = trailCanvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // Clase Partícula para el trail mágico en Canvas
+  class TrailParticle {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+      this.vx = (Math.random() - 0.5) * 2;
+      this.vy = (Math.random() - 0.5) * 2 - 1; // tiende a subir un poco
+      this.size = Math.random() * 4 + 2;
+      this.alpha = Math.random() * 0.4 + 0.6;
+      this.color = COLORES_MAGICOS[Math.floor(Math.random() * COLORES_MAGICOS.length)];
+      this.life = 1.0;
+      this.decay = Math.random() * 0.02 + 0.015;
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.life -= this.decay;
+      this.alpha = this.life;
+      this.size *= 0.96;
+    }
+
+    draw(ctx) {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle = this.color;
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
 
   // --- Movimiento del cursor y detección de movimiento/quietud ---
   function moverCursor(x, y) {
@@ -631,8 +676,11 @@ document.getElementById('year').textContent = new Date().getFullYear();
       cursor.style.transform = 'translate(-50%, -50%) rotate(0deg)';
     }, 150);
 
-    // Crear partícula de estela mágica periódicamente
-    crearTrailMagico(x, y);
+    // Emitir partículas de trail mágico en la posición del mouse
+    const cantidad = Math.random() > 0.5 ? 2 : 1;
+    for (let c = 0; c < cantidad; c++) {
+      particles.push(new TrailParticle(x, y));
+    }
   }
 
   window.addEventListener('mousemove', (e) => moverCursor(e.clientX, e.clientY));
@@ -645,34 +693,27 @@ document.getElementById('year').textContent = new Date().getFullYear();
     cursor.style.opacity = '1';
   });
 
-  // Crear una partícula de estela mágica en la posición dada
-  function crearTrailMagico(x, y) {
-    const cantidad = Math.random() > 0.6 ? 2 : 1;
-    for (let c = 0; c < cantidad; c++) {
-      const p = document.createElement('div');
-      p.className = 'trail-particle';
-      const size = Math.random() * 6 + 4;
-      const offsetX = (Math.random() - 0.5) * 8;
-      const offsetY = (Math.random() - 0.5) * 8;
-      const color = COLORES_MAGICOS[Math.floor(Math.random() * COLORES_MAGICOS.length)];
-      p.style.width = size + 'px';
-      p.style.height = size + 'px';
-      p.style.background = color;
-      p.style.opacity = Math.random() * 0.4 + 0.6;
-      p.style.left = (x - size / 2 + offsetX) + 'px';
-      p.style.top = (y - size / 2 + offsetY) + 'px';
-      p.style.animationDelay = (trailIndex * 0.02) + 's';
-      trailIndex = (trailIndex + 1) % 60;
+  // Bucle de animación del trail en Canvas
+  function drawTrail() {
+    // Limpiar con un trail suave (rgba baja opacidad para dejar rastro)
+    trailCtx.fillStyle = 'rgba(5, 5, 5, 0.25)';
+    trailCtx.fillRect(0, 0, twidth, theight);
 
-      trailContainer.appendChild(p);
-
-      setTimeout(() => {
-        if (p.parentNode) p.parentNode.removeChild(p);
-      }, 900);
+    // Actualizar y dibujar partículas
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.update();
+      p.draw(trailCtx);
+      if (p.life <= 0 || p.size < 0.5) {
+        particles.splice(i, 1);
+      }
     }
-  }
 
-  // --- Partículas de impacto mágico al hacer clic ---
+    requestAnimationFrame(drawTrail);
+  }
+  drawTrail();
+
+  // --- Partículas de impacto mágico al hacer clic (mantidas en divs) ---
   function crearImpactoMagico(x, y) {
     const cantidad = 12;
     for (let i = 0; i < cantidad; i++) {
