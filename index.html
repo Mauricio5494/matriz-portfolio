@@ -495,8 +495,8 @@
     }
 
     function draw() {
-      // Fondo NEGRO sólido dentro del canvas (no transparente)
-      ctx.fillStyle = '#050505';
+      // Trail suave (no negro sólido) para dejar rastro difuminado
+      ctx.fillStyle = 'rgba(5, 5, 5, 0.1)';
       ctx.fillRect(0, 0, width, height);
       ctx.font = fontSize + 'px monospace';
 
@@ -534,14 +534,6 @@
     let pwidth, pheight;
     let particles = [];
     let mouse = { x: null, y: null, active: false };
-
-    function presize() {
-      pwidth = pcanvas.width = window.innerWidth;
-      pheight = pcanvas.height = window.innerHeight;
-      initParticles();
-    }
-    window.addEventListener('resize', presize);
-    presize();
 
     class Particle {
       constructor() {
@@ -592,6 +584,14 @@
         pctx.fill();
       }
     }
+
+    function presize() {
+      pwidth = pcanvas.width = window.innerWidth;
+      pheight = pcanvas.height = window.innerHeight;
+      initParticles();
+    }
+    window.addEventListener('resize', presize);
+    presize();
 
     function initParticles() {
       const count = Math.min(80, Math.floor((pwidth * pheight) / 20000));
