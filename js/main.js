@@ -68,11 +68,8 @@ document.getElementById('year').textContent = new Date().getFullYear();
   }
 
   function draw() {
-    // Detectar tema claro para adaptar colores (fondo blanco, letras verdes)
-    const esClaro = document.body.classList.contains('tema-claro');
-
-    // Trail del canvas: sutil, blanco en tema claro, negro en oscuro
-    ctx.fillStyle = esClaro ? 'rgba(255, 255, 255, 0.12)' : 'rgba(5, 5, 5, 0.15)';
+    // Trail más sutil para dejar rastro difuminado sin apagar las partículas
+    ctx.fillStyle = 'rgba(5, 5, 5, 0.15)';
     ctx.fillRect(0, 0, width, height);
     ctx.font = fontSize + 'px monospace';
 
@@ -80,23 +77,13 @@ document.getElementById('year').textContent = new Date().getFullYear();
       const char = chars[Math.floor(Math.random() * chars.length)];
       const x = i * fontSize;
 
-      if (esClaro) {
-        // Letra principal en verde suave, letras traseras en verde tenue
-        ctx.fillStyle = 'rgba(0, 150, 0, 0.55)';
-        ctx.fillText(char, x, drops[i] * fontSize);
+      // Letra principal en ámbar suave, letras traseras en rojo tenue
+      ctx.fillStyle = 'rgba(255, 170, 0, 0.45)';
+      ctx.fillText(char, x, drops[i] * fontSize);
 
-        ctx.fillStyle = 'rgba(0, 100, 0, 0.35)';
-        ctx.fillText(char, x, (drops[i] - 1) * fontSize);
-        ctx.fillText(char, x, (drops[i] - 2) * fontSize);
-      } else {
-        // Letra principal en ámbar suave, letras traseras en rojo tenue
-        ctx.fillStyle = 'rgba(255, 170, 0, 0.45)';
-        ctx.fillText(char, x, drops[i] * fontSize);
-
-        ctx.fillStyle = 'rgba(255, 26, 26, 0.3)';
-        ctx.fillText(char, x, (drops[i] - 1) * fontSize);
-        ctx.fillText(char, x, (drops[i] - 2) * fontSize);
-      }
+      ctx.fillStyle = 'rgba(255, 26, 26, 0.3)';
+      ctx.fillText(char, x, (drops[i] - 1) * fontSize);
+      ctx.fillText(char, x, (drops[i] - 2) * fontSize);
 
       if (drops[i] * fontSize > height && Math.random() > 0.985) {
         drops[i] = 0;
@@ -107,165 +94,6 @@ document.getElementById('year').textContent = new Date().getFullYear();
   }
 
   setInterval(draw, 50);
-})();
-
-/* ============================================================
-   FONDO INTERACTIVO DE PARTÍCULAS (constelación)
-   Técnicas de creative coding (Codrops / web.dev):
-   - requestAnimationFrame para animación fluida
-   - Partículas con trail suave y fade-out
-   - Líneas que cambian de grosor según distancia
-   - Partículas atraídas suavemente hacia el cursor
-   ============================================================ */
-(function () {
-  const pcanvas = document.getElementById('particle-canvas');
-  const pctx = pcanvas.getContext('2d');
-
-  let pwidth, pheight;
-  let particles = [];
-  let mouse = { x: null, y: null, active: false };
-
-  // Configuración de partículas (estilo Codrops creative coding)
-  const PARTICLE_COUNT = 150;
-  const CONNECT_DIST = 160;
-  const MOUSE_ATTRACT_DIST = 220;
-
-  class Particle {
-    constructor() {
-      this.reset();
-    }
-
-    reset() {
-      this.x = Math.random() * pwidth;
-      this.y = Math.random() * pheight;
-      this.vx = (Math.random() - 0.5) * 0.5;
-      this.vy = (Math.random() - 0.5) * 0.5;
-      this.size = Math.random() * 3 + 1;
-      this.alpha = Math.random() * 0.7 + 0.2;
-      this.originalAlpha = this.alpha;
-    }
-
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
-
-      // Rebote en bordes
-      if (this.x < 0 || this.x > pwidth) this.vx *= -1;
-      if (this.y < 0 || this.y > pheight) this.vy *= -1;
-
-      // Atracción suave hacia el cursor
-      if (mouse.active) {
-        const dx = mouse.x - this.x;
-        const dy = mouse.y - this.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < MOUSE_ATTRACT_DIST) {
-          const force = (MOUSE_ATTRACT_DIST - dist) / MOUSE_ATTRACT_DIST;
-          this.vx += (dx / dist) * force * 0.015;
-          this.vy += (dy / dist) * force * 0.015;
-          // Brillar más cuando el cursor está cerca
-          this.alpha = Math.min(0.95, this.originalAlpha + force * 0.4);
-        } else {
-          this.alpha = Math.max(0.1, this.alpha - 0.01);
-        }
-      }
-
-      // Limitar velocidad
-      const speed = Math.hypot(this.vx, this.vy);
-      if (speed > 1.2) {
-        this.vx = (this.vx / speed) * 1.2;
-        this.vy = (this.vy / speed) * 1.2;
-      }
-
-      // Desvanecer lentamente
-      if (this.alpha > 0) this.alpha -= 0.0005;
-      if (this.alpha <= 0) this.reset();
-    }
-
-    draw() {
-      pctx.beginPath();
-      pctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      pctx.fillStyle = `rgba(255, 26, 26, ${this.alpha})`;
-      pctx.fill();
-      pctx.closePath();
-    }
-  }
-
-  function presize() {
-    pwidth = pcanvas.width = window.innerWidth;
-    pheight = pcanvas.height = window.innerHeight;
-    initParticles();
-  }
-  window.addEventListener('resize', presize);
-  presize();
-
-  function initParticles() {
-    particles = [];
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      particles.push(new Particle());
-    }
-  }
-
-  function pdraw() {
-    // Trail suave con fade-out (técnica de creative coding) — más sutil para dejar ver el Matrix detrás
-    pctx.fillStyle = 'rgba(5, 5, 5, 0.12)';
-    pctx.fillRect(0, 0, pwidth, pheight);
-
-    // Dibujar líneas entre partículas cercanas — más visibles
-    pctx.beginPath();
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < CONNECT_DIST) {
-          const opacity = (1 - dist / CONNECT_DIST) * 0.7;
-          pctx.moveTo(particles[i].x, particles[i].y);
-          pctx.lineTo(particles[j].x, particles[j].y);
-          pctx.strokeStyle = `rgba(255, 170, 0, ${opacity})`;
-          pctx.lineWidth = opacity * 1.2;
-        }
-      }
-    }
-    pctx.stroke();
-
-    // Actualizar y dibujar partículas
-    particles.forEach(p => {
-      p.update();
-      p.draw();
-    });
-
-    // Cursor interactivo (punto más grande que atrae partículas)
-    if (mouse.active) {
-      pctx.beginPath();
-      pctx.arc(mouse.x, mouse.y, 6, 0, Math.PI * 2);
-      pctx.fillStyle = 'rgba(255, 170, 0, 0.6)';
-      pctx.fill();
-      pctx.closePath();
-    }
-
-    requestAnimationFrame(pdraw);
-  }
-
-  pdraw();
-
-  function setMouse(x, y, active) {
-    mouse.x = x;
-    mouse.y = y;
-    mouse.active = active;
-  }
-
-  window.addEventListener('mousemove', (e) => setMouse(e.clientX, e.clientY, true));
-  window.addEventListener('mouseleave', () => setMouse(null, null, false));
-
-  window.addEventListener('touchmove', (e) => {
-    const touch = e.touches[0];
-    setMouse(touch.clientX, touch.clientY, true);
-  }, { passive: true });
-
-  window.addEventListener('touchend', () => setMouse(null, null, false));
-
-  // Inicializar partículas tras un pequeño delay
-  setTimeout(initParticles, 100);
 })();
 
 /* ============================================================
