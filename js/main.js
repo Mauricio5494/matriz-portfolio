@@ -68,8 +68,11 @@ document.getElementById('year').textContent = new Date().getFullYear();
   }
 
   function draw() {
-    // Trail más sutil para dejar rastro difuminado sin apagar las partículas
-    ctx.fillStyle = 'rgba(5, 5, 5, 0.15)';
+    // Detectar tema claro para adaptar colores (fondo blanco, letras verdes)
+    const esClaro = document.body.classList.contains('tema-claro');
+
+    // Trail del canvas: sutil, blanco en tema claro, negro en oscuro
+    ctx.fillStyle = esClaro ? 'rgba(255, 255, 255, 0.12)' : 'rgba(5, 5, 5, 0.15)';
     ctx.fillRect(0, 0, width, height);
     ctx.font = fontSize + 'px monospace';
 
@@ -77,13 +80,23 @@ document.getElementById('year').textContent = new Date().getFullYear();
       const char = chars[Math.floor(Math.random() * chars.length)];
       const x = i * fontSize;
 
-      // Letra principal en ámbar suave, letras traseras en rojo tenue
-      ctx.fillStyle = 'rgba(255, 170, 0, 0.45)';
-      ctx.fillText(char, x, drops[i] * fontSize);
+      if (esClaro) {
+        // Letra principal en verde suave, letras traseras en verde tenue
+        ctx.fillStyle = 'rgba(0, 150, 0, 0.55)';
+        ctx.fillText(char, x, drops[i] * fontSize);
 
-      ctx.fillStyle = 'rgba(255, 26, 26, 0.3)';
-      ctx.fillText(char, x, (drops[i] - 1) * fontSize);
-      ctx.fillText(char, x, (drops[i] - 2) * fontSize);
+        ctx.fillStyle = 'rgba(0, 100, 0, 0.35)';
+        ctx.fillText(char, x, (drops[i] - 1) * fontSize);
+        ctx.fillText(char, x, (drops[i] - 2) * fontSize);
+      } else {
+        // Letra principal en ámbar suave, letras traseras en rojo tenue
+        ctx.fillStyle = 'rgba(255, 170, 0, 0.45)';
+        ctx.fillText(char, x, drops[i] * fontSize);
+
+        ctx.fillStyle = 'rgba(255, 26, 26, 0.3)';
+        ctx.fillText(char, x, (drops[i] - 1) * fontSize);
+        ctx.fillText(char, x, (drops[i] - 2) * fontSize);
+      }
 
       if (drops[i] * fontSize > height && Math.random() > 0.985) {
         drops[i] = 0;
