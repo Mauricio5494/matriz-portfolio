@@ -1007,7 +1007,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
     // --- ¿Quién es / Sobre mí ---
     {
-      patrones: [/qu[ié]n\s+es|sobre\s+mí|sobre\s+mauricio|perfil|qu[ié]n\s+es\s+mauricio/i],
+      patrones: [/qui[eé]n\s+es|sobre\s+mí|sobre\s+mauricio|perfil|qui[eé]n\s+es\s+mauricio/i],
       respuesta: 'Mauricio Gori es desarrollador de software, enfocado en Python, JavaScript y automatización creativa. Tiene experiencia en modding de juegos (motor GEM2 / Call to Arms), pipelines automatizados, análisis de logs y herramientas para Blender.',
       prioridad: 85,
     },
@@ -1230,7 +1230,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
         { patrones: [/^(hola|buenas|buen\s+d[ií]a|buenas\s+tardes|buenas\s+noches|hey|hello|hi)\b/i], intent: 'saludo' },
         { patrones: [/^(adiós|chao|hasta+luego|nos+vemos|bye|goodbye|hasta+pronto)\b/i], intent: 'despedida' },
         { patrones: [/^(gracias|muchas+gracias|te+lo+agradezco|se+lo+agradezco|thanks|thank+you|gracias+por+todo)\b/i], intent: 'agradecimiento' },
-        { patrones: [/qu[ié]n\s+es|sobre\s+mí|sobre\s+mauricio|perfil|qu[ié]n\s+es\s+mauricio/i], intent: 'sobre_mi' },
+        { patrones: [/qui[eé]n\s+es|sobre\s+mí|sobre\s+mauricio|perfil|qui[eé]n\s+es\s+mauricio/i], intent: 'sobre_mi' },
         { patrones: [/experiencia|trayectoria|historia|background/i], intent: 'experiencia' },
         { patrones: [/proyecto|proyectos/i], intent: 'proyectos' },
         { patrones: [/habilidad|skill|tecnolog[ií]a|tecnolog[ií]as|stack|qu[eé]\s+sabe/i], intent: 'habilidades' },
