@@ -840,8 +840,29 @@ document.getElementById('year').textContent = new Date().getFullYear();
     setTimeout(() => agregarMensaje(texto, quien), delay);
   }
 
-  // Respuestas simuladas (demo). Reemplazá esta función por un fetch real a tu API de IA.
-  function respuestaIA(texto) {
+  // URLs — ajustá RAILWAY_BACKEND_URL al dominio de tu backend en Railway
+  const RAILWAY_BACKEND_URL = 'https://TU_BACKEND.railway.app';
+
+  // Respuestas de IA: intenta Railway, si falla usa demo simulado
+  async function respuestaIA(texto) {
+    try {
+      const resp = await fetch(`${RAILWAY_BACKEND_URL}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mensaje: texto }),
+      });
+      if (!resp.ok) throw new Error('Error del servidor');
+      const data = await resp.json();
+      if (data.respuesta) return data.respuesta;
+      throw new Error('Respuesta vacía');
+    } catch (e) {
+      console.warn('Backend no disponible, usando demo:', e.message);
+      return respuestaDemo(texto);
+    }
+  }
+
+  // Respuestas simuladas (demo) como fallback
+  function respuestaDemo(texto) {
     const t = texto.toLowerCase();
 
     if (/hola|buenas|buen dia|buenas tardes|buenas noches/.test(t)) {
@@ -862,12 +883,15 @@ document.getElementById('year').textContent = new Date().getFullYear();
     return 'Interesante pregunta. Soy un asistente demo; para respuestas reales conectá una API de IA. Podés preguntarme sobre sus proyectos, habilidades o cómo contactarlo.';
   }
 
-  function enviar() {
+  async function enviar() {
     const texto = input.value.trim();
     if (!texto) return;
     agregarMensaje(texto, 'user');
     input.value = '';
-    setTimeout(() => escribir(respuestaIA(texto), 'bot', 600), 400);
+    setTimeout(async () => {
+      const respuesta = await respuestaIA(texto);
+      escribir(respuesta, 'bot');
+    }, 400);
   }
 
   send.addEventListener('click', enviar);
