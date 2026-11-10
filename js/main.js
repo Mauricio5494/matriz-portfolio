@@ -1233,6 +1233,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
   async function enviar() {
     const texto = input.value.trim();
     if (!texto) return;
+    colapsarQuickReplies();
     agregarMensaje(texto, 'user');
     input.value = '';
     setTimeout(async () => {
@@ -1244,15 +1245,31 @@ document.getElementById('year').textContent = new Date().getFullYear();
   send.addEventListener('click', enviar);
   input.addEventListener('keypress', (e) => { if (e.key === 'Enter') enviar(); });
 
-  // Quick replies: al hacer clic, inserta la pregunta y envía
+  // Colapsar quick replies al enviar cualquier mensaje
+  function colapsarQuickReplies() {
+    const qr = document.getElementById('chat-quick-replies');
+    if (qr) qr.classList.add('collapsed');
+  }
+
+  // Quick replies: al hacer clic, inserta la pregunta, envía y colapsa sugerencias
   document.querySelectorAll('.qr').forEach(btn => {
     btn.addEventListener('click', () => {
       const q = btn.getAttribute('data-q');
       if (!q) return;
       input.value = q;
+      colapsarQuickReplies();
       enviar();
     });
   });
+
+  // Toggle mostrar/ocultar quick replies
+  const qrToggle = document.getElementById('qr-toggle');
+  if (qrToggle) {
+    qrToggle.addEventListener('click', () => {
+      const qr = document.getElementById('chat-quick-replies');
+      if (qr) qr.classList.toggle('collapsed');
+    });
+  }
 
   // Borrar chat: deja solo el mensaje de bienvenida del bot
   const btnClear = document.querySelector('.chat-clear');
@@ -1261,6 +1278,9 @@ document.getElementById('year').textContent = new Date().getFullYear();
       while (messages.children.length > 1) {
         messages.removeChild(messages.children[1]);
       }
+      // Al borrar chat, volver a mostrar quick replies
+      const qr = document.getElementById('chat-quick-replies');
+      if (qr) qr.classList.remove('collapsed');
     });
   }
 })();

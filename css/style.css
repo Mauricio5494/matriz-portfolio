@@ -611,6 +611,20 @@ footer {
   padding: 0.4rem 1rem;
   background: rgba(0, 0, 0, 0.3);
   border-bottom: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.chat-quick-replies.collapsed {
+  padding: 0.4rem 1rem;
+  border-bottom: none;
+}
+
+.chat-quick-replies.collapsed .qr {
+  display: none;
+}
+
+.chat-quick-replies.collapsed .qr-toggle {
+  display: block;
 }
 
 .chat-quick-replies .qr {
@@ -622,11 +636,30 @@ footer {
   font-size: 0.7rem;
   font-family: var(--font-mono);
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .chat-quick-replies .qr:hover {
   background: var(--matrix-red);
   color: #000;
+}
+
+.chat-quick-replies .qr-toggle {
+  background: transparent;
+  border: 1px solid var(--matrix-red-dark);
+  color: var(--matrix-red);
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  margin-left: auto;
+  display: none;
+}
+
+.chat-quick-replies .qr-toggle:hover {
+  background: var(--matrix-red-dark);
+  color: #fff;
 }
 
 /* Botón borrar chat */
