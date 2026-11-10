@@ -949,8 +949,22 @@ document.getElementById('year').textContent = new Date().getFullYear();
           return `Idioma cambiado a ${data.idioma}. ${data.respuesta}${fuente}`;
         }
         // Si el backend respondió con su demo local, usamos nuestro propio respuestaDemo() local
-        // que tiene mejor detección de intents y respuestas multidioma más completas
         if (data.fuente === 'demo') {
+          return respuestaDemo(texto);
+        }
+        // Si el backend respondió con una respuesta genérica de fallback (no clasifica el intent),
+        // usamos nuestro propio respuestaDemo() local que tiene mejor detección de intents
+        const respuestaLower = data.respuesta.toLowerCase();
+        const frasesGenericas = [
+          'interesante pregunta',
+          'aún no tengo esa información',
+          'ese tema no lo cubro',
+          'no sé', 'no cover', 'no tengo detalles',
+          'lo siento, tuve un error',
+          'respuesta vacía'
+        ];
+        const esGenerica = frasesGenericas.some(f => respuestaLower.includes(f));
+        if (esGenerica) {
           return respuestaDemo(texto);
         }
         return data.respuesta + fuente;
