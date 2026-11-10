@@ -22,6 +22,17 @@ document.getElementById('year').textContent = new Date().getFullYear();
     selector.value = tema;
     localStorage.setItem('tema-portfolio', tema);
     temaActual = tema;
+
+    // Ocultar/mostrar elementos de fondo según el tema
+    const matrixCanvas = document.getElementById('matrix-canvas');
+    const bgOverlay = document.querySelector('.bg-overlay');
+    if (tema === 'matrix') {
+      if (matrixCanvas) matrixCanvas.style.display = 'block';
+      if (bgOverlay) bgOverlay.style.background = 'rgba(0, 0, 0, 0.15)';
+    } else {
+      if (matrixCanvas) matrixCanvas.style.display = 'none';
+      if (bgOverlay) bgOverlay.style.background = 'transparent';
+    }
   }
 
   selector.value = temaActual;

@@ -19,7 +19,7 @@
 
 /* Tema 2: Claro (light) — fondo blanco agradable, texto oscuro suave */
 body.tema-claro {
-  background: #ffffff;
+  background: #ffffff !important;
   --bg: #ffffff;
   --panel: #fafafa;
   --text: #222222;
@@ -36,7 +36,7 @@ body.tema-claro {
 
 /* Tema 3: Sepia cálido — fondo crema, texto marrón suave */
 body.tema-sepia {
-  background: #fdf6e3;
+  background: #fdf6e3 !important;
   --bg: #fdf6e3;
   --panel: #f5e8d0;
   --text: #583a22;
@@ -49,6 +49,17 @@ body.tema-sepia {
   --particle-line: rgba(209, 154, 72, 0.12);
   --bloom: 0 0 14px rgba(178, 58, 72, 0.25);
   --bloom-amber: 0 0 14px rgba(209, 154, 72, 0.25);
+}
+
+/* Ocultar canvas Matrix y oscurecedor de fondo en temas claros */
+body.tema-claro #matrix-canvas,
+body.tema-sepia #matrix-canvas {
+  display: none !important;
+}
+
+body.tema-claro .bg-overlay,
+body.tema-sepia .bg-overlay {
+  background: transparent !important;
 }
 
 * {
