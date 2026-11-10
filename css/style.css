@@ -1,0 +1,535 @@
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --bg: #050505;
+  --panel: #0a0a0a;
+  --text: #c9c9c9;
+  --matrix-red: #ff1a1a;
+  --matrix-red-dark: #660000;
+  --matrix-amber: #ffaa00;
+  --border: #330000;
+  --accent-glow: rgba(255, 26, 26, 0.35);
+  --font-mono: 'Courier Prime', Courier, monospace;
+  --particle-color: rgba(255, 26, 26, 0.35);
+  --particle-line: rgba(255, 170, 0, 0.15);
+  --bloom: 0 0 14px rgba(255, 26, 26, 0.45);
+  --bloom-amber: 0 0 14px rgba(255, 170, 0, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-mono);
+  line-height: 1.7;
+  overflow-x: hidden;
+  height: 100%;
+  /* Bloqueamos el cursor nativo; usaremos uno personalizado */
+  cursor: none;
+  /* Bloom sutil en todas las letras de la página */
+  text-shadow: var(--bloom);
+}
+
+/* Capas de fondo */
+.bg-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -6;
+}
+
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+}
+
+/* Overlay muy sutil, detrás de todo, solo para dar profundidad */
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: -5;
+  pointer-events: none;
+}
+
+/* Navegación */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+  background: rgba(5, 5, 5, 0.9);
+  border-bottom: 1px solid var(--border);
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.75rem 0;
+}
+
+nav a {
+  color: var(--matrix-red);
+  text-decoration: none;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
+nav a:hover {
+  color: var(--matrix-amber);
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+
+nav #idioma-selector {
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--matrix-amber);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+nav #idioma-selector option {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Contenedor principal */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  border: 1px solid var(--border);
+  background: rgba(10, 10, 10, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 0 25px rgba(255, 26, 26, 0.06);
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-size: 2.4rem;
+  margin: 0.5rem 0;
+  color: var(--matrix-amber);
+  text-shadow: 0 0 12px var(--accent-glow);
+  letter-spacing: 1px;
+}
+
+.hero h2 {
+  font-size: 1.15rem;
+  color: var(--matrix-red);
+  margin: 0.5rem 0;
+  font-weight: normal;
+}
+
+.hero-nombre {
+  display: block;
+  font-size: 1.6rem;
+  margin-top: 0.5rem;
+  color: var(--matrix-amber);
+  letter-spacing: 1px;
+}
+
+.hero-subtitulo {
+  font-size: calc(2.4rem - 2px);
+  color: var(--matrix-red);
+  margin-top: 0.5rem;
+  font-weight: normal;
+  opacity: 0.9;
+}
+
+.hero p {
+  color: var(--text);
+  max-width: 620px;
+  margin: 1rem auto;
+  opacity: 0.9;
+  font-size: 1rem;
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--matrix-red);
+  color: var(--matrix-red);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: background 0.2s, color 0.2s;
+}
+
+.badge:hover {
+  background: var(--matrix-red);
+  color: #000;
+}
+
+/* Secciones */
+section {
+  margin-top: 3rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+  color: var(--matrix-amber);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.6rem;
+  margin-bottom: 1.75rem;
+  letter-spacing: 0.5px;
+}
+
+/* Sobre mí */
+.sobre-mi p {
+  text-align: justify;
+  opacity: 0.95;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Habilidades */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.75rem;
+}
+
+.skill-card {
+  background: rgba(10, 10, 10, 0.95);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  border-radius: 8px;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+
+.skill-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(255, 26, 26, 0.1);
+  border-color: var(--matrix-red);
+}
+
+.skill-card h3 {
+  margin-top: 0;
+  color: var(--matrix-red);
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.skill-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.skill-card li {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(255, 26, 26, 0.08);
+  color: var(--text);
+  font-size: 0.92rem;
+  transition: padding-left 0.2s;
+}
+
+.skill-card li:last-child {
+  border-bottom: none;
+}
+
+.skill-card li:hover {
+  padding-left: 0.5rem;
+  color: var(--matrix-amber);
+}
+
+/* Proyectos */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.75rem;
+}
+
+.project-card {
+  background: rgba(10, 10, 10, 0.95);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+.project-card:hover {
+  border-color: var(--matrix-red);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(255, 26, 26, 0.1);
+}
+
+.project-card h3 {
+  margin-top: 0;
+  color: var(--matrix-amber);
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.project-card p {
+  font-size: 0.92rem;
+  opacity: 0.9;
+  margin: 0.75rem 0 1.25rem;
+}
+
+.project-card .tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.project-card .tag {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--matrix-red-dark);
+  color: var(--matrix-red);
+  border-radius: 4px;
+  background: rgba(255, 26, 26, 0.05);
+}
+
+/* Contacto */
+.contacto {
+  text-align: center;
+  padding: 2.5rem;
+  background: rgba(10, 10, 10, 0.95);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.contacto h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.contacto p {
+  margin: 0.6rem 0;
+  opacity: 0.95;
+}
+
+.contacto a {
+  color: var(--matrix-red);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 26, 26, 0.3);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.contacto a:hover {
+  color: var(--matrix-amber);
+  border-bottom-color: rgba(255, 170, 0, 0.6);
+}
+
+/* Animación de entrada */
+.fade-in {
+  animation: fadeIn 0.8s ease-out both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+footer {
+  text-align: center;
+  padding: 2.5rem;
+  font-size: 0.78rem;
+  opacity: 0.55;
+  border-top: 1px solid var(--border);
+  letter-spacing: 0.5px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+  nav ul {
+    gap: 1rem;
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .container {
+    padding: 6rem 1rem 4rem;
+  }
+  h2 {
+    font-size: 1.4rem;
+  }
+}
+
+/* ============================================================
+   CURSOR PERSONALIZADO ESTILO MATRIX — FLECHA CON ESTELA
+   Flecha neón que sigue al mouse, deja estela al moverse y
+   genera partículas al hacer clic. Se expande sobre elementos
+   interactivos.
+   ============================================================ */
+#cursor-custom {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  /* Flecha clásica estática: sin rotación, solo se mueve de posición */
+  transition: width 0.18s ease, height 0.18s ease;
+  mix-blend-mode: difference;
+  /* Forma de flecha clásica apuntando hacia arriba-izquierda */
+  clip-path: polygon(25% 0, 0 0, 0 25%, 35% 60%, 35% 35%, 60% 35%, 60% 0, 100% 0, 100% 100%, 0 100%, 0 60%, 35% 35%);
+}
+
+#cursor-custom::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--matrix-red);
+  clip-path: inherit;
+  box-sizing: border-box;
+}
+
+#cursor-custom::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: rgba(255, 26, 26, 0.25);
+  clip-path: inherit;
+  box-sizing: border-box;
+}
+
+/* Estado activo: sobre elementos interactivos → ámbar y más grande */
+#cursor-custom.activo {
+  width: 44px;
+  height: 44px;
+}
+
+#cursor-custom.activo::before {
+  border-color: var(--matrix-amber);
+  box-shadow: 0 0 16px rgba(255, 170, 0, 0.45);
+}
+
+#cursor-custom.activo::after {
+  background: rgba(255, 170, 0, 0.35);
+}
+
+/* Estela (trail) que deja el cursor al moverse */
+#cursor-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9998;
+  overflow: hidden;
+}
+
+.trail-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  mix-blend-mode: difference;
+  box-shadow: 0 0 6px currentColor;
+  animation: trailFade 0.55s ease-out forwards;
+}
+
+@keyframes trailFade {
+  0% {
+    opacity: 0.85;
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(4px, 4px) scale(0.7);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(8px, 8px) scale(0);
+  }
+}
+
+/* Partículas de clic/impacto */
+#cursor-impact {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9997;
+  overflow: hidden;
+}
+
+.impact-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9997;
+  mix-blend-mode: difference;
+  animation: impactBurst 0.5s ease-out forwards;
+}
+
+@keyframes impactBurst {
+  0% {
+    opacity: 0.9;
+    transform: scale(0) translate(0, 0);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.2) translate(var(--tx), var(--ty));
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0) translate(var(--tx), var(--ty));
+  }
+}
+
+/* Ajuste en móviles: no hay cursor que siga al dedo */
+@media (hover: none) and (pointer: coarse) {
+  #cursor-custom,
+  #cursor-trail,
+  #cursor-impact {
+    display: none;
+  }
+  html,
+  body {
+    cursor: auto;
+  }
+}

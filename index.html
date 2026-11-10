@@ -1,1092 +1,146 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portafolio — Desarrollo de Software</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
-
-  :root {
-    --bg: #050505;
-    --panel: #0a0a0a;
-    --text: #c9c9c9;
-    --matrix-red: #ff1a1a;
-    --matrix-red-dark: #660000;
-    --matrix-amber: #ffaa00;
-    --border: #330000;
-    --accent-glow: rgba(255, 26, 26, 0.35);
-    --font-mono: 'Courier Prime', Courier, monospace;
-    --particle-color: rgba(255, 26, 26, 0.35);
-    --particle-line: rgba(255, 170, 0, 0.15);
-    --bloom: 0 0 14px rgba(255, 26, 26, 0.45);
-    --bloom-amber: 0 0 14px rgba(255, 170, 0, 0.45);
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    color: var(--text);
-    font-family: var(--font-mono);
-    line-height: 1.7;
-    overflow-x: hidden;
-    height: 100%;
-    /* Bloom sutil en todas las letras de la página */
-    text-shadow: var(--bloom);
-  }
-
-  /* Capas de fondo */
-  .bg-layer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    z-index: -6;
-  }
-
-  #particle-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-  }
-
-  /* Overlay muy sutil, detrás de todo, solo para dar profundidad */
-  .bg-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.15);
-    z-index: -5;
-    pointer-events: none;
-  }
-
-  /* Navegación */
-  nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 100;
-    backdrop-filter: blur(8px);
-    background: rgba(5, 5, 5, 0.9);
-    border-bottom: 1px solid var(--border);
-  }
-
-  nav ul {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    list-style: none;
-    margin: 0;
-    padding: 0.75rem 0;
-  }
-
-  nav a {
-    color: var(--matrix-red);
-    text-decoration: none;
-    font-weight: bold;
-    letter-spacing: 1px;
-    font-size: 0.95rem;
-    white-space: nowrap;
-    transition: color 0.2s, text-shadow 0.2s;
-  }
-
-  nav a:hover {
-    color: var(--matrix-amber);
-    text-shadow: 0 0 10px var(--accent-glow);
-  }
-
-  nav #idioma-selector {
-    background: rgba(0, 0, 0, 0.6);
-    color: var(--matrix-amber);
-    border: 1px solid var(--border);
-    padding: 0.25rem 0.5rem;
-    font-size: 0.85rem;
-    border-radius: 4px;
-    font-family: var(--font-mono);
-    cursor: pointer;
-    white-space: nowrap;
-  }
-
-  nav #idioma-selector option {
-    background: var(--bg);
-    color: var(--text);
-  }
-
-  /* Contenedor principal */
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 3.5rem 1.5rem 4rem;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Hero */
-  .hero {
-    text-align: center;
-    padding: 1.5rem 1rem;
-    border: 1px solid var(--border);
-    background: rgba(10, 10, 10, 0.95);
-    border-radius: 8px;
-    box-shadow: 0 0 25px rgba(255, 26, 26, 0.06);
-    margin-bottom: 2rem;
-  }
-
-  .hero h1 {
-    font-size: 2.4rem;
-    margin: 0.5rem 0;
-    color: var(--matrix-amber);
-    text-shadow: 0 0 12px var(--accent-glow);
-    letter-spacing: 1px;
-  }
-
-  .hero h2 {
-    font-size: 1.15rem;
-    color: var(--matrix-red);
-    margin: 0.5rem 0;
-    font-weight: normal;
-  }
-
-  .hero-nombre {
-    display: block;
-    font-size: 1.6rem;
-    margin-top: 0.5rem;
-    color: var(--matrix-amber);
-    letter-spacing: 1px;
-  }
-
-  .hero-subtitulo {
-    font-size: calc(2.4rem - 2px);
-    color: var(--matrix-red);
-    margin-top: 0.5rem;
-    font-weight: normal;
-    opacity: 0.9;
-  }
-
-  .hero p {
-    color: var(--text);
-    max-width: 620px;
-    margin: 1rem auto;
-    opacity: 0.9;
-    font-size: 1rem;
-  }
-
-  .badge {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 0.5rem 1.25rem;
-    border: 1px solid var(--matrix-red);
-    color: var(--matrix-red);
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .badge:hover {
-    background: var(--matrix-red);
-    color: #000;
-  }
-
-  /* Secciones */
-  section {
-    margin-top: 3rem;
-  }
-
-  h2 {
-    font-size: 1.6rem;
-    color: var(--matrix-amber);
-    border-bottom: 2px solid var(--border);
-    padding-bottom: 0.6rem;
-    margin-bottom: 1.75rem;
-    letter-spacing: 0.5px;
-  }
-
-  /* Sobre mí */
-  .sobre-mi p {
-    text-align: justify;
-    opacity: 0.95;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  /* Habilidades */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: 1.75rem;
-  }
-
-  .skill-card {
-    background: rgba(10, 10, 10, 0.95);
-    border: 1px solid var(--border);
-    padding: 1.5rem;
-    border-radius: 8px;
-    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-  }
-
-  .skill-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(255, 26, 26, 0.1);
-    border-color: var(--matrix-red);
-  }
-
-  .skill-card h3 {
-    margin-top: 0;
-    color: var(--matrix-red);
-    font-size: 1.05rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .skill-card ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .skill-card li {
-    padding: 0.45rem 0;
-    border-bottom: 1px solid rgba(255, 26, 26, 0.08);
-    color: var(--text);
-    font-size: 0.92rem;
-    transition: padding-left 0.2s;
-  }
-
-  .skill-card li:last-child { border-bottom: none; }
-
-  .skill-card li:hover { padding-left: 0.5rem; color: var(--matrix-amber); }
-
-  /* Proyectos */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.75rem;
-  }
-
-  .project-card {
-    background: rgba(10, 10, 10, 0.95);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.5rem;
-    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
-  }
-
-  .project-card:hover {
-    border-color: var(--matrix-red);
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(255, 26, 26, 0.1);
-  }
-
-  .project-card h3 {
-    margin-top: 0;
-    color: var(--matrix-amber);
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .project-card p {
-    font-size: 0.92rem;
-    opacity: 0.9;
-    margin: 0.75rem 0 1.25rem;
-  }
-
-  .project-card .tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .project-card .tag {
-    font-size: 0.72rem;
-    padding: 0.2rem 0.55rem;
-    border: 1px solid var(--matrix-red-dark);
-    color: var(--matrix-red);
-    border-radius: 4px;
-    background: rgba(255, 26, 26, 0.05);
-  }
-
-  /* Contacto */
-  .contacto {
-    text-align: center;
-    padding: 2.5rem;
-    background: rgba(10, 10, 10, 0.95);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-  }
-
-  .contacto h2 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-  }
-
-  .contacto p {
-    margin: 0.6rem 0;
-    opacity: 0.95;
-  }
-
-  .contacto a {
-    color: var(--matrix-red);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(255, 26, 26, 0.3);
-    transition: color 0.2s, border-color 0.2s;
-  }
-
-  .contacto a:hover {
-    color: var(--matrix-amber);
-    border-bottom-color: rgba(255, 170, 0, 0.6);
-  }
-
-  /* Animación de entrada */
-  .fade-in {
-    animation: fadeIn 0.8s ease-out both;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  footer {
-    text-align: center;
-    padding: 2.5rem;
-    font-size: 0.78rem;
-    opacity: 0.55;
-    border-top: 1px solid var(--border);
-    letter-spacing: 0.5px;
-  }
-
-  /* Responsive */
-  @media (max-width: 640px) {
-    .hero h1 { font-size: 1.8rem; }
-    nav ul { gap: 1rem; font-size: 0.8rem; flex-wrap: wrap; }
-    .container { padding: 6rem 1rem 4rem; }
-    h2 { font-size: 1.4rem; }
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portafolio — Desarrollo de Software</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<div class="bg-layer">
-  <canvas id="particle-canvas"></canvas>
-  <div class="bg-overlay"></div>
-</div>
+  <!-- Cursor personalizado estilo Matrix (flecha) -->
+  <div id="cursor-custom"></div>
+  <div id="cursor-trail"></div>
+  <div id="cursor-impact"></div>
 
-<nav>
-  <ul>
-    <li><a href="#sobre-mi" data-i18n="nav.sobre-mi">Sobre mí</a></li>
-    <li><a href="#habilidades" data-i18n="nav.habilidades">Habilidades</a></li>
-    <li><a href="#proyectos" data-i18n="nav.proyectos">Proyectos</a></li>
-    <li><a href="#contacto" data-i18n="nav.contacto">Contacto</a></li>
-    <li class="idioma-selector">
-      <select id="idioma-selector">
-        <option value="es">Español</option>
-        <option value="en">English</option>
-        <option value="ru">Русский</option>
-        <option value="hi">हिन्दी</option>
-      </select>
-    </li>
-  </ul>
-</nav>
+  <div class="bg-layer">
+    <canvas id="particle-canvas"></canvas>
+    <div class="bg-overlay"></div>
+  </div>
 
-<div class="container">
-  <header class="hero fade-in">
-    <h1><span data-i18n="hero.titulo">Desarrollador de Software</span><br><span class="hero-nombre">Mauricio Gori</span></h1>
-    <h2 class="hero-subtitulo" data-i18n="hero.subtitulo">Desarrollador de Software</h2>
-    <h2 data-i18n="hero.enfoque">Enfoque en Python, JavaScript y automatización creativa</h2>
-    <p data-i18n="hero.descripcion">Construyendo herramientas que resuelven problemas reales. Enfocado en pilas tecnológicas demandadas por el mercado actual.</p>
-    <span class="badge" data-i18n="hero.badge">Código abierto &middot; En constante aprendizaje</span>
-  </header>
+  <nav>
+    <ul>
+      <li><a href="#sobre-mi" data-i18n="nav.sobre-mi">Sobre mí</a></li>
+      <li><a href="#habilidades" data-i18n="nav.habilidades">Habilidades</a></li>
+      <li><a href="#proyectos" data-i18n="nav.proyectos">Proyectos</a></li>
+      <li><a href="#contacto" data-i18n="nav.contacto">Contacto</a></li>
+      <li class="idioma-selector">
+        <select id="idioma-selector">
+          <option value="es">Español</option>
+          <option value="en">English</option>
+          <option value="ru">Русский</option>
+          <option value="hi">हिन्दी</option>
+        </select>
+      </li>
+    </ul>
+  </nav>
 
-  <section id="sobre-mi" class="fade-in">
-    <h2 data-i18n="seccion.sobre-mi">Sobre mí</h2>
-    <div class="sobre-mi">
-      <p data-i18n="sobre-mi.p1">Soy desarrollador de software con interés en crear soluciones prácticas para problemas concretos. Mi experiencia abarca scripting en Python, desarrollo web con JavaScript/TypeScript, y herramientas de automatización para entornos creativos como Blender.</p>
-      <p data-i18n="sobre-mi.p2">Me especializo en escribir código limpio, mantener repositorios organizados en Git y entregar prototipos funcionales que puedan evolucionar hacia productos reales.</p>
-    </div>
-  </section>
+  <div class="container">
+    <header class="hero fade-in">
+      <h1><span data-i18n="hero.titulo">Desarrollador de Software</span><br><span class="hero-nombre">Mauricio Gori</span></h1>
+      <h2 class="hero-subtitulo" data-i18n="hero.subtitulo">Desarrollador de Software</h2>
+      <h2 data-i18n="hero.enfoque">Enfoque en Python, JavaScript y automatización creativa</h2>
+      <p data-i18n="hero.descripcion">Construyendo herramientas que resuelven problemas reales. Enfocado en pilas tecnológicas demandadas por el mercado actual.</p>
+      <span class="badge" data-i18n="hero.badge">Código abierto &middot; En constante aprendizaje</span>
+    </header>
 
-  <section id="habilidades" class="fade-in">
-    <h2 data-i18n="seccion.habilidades">Habilidades</h2>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <h3 data-i18n="skills.lenguajes">Lenguajes</h3>
-        <ul>
-          <li data-i18n="skill.python">Python</li>
-          <li data-i18n="skill.javascript">JavaScript</li>
-          <li data-i18n="skill.typescript">TypeScript</li>
-          <li data-i18n="skill.sql">SQL</li>
-        </ul>
+    <section id="sobre-mi" class="fade-in">
+      <h2 data-i18n="seccion.sobre-mi">Sobre mí</h2>
+      <div class="sobre-mi">
+        <p data-i18n="sobre-mi.p1">Soy desarrollador de software con interés en crear soluciones prácticas para problemas concretos. Mi experiencia abarca scripting en Python, desarrollo web con JavaScript/TypeScript, y herramientas de automatización para entornos creativos como Blender.</p>
+        <p data-i18n="sobre-mi.p2">Me especializo en escribir código limpio, mantener repositorios organizados en Git y entregar prototipos funcionales que puedan evolucionar hacia productos reales.</p>
       </div>
-      <div class="skill-card">
-        <h3 data-i18n="skills.frontend">Frontend</h3>
-        <ul>
-          <li data-i18n="skill.react">React</li>
-          <li data-i18n="skill.htmlcss">HTML5 / CSS3</li>
-          <li data-i18n="skill.tailwind">Tailwind CSS</li>
-          <li data-i18n="skill.githubpages">GitHub Pages</li>
-        </ul>
-      </div>
-      <div class="skill-card">
-        <h3 data-i18n="skills.backend">Backend &amp; DevOps</h3>
-        <ul>
-          <li data-i18n="skill.nodejs">Node.js</li>
-          <li data-i18n="skill.docker">Docker</li>
-          <li data-i18n="skill.git">Git</li>
-          <li data-i18n="skill.cicd">CI/CD básico</li>
-        </ul>
-      </div>
-      <div class="skill-card">
-        <h3 data-i18n="skills.creativas">Herramientas creativas</h3>
-        <ul>
-          <li data-i18n="skill.blender">Blender (Python API)</li>
-          <li data-i18n="skill.pipelines">Automatización de pipelines</li>
-          <li data-i18n="skill.logs">Análisis de logs</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="proyectos" class="fade-in">
-    <h2 data-i18n="seccion.proyectos">Proyectos</h2>
-    <div class="projects-grid">
-      <div class="project-card">
-        <h3 data-i18n="proyecto1.titulo">Validador de assets para motor de juegos</h3>
-        <p data-i18n="proyecto1.desc">Herramienta en Python para validar archivos de motor (.inc, .ext, .mdl) y detectar errores comunes antes de instalar mods en el juego.</p>
-        <div class="tags">
-          <span class="tag" data-i18n="tag.python">Python</span>
-          <span class="tag" data-i18n="tag.cli">CLI</span>
-          <span class="tag" data-i18n="tag.modding">Modding</span>
+    <section id="habilidades" class="fade-in">
+      <h2 data-i18n="seccion.habilidades">Habilidades</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h3 data-i18n="skills.lenguajes">Lenguajes</h3>
+          <ul>
+            <li data-i18n="skill.python">Python</li>
+            <li data-i18n="skill.javascript">JavaScript</li>
+            <li data-i18n="skill.typescript">TypeScript</li>
+            <li data-i18n="skill.sql">SQL</li>
+          </ul>
+        </div>
+        <div class="skill-card">
+          <h3 data-i18n="skills.frontend">Frontend</h3>
+          <ul>
+            <li data-i18n="skill.react">React</li>
+            <li data-i18n="skill.htmlcss">HTML5 / CSS3</li>
+            <li data-i18n="skill.tailwind">Tailwind CSS</li>
+            <li data-i18n="skill.githubpages">GitHub Pages</li>
+          </ul>
+        </div>
+        <div class="skill-card">
+          <h3 data-i18n="skills.backend">Backend &amp; DevOps</h3>
+          <ul>
+            <li data-i18n="skill.nodejs">Node.js</li>
+            <li data-i18n="skill.docker">Docker</li>
+            <li data-i18n="skill.git">Git</li>
+            <li data-i18n="skill.cicd">CI/CD básico</li>
+          </ul>
+        </div>
+        <div class="skill-card">
+          <h3 data-i18n="skills.creativas">Herramientas creativas</h3>
+          <ul>
+            <li data-i18n="skill.blender">Blender (Python API)</li>
+            <li data-i18n="skill.pipelines">Automatización de pipelines</li>
+            <li data-i18n="skill.logs">Análisis de logs</li>
+          </ul>
         </div>
       </div>
-      <div class="project-card">
-        <h3 data-i18n="proyecto2.titulo">Analizador de game.log para Proton/Wine</h3>
-        <p data-i18n="proyecto2.desc">Utilidad que lee logs de juegos ejecutados bajo Proton y traduce errores del motor a pasos de solución para modders.</p>
-        <div class="tags">
-          <span class="tag" data-i18n="tag.python">Python</span>
-          <span class="tag" data-i18n="tag.linux">Linux</span>
-          <span class="tag" data-i18n="tag.proton">Proton</span>
+    </section>
+
+    <section id="proyectos" class="fade-in">
+      <h2 data-i18n="seccion.proyectos">Proyectos</h2>
+      <div class="projects-grid">
+        <div class="project-card">
+          <h3 data-i18n="proyecto1.titulo">Validador de assets para motor de juegos</h3>
+          <p data-i18n="proyecto1.desc">Herramienta en Python para validar archivos de motor (.inc, .ext, .mdl) y detectar errores comunes antes de instalar mods en el juego.</p>
+          <div class="tags">
+            <span class="tag" data-i18n="tag.python">Python</span>
+            <span class="tag" data-i18n="tag.cli">CLI</span>
+            <span class="tag" data-i18n="tag.modding">Modding</span>
+          </div>
+        </div>
+        <div class="project-card">
+          <h3 data-i18n="proyecto2.titulo">Analizador de game.log para Proton/Wine</h3>
+          <p data-i18n="proyecto2.desc">Utilidad que lee logs de juegos ejecutados bajo Proton y traduce errores del motor a pasos de solución para modders.</p>
+          <div class="tags">
+            <span class="tag" data-i18n="tag.python">Python</span>
+            <span class="tag" data-i18n="tag.linux">Linux</span>
+            <span class="tag" data-i18n="tag.proton">Proton</span>
+          </div>
+        </div>
+        <div class="project-card">
+          <h3 data-i18n="proyecto3.titulo">Panel de administración Full Stack</h3>
+          <p data-i18n="proyecto3.desc">Panel web con autenticación JWT, gestión de usuarios, subida de imágenes y exportación a CSV.</p>
+          <div class="tags">
+            <span class="tag" data-i18n="tag.react">React</span>
+            <span class="tag" data-i18n="tag.nodejs">Node.js</span>
+            <span class="tag" data-i18n="tag.typescript">TypeScript</span>
+          </div>
+          <p style="margin-top: 0.75rem;">
+            <a href="https://admin-panel-frontend-production-dce7.up.railway.app" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;" data-i18n="proyecto3.demo">Ver demo en vivo →</a>
+          </p>
         </div>
       </div>
-      <div class="project-card">
-        <h3 data-i18n="proyecto3.titulo">Panel de administración Full Stack</h3>
-        <p data-i18n="proyecto3.desc">Panel web con autenticación JWT, gestión de usuarios, subida de imágenes y exportación a CSV.</p>
-        <div class="tags">
-          <span class="tag" data-i18n="tag.react">React</span>
-          <span class="tag" data-i18n="tag.nodejs">Node.js</span>
-          <span class="tag" data-i18n="tag.typescript">TypeScript</span>
-        </div>
-        <p style="margin-top: 0.75rem;">
-          <a href="https://admin-panel-frontend-production-dce7.up.railway.app" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;" data-i18n="proyecto3.demo">Ver demo en vivo →</a>
-        </p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="contacto" class="contacto fade-in">
-    <h2 data-i18n="seccion.contacto">Contacto</h2>
-    <p data-i18n="contacto.p1">¿Tienes un proyecto en mente? Escríbeme:</p>
-    <p><a href="mailto:mauriciogorilluberas@gmail.com" data-i18n="contacto.email">mauriciogorilluberas@gmail.com</a></p>
-    <p><a href="https://github.com/Mauricio5494" target="_blank" rel="noopener" data-i18n="contacto.github">GitHub</a></p>
-  </section>
-</div>
+    <section id="contacto" class="contacto fade-in">
+      <h2 data-i18n="seccion.contacto">Contacto</h2>
+      <p data-i18n="contacto.p1">¿Tienes un proyecto en mente? Escríbeme:</p>
+      <p><a href="mailto:mauriciogorilluberas@gmail.com" data-i18n="contacto.email">mauriciogorilluberas@gmail.com</a></p>
+      <p><a href="https://github.com/Mauricio5494" target="_blank" rel="noopener" data-i18n="contacto.github">GitHub</a></p>
+    </section>
+  </div>
 
-<footer data-i18n="footer.copyright">
-  &copy; <span id="year"></span> Mauricio &middot; Construido con código abierto
-</footer>
+  <footer data-i18n="footer.copyright">
+    &copy; <span id="year"></span> Mauricio &middot; Construido con código abierto
+  </footer>
 
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  /* ============================================================
-     EFECTO MATRIX (lluvia de código roja/ámbar)
-     Generado enteramente por JavaScript con fondo NEGRO dentro del canvas.
-     body es completamente transparente.
-     ============================================================ */
-  (function () {
-    const canvas = document.createElement('canvas');
-    canvas.id = 'matrix-canvas';
-    canvas.style.position = 'fixed';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
-    canvas.style.width = '100vw';
-    canvas.style.height = '100vh';
-    canvas.style.zIndex = '-4';
-    document.body.appendChild(canvas);
-
-    const ctx = canvas.getContext('2d');
-    let width, height;
-
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%+-/[~]{}|';
-    const fontSize = 12;
-    const columns = Math.floor(width / fontSize);
-    const drops = [];
-
-    for (let i = 0; i < columns; i++) {
-      drops[i] = Math.random() * height;
-    }
-
-    function draw() {
-      // Trail más sutil para dejar rastro difuminado sin apagar las partículas
-      ctx.fillStyle = 'rgba(5, 5, 5, 0.15)';
-      ctx.fillRect(0, 0, width, height);
-      ctx.font = fontSize + 'px monospace';
-
-      for (let i = 0; i < drops.length; i++) {
-        const char = chars[Math.floor(Math.random() * chars.length)];
-        const x = i * fontSize;
-
-        // Letra principal en ámbar suave, letras traseras en rojo tenue
-        ctx.fillStyle = 'rgba(255, 170, 0, 0.45)';
-        ctx.fillText(char, x, drops[i] * fontSize);
-
-        ctx.fillStyle = 'rgba(255, 26, 26, 0.3)';
-        ctx.fillText(char, x, (drops[i] - 1) * fontSize);
-        ctx.fillText(char, x, (drops[i] - 2) * fontSize);
-
-        if (drops[i] * fontSize > height && Math.random() > 0.985) {
-          drops[i] = 0;
-        }
-
-        drops[i] += 0.7;
-      }
-    }
-
-    setInterval(draw, 50);
-  })();
-
-  /* ============================================================
-     FONDO INTERACTIVO DE PARTÍCULAS (constelación)
-     Técnicas de creative coding (Codrops / web.dev):
-     - requestAnimationFrame para animación fluida
-     - Partículas con trail suave y fade-out
-     - Líneas que cambian de grosor según distancia
-     - Partículas atraídas suavemente hacia el cursor
-     ============================================================ */
-  (function () {
-    const pcanvas = document.getElementById('particle-canvas');
-    const pctx = pcanvas.getContext('2d');
-
-    let pwidth, pheight;
-    let particles = [];
-    let mouse = { x: null, y: null, active: false };
-
-    // Configuración de partículas (estilo Codrops creative coding)
-    const PARTICLE_COUNT = 150;
-    const CONNECT_DIST = 160;
-    const MOUSE_ATTRACT_DIST = 220;
-
-    class Particle {
-      constructor() {
-        this.reset();
-      }
-
-      reset() {
-        this.x = Math.random() * pwidth;
-        this.y = Math.random() * pheight;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.size = Math.random() * 3 + 1;
-        this.alpha = Math.random() * 0.7 + 0.2;
-        this.originalAlpha = this.alpha;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        // Rebote en bordes
-        if (this.x < 0 || this.x > pwidth) this.vx *= -1;
-        if (this.y < 0 || this.y > pheight) this.vy *= -1;
-
-        // Atracción suave hacia el cursor
-        if (mouse.active) {
-          const dx = mouse.x - this.x;
-          const dy = mouse.y - this.y;
-          const dist = Math.hypot(dx, dy);
-          if (dist < MOUSE_ATTRACT_DIST) {
-            const force = (MOUSE_ATTRACT_DIST - dist) / MOUSE_ATTRACT_DIST;
-            this.vx += (dx / dist) * force * 0.015;
-            this.vy += (dy / dist) * force * 0.015;
-            // Brillar más cuando el cursor está cerca
-            this.alpha = Math.min(0.95, this.originalAlpha + force * 0.4);
-          } else {
-            this.alpha = Math.max(0.1, this.alpha - 0.01);
-          }
-        }
-
-        // Limitar velocidad
-        const speed = Math.hypot(this.vx, this.vy);
-        if (speed > 1.2) {
-          this.vx = (this.vx / speed) * 1.2;
-          this.vy = (this.vy / speed) * 1.2;
-        }
-
-        // Desvanecer lentamente
-        if (this.alpha > 0) this.alpha -= 0.0005;
-        if (this.alpha <= 0) this.reset();
-      }
-
-      draw() {
-        pctx.beginPath();
-        pctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        pctx.fillStyle = `rgba(255, 26, 26, ${this.alpha})`;
-        pctx.fill();
-        pctx.closePath();
-      }
-    }
-
-    function presize() {
-      pwidth = pcanvas.width = window.innerWidth;
-      pheight = pcanvas.height = window.innerHeight;
-      initParticles();
-    }
-    window.addEventListener('resize', presize);
-    presize();
-
-    function initParticles() {
-      particles = [];
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        particles.push(new Particle());
-      }
-    }
-
-    function pdraw() {
-      // Trail suave con fade-out (técnica de creative coding) — más sutil para dejar ver el Matrix detrás
-      pctx.fillStyle = 'rgba(5, 5, 5, 0.12)';
-      pctx.fillRect(0, 0, pwidth, pheight);
-
-      // Dibujar líneas entre partículas cercanas — más visibles
-      pctx.beginPath();
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.hypot(dx, dy);
-          if (dist < CONNECT_DIST) {
-            const opacity = (1 - dist / CONNECT_DIST) * 0.7;
-            pctx.moveTo(particles[i].x, particles[i].y);
-            pctx.lineTo(particles[j].x, particles[j].y);
-            pctx.strokeStyle = `rgba(255, 170, 0, ${opacity})`;
-            pctx.lineWidth = opacity * 1.2;
-          }
-        }
-      }
-      pctx.stroke();
-
-      // Actualizar y dibujar partículas
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-
-      // Cursor interactivo (punto más grande que atrae partículas)
-      if (mouse.active) {
-        pctx.beginPath();
-        pctx.arc(mouse.x, mouse.y, 6, 0, Math.PI * 2);
-        pctx.fillStyle = 'rgba(255, 170, 0, 0.6)';
-        pctx.fill();
-        pctx.closePath();
-      }
-
-      requestAnimationFrame(pdraw);
-    }
-
-    pdraw();
-
-    function setMouse(x, y, active) {
-      mouse.x = x;
-      mouse.y = y;
-      mouse.active = active;
-    }
-
-    window.addEventListener('mousemove', (e) => setMouse(e.clientX, e.clientY, true));
-    window.addEventListener('mouseleave', () => setMouse(null, null, false));
-
-    window.addEventListener('touchmove', (e) => {
-      const touch = e.touches[0];
-      setMouse(touch.clientX, touch.clientY, true);
-    }, { passive: true });
-
-    window.addEventListener('touchend', () => setMouse(null, null, false));
-
-    // Inicializar partículas tras un pequeño delay
-    setTimeout(initParticles, 100);
-  })();
-
-  /* ============================================================
-     EFECTO NEÓN INTERACTIVO AL PASAR EL MOUSE SOBRE LETRAS
-     JavaScript detecta el elemento bajo el cursor y le aplica
-     un brillo neón rojo/ámbar que se desvanece al moverse.
-     ============================================================ */
-  (function () {
-    let lastEl = null;
-
-    function aplicarNeon(el) {
-      if (!el || el === document.body || el === document.documentElement) return;
-      const txt = el.textContent || '';
-      if (!txt.trim()) return;
-
-      el.style.textShadow = '0 0 10px #ff1a1a, 0 0 20px #ffaa00, 0 0 35px #ff1a1a';
-      el.style.transition = 'text-shadow 0.15s ease';
-      el.style.color = '#ffaa00';
-    }
-
-    function quitarNeon(el) {
-      if (!el) return;
-      el.style.textShadow = '';
-      el.style.transition = '';
-      el.style.color = '';
-    }
-
-    document.addEventListener('mousemove', (e) => {
-      const els = document.elementsFromPoint(e.clientX, e.clientY);
-      // elementsFromPoint devuelve de más específico (topmost) a menos específico
-      // Tomamos el primer elemento que no sea body/html y que tenga texto
-      let el = null;
-      for (let i = 0; i < els.length; i++) {
-        const candidate = els[i];
-        if (candidate.tagName !== 'BODY' && candidate.tagName !== 'HTML' && candidate.textContent && candidate.textContent.trim()) {
-          el = candidate;
-          break;
-        }
-      }
-      if (el !== lastEl) {
-        quitarNeon(lastEl);
-        lastEl = el;
-        aplicarNeon(el);
-      }
-    });
-
-    document.addEventListener('mouseleave', () => {
-      quitarNeon(lastEl);
-      lastEl = null;
-    });
-  })();
-
-  /* ============================================================
-     EFECTO ELÉCTRICO EN BORDES (hero y tarjetas de proyecto)
-     JS inyecta una animación de box-shadow que pulsa entre rojo
-     y ámbar, dando sensación de electricidad/neón inestable.
-     ============================================================ */
-  (function () {
-    const style = document.createElement('style');
-    style.textContent = `
-      .electric-border {
-        animation: electric-border 2s ease-in-out infinite;
-      }
-      @keyframes electric-border {
-        0%, 100% {
-          box-shadow: 0 0 10px var(--matrix-red), 0 0 20px rgba(255, 26, 26, 0.3);
-          border-color: var(--matrix-red);
-        }
-        50% {
-          box-shadow: 0 0 20px var(--matrix-amber), 0 0 40px rgba(255, 170, 0, 0.5), 0 0 60px rgba(255, 170, 0, 0.2);
-          border-color: var(--matrix-amber);
-        }
-      }
-    `;
-    document.head.appendChild(style);
-
-    const hero = document.querySelector('.hero');
-    if (hero) hero.classList.add('electric-border');
-
-    document.querySelectorAll('.project-card').forEach(function (card) {
-      card.classList.add('electric-border');
-    });
-  })();
-
-  /* ============================================================
-     LOCALIZACIÓN (es / en / ru / hi)
-     - Lee el idioma guardado en localStorage (o 'es' por defecto)
-     - Renderiza todos los elementos con data-i18n
-     - El selector de idioma en el nav guarda la elección
-     ============================================================ */
-  (function () {
-    const IDIOMAS = {
-      es: { nombre: 'Español', nativo: 'Español' },
-      en: { nombre: 'English', nativo: 'English' },
-      ru: { nombre: 'Русский', nativo: 'Русский' },
-      hi: { nombre: 'हिन्दी', nativo: 'हिन्दी' }
-    };
-
-    const TRADUCCIONES = {
-      es: {
-        'nav.sobre-mi': 'Sobre mí',
-        'nav.habilidades': 'Habilidades',
-        'nav.proyectos': 'Proyectos',
-        'nav.contacto': 'Contacto',
-        'hero.titulo': 'Desarrollador de Software',
-        'hero.subtitulo': 'Desarrollador de Software',
-        'hero.enfoque': 'Enfoque en Python, JavaScript y automatización creativa',
-        'hero.descripcion': 'Construyendo herramientas que resuelven problemas reales. Enfocado en pilas tecnológicas demandadas por el mercado actual.',
-        'hero.badge': 'Código abierto · En constante aprendizaje',
-        'seccion.sobre-mi': 'Sobre mí',
-        'seccion.habilidades': 'Habilidades',
-        'seccion.proyectos': 'Proyectos',
-        'seccion.contacto': 'Contacto',
-        'sobre-mi.p1': 'Soy desarrollador de software con interés en crear soluciones prácticas para problemas concretos. Mi experiencia abarca scripting en Python, desarrollo web con JavaScript/TypeScript, y herramientas de automatización para entornos creativos como Blender.',
-        'sobre-mi.p2': 'Me especializo en escribir código limpio, mantener repositorios organizados en Git y entregar prototipos funcionales que puedan evolucionar hacia productos reales.',
-        'skills.lenguajes': 'Lenguajes',
-        'skills.frontend': 'Frontend',
-        'skills.backend': 'Backend & DevOps',
-        'skills.creativas': 'Herramientas creativas',
-        'skill.python': 'Python',
-        'skill.javascript': 'JavaScript',
-        'skill.typescript': 'TypeScript',
-        'skill.sql': 'SQL',
-        'skill.react': 'React',
-        'skill.htmlcss': 'HTML5 / CSS3',
-        'skill.tailwind': 'Tailwind CSS',
-        'skill.githubpages': 'GitHub Pages',
-        'skill.nodejs': 'Node.js',
-        'skill.docker': 'Docker',
-        'skill.git': 'Git',
-        'skill.cicd': 'CI/CD básico',
-        'skill.blender': 'Blender (Python API)',
-        'skill.pipelines': 'Automatización de pipelines',
-        'skill.logs': 'Análisis de logs',
-        'proyecto1.titulo': 'Validador de assets para motor de juegos',
-        'proyecto1.desc': 'Herramienta en Python para validar archivos de motor (.inc, .ext, .mdl) y detectar errores comunes antes de instalar mods en el juego.',
-        'proyecto2.titulo': 'Analizador de game.log para Proton/Wine',
-        'proyecto2.desc': 'Utilidad que lee logs de juegos ejecutados bajo Proton y traduce errores del motor a pasos de solución para modders.',
-        'proyecto3.titulo': 'Panel de administración Full Stack',
-        'proyecto3.desc': 'Panel web con autenticación JWT, gestión de usuarios, subida de imágenes y exportación a CSV.',
-        'proyecto3.demo': 'Ver demo en vivo →',
-        'tag.python': 'Python',
-        'tag.cli': 'CLI',
-        'tag.modding': 'Modding',
-        'tag.linux': 'Linux',
-        'tag.proton': 'Proton',
-        'tag.react': 'React',
-        'tag.nodejs': 'Node.js',
-        'tag.typescript': 'TypeScript',
-        'contacto.p1': '¿Tienes un proyecto en mente? Escríbeme:',
-        'contacto.email': 'mauriciogorilluberas@gmail.com',
-        'contacto.github': 'GitHub',
-        'footer.copyright': '© <span id="year"></span> Mauricio · Construido con código abierto'
-      },
-      en: {
-        'nav.sobre-mi': 'About me',
-        'nav.habilidades': 'Skills',
-        'nav.proyectos': 'Projects',
-        'nav.contacto': 'Contact',
-        'hero.titulo': 'Software Developer',
-        'hero.subtitulo': 'Software Developer',
-        'hero.enfoque': 'Focus on Python, JavaScript and creative automation',
-        'hero.descripcion': 'Building tools that solve real problems. Focused on technology stacks in demand by the current market.',
-        'hero.badge': 'Open source · Constantly learning',
-        'seccion.sobre-mi': 'About me',
-        'seccion.habilidades': 'Skills',
-        'seccion.proyectos': 'Projects',
-        'seccion.contacto': 'Contact',
-        'sobre-mi.p1': 'I am a software developer interested in creating practical solutions for concrete problems. My experience covers Python scripting, web development with JavaScript/TypeScript, and automation tools for creative environments like Blender.',
-        'sobre-mi.p2': 'I specialize in writing clean code, keeping Git repositories organized, and delivering functional prototypes that can evolve into real products.',
-        'skills.lenguajes': 'Languages',
-        'skills.frontend': 'Frontend',
-        'skills.backend': 'Backend & DevOps',
-        'skills.creativas': 'Creative tools',
-        'skill.python': 'Python',
-        'skill.javascript': 'JavaScript',
-        'skill.typescript': 'TypeScript',
-        'skill.sql': 'SQL',
-        'skill.react': 'React',
-        'skill.htmlcss': 'HTML5 / CSS3',
-        'skill.tailwind': 'Tailwind CSS',
-        'skill.githubpages': 'GitHub Pages',
-        'skill.nodejs': 'Node.js',
-        'skill.docker': 'Docker',
-        'skill.git': 'Git',
-        'skill.cicd': 'Basic CI/CD',
-        'skill.blender': 'Blender (Python API)',
-        'skill.pipelines': 'Pipeline automation',
-        'skill.logs': 'Log analysis',
-        'proyecto1.titulo': 'Game engine asset validator',
-        'proyecto1.desc': 'Python tool to validate engine files (.inc, .ext, .mdl) and detect common errors before installing mods in the game.',
-        'proyecto2.titulo': 'game.log analyzer for Proton/Wine',
-        'proyecto2.desc': 'Utility that reads logs from games running under Proton and translates engine errors into troubleshooting steps for modders.',
-        'proyecto3.titulo': 'Full Stack administration panel',
-        'proyecto3.desc': 'Web panel with JWT authentication, user management, image upload and CSV export.',
-        'proyecto3.demo': 'View live demo →',
-        'tag.python': 'Python',
-        'tag.cli': 'CLI',
-        'tag.modding': 'Modding',
-        'tag.linux': 'Linux',
-        'tag.proton': 'Proton',
-        'tag.react': 'React',
-        'tag.nodejs': 'Node.js',
-        'tag.typescript': 'TypeScript',
-        'contacto.p1': 'Do you have a project in mind? Write to me:',
-        'contacto.email': 'mauriciogorilluberas@gmail.com',
-        'contacto.github': 'GitHub',
-        'footer.copyright': '© <span id="year"></span> Mauricio · Built with open source code'
-      },
-      ru: {
-        'nav.sobre-mi': 'Обо мне',
-        'nav.habilidades': 'Навыки',
-        'nav.proyectos': 'Проекты',
-        'nav.contacto': 'Контакты',
-        'hero.titulo': 'Разработчик ПО',
-        'hero.subtitulo': 'Разработчик ПО',
-        'hero.enfoque': 'Фокус на Python, JavaScript и креативная автоматизация',
-        'hero.descripcion': 'Создаю инструменты, которые решают реальные задачи. Сосредоточен на технологических стеках, востребованных на текущем рынке.',
-        'hero.badge': 'Открытый код · Постоянное обучение',
-        'seccion.sobre-mi': 'Обо мне',
-        'seccion.habilidades': 'Навыки',
-        'seccion.proyectos': 'Проекты',
-        'seccion.contacto': 'Контакты',
-        'sobre-mi.p1': 'Я разработчик ПО, интересующийся созданием практических решений для конкретных задач. Мой опыт включает скрипты на Python, веб-разработку на JavaScript/TypeScript и инструменты автоматизации для креативных сред, таких как Blender.',
-        'sobre-mi.p2': 'Специализируюсь на написании чистого кода, организации репозиториев Git и создании рабочих прототипов, которые могут эволюционировать в реальные продукты.',
-        'skills.lenguajes': 'Языки',
-        'skills.frontend': 'Фронтенд',
-        'skills.backend': 'Бэкенд & DevOps',
-        'skills.creativas': 'Креативные инструменты',
-        'skill.python': 'Python',
-        'skill.javascript': 'JavaScript',
-        'skill.typescript': 'TypeScript',
-        'skill.sql': 'SQL',
-        'skill.react': 'React',
-        'skill.htmlcss': 'HTML5 / CSS3',
-        'skill.tailwind': 'Tailwind CSS',
-        'skill.githubpages': 'GitHub Pages',
-        'skill.nodejs': 'Node.js',
-        'skill.docker': 'Docker',
-        'skill.git': 'Git',
-        'skill.cicd': 'Базовый CI/CD',
-        'skill.blender': 'Blender (Python API)',
-        'skill.pipelines': 'Автоматизация конвейеров',
-        'skill.logs': 'Анализ логов',
-        'proyecto1.titulo': 'Валидатор ассетов игрового движка',
-        'proyecto1.desc': 'Инструмент на Python для валидации файлов движка (.inc, .ext, .mdl) и обнаружения общих ошибок перед установкой модов в игру.',
-        'proyecto2.titulo': 'Анализатор game.log для Proton/Wine',
-        'proyecto2.desc': 'Утилита, которая читает логи игр, запущенных под Proton, и переводит ошибки движка в шаги по устранению неполадок для моддеров.',
-        'proyecto3.titulo': 'Полноценная панель администрирования',
-        'proyecto3.desc': 'Веб-панель с аутентификацией JWT, управлением пользователями, загрузкой изображений и экспортом в CSV.',
-        'proyecto3.demo': 'Посмотреть живую демо-версию →',
-        'tag.python': 'Python',
-        'tag.cli': 'CLI',
-        'tag.modding': 'Моддинг',
-        'tag.linux': 'Linux',
-        'tag.proton': 'Proton',
-        'tag.react': 'React',
-        'tag.nodejs': 'Node.js',
-        'tag.typescript': 'TypeScript',
-        'contacto.p1': 'Есть проект? Напишите мне:',
-        'contacto.email': 'mauriciogorilluberas@gmail.com',
-        'contacto.github': 'GitHub',
-        'footer.copyright': '© <span id="year"></span> Mauricio · Сделано с открытым исходным кодом'
-      },
-      hi: {
-        'nav.sobre-mi': 'मेरे बारे में',
-        'nav.habilidades': 'कौशल',
-        'nav.proyectos': 'परियोजनाएं',
-        'nav.contacto': 'संपर्क',
-        'hero.titulo': 'सॉफ्टवेयर डेवलपर',
-        'hero.subtitulo': 'सॉफ्टवेयर डेवलपर',
-        'hero.enfoque': 'फोकस पायथन, जावास्क्रिप्ट और रचनात्मक ऑटोमेशन पर',
-        'hero.descripcion': 'वास्तविक समस्याओं को हल करने वाले टूल बना रहे हैं। वर्तमान बाजार की मांग के अनुसार प्रौद्योगिकी स्टैक पर ध्यान केंद्रित किया गया है।',
-        'hero.badge': 'ओपन सोर्स · लगातार सीख रहे हैं',
-        'seccion.sobre-mi': 'मेरे बारे में',
-        'seccion.habilidades': 'कौशल',
-        'seccion.proyectos': 'परियोजनाएं',
-        'seccion.contacto': 'संपर्क',
-        'sobre-mi.p1': 'मैं एक सॉफ्टवेयर डेवलपर हूं जो ठोस समस्याओं के लिए व्यावहारिक समाधान बनाने में रुचि रखता हूं। मेरा अनुभव पायथन स्क्रिप्टिंग, जावास्क्रिप्ट/टाइपस्क्रिप्ट के साथ वेब विकास, और ब्लेंडर जैसे रचनात्मक वातावरण के लिए स्वचालन उपकरणों को कवर करता है।',
-        'sobre-mi.p2': 'मैं स्वच्छ कोड लिखने, गिट रिपॉजिटरी को व्यवस्थित रखने और कार्यात्मक प्रोटोटाइप देने में विशेषज्ञता रखता हूं जो वास्तविक उत्पादों में विकसित हो सकते हैं।',
-        'skills.lenguajes': 'भाषाएं',
-        'skills.frontend': 'फ्रंटएंड',
-        'skills.backend': 'बैकएंड और डेवऑप्स',
-        'skills.creativas': 'रचनात्मक उपकरण',
-        'skill.python': 'पायथन',
-        'skill.javascript': 'जावास्क्रिप्ट',
-        'skill.typescript': 'टाइपस्क्रिप्ट',
-        'skill.sql': 'एसक्यूएल',
-        'skill.react': 'रिएक्ट',
-        'skill.htmlcss': 'एचटीएमएल5 / सीएसएस3',
-        'skill.tailwind': 'टेलविंड सीएसएस',
-        'skill.githubpages': 'गिटहब पेजेस',
-        'skill.nodejs': 'नोड.जेएस',
-        'skill.docker': 'डॉकर',
-        'skill.git': 'गिट',
-        'skill.cicd': 'बेसिक सीआई/सीडी',
-        'skill.blender': 'ब्लेंडर (पायथन एपीआई)',
-        'skill.pipelines': 'पाइपलाइन स्वचालन',
-        'skill.logs': 'लॉग विश्लेषण',
-        'proyecto1.titulo': 'गेम इंजन एसेट वैलिडेटर',
-        'proyecto1.desc': 'पायथन टूल जो इंजन फाइलों (.inc, .ext, .mdl) को वैलिडेट करता है और गेम में मोड इंस्टॉल करने से पहले सामान्य त्रुटियों का पता लगाता है।',
-        'proyecto2.titulo': 'प्रोटॉन/वाइन के लिए गेम.लॉग विश्लेषक',
-        'proyecto2.desc': 'एक उपयोगिता जो प्रोटॉन के तहत चलने वाले गेम के लॉग को पढ़ती है और मॉडर्स के लिए समस्या निवारण चरणों में इंजन त्रुटियों का अनुवाद करती है।',
-        'proyecto3.titulo': 'फुल स्टैक प्रशासन पैनल',
-        'proyecto3.desc': 'वेब पैनल जेडब्ल्यूटी प्रमाणीकरण, उपयोगकर्ता प्रबंधन, छवि अपलोड और सीएसवी निर्यात के साथ।',
-        'proyecto3.demo': 'लाइव डेमो देखें →',
-        'tag.python': 'पायथन',
-        'tag.cli': 'सीएलआई',
-        'tag.modding': 'मॉडिंग',
-        'tag.linux': 'लिनक्स',
-        'tag.proton': 'प्रोटॉन',
-        'tag.react': 'रिएक्ट',
-        'tag.nodejs': 'नोड.जेएस',
-        'tag.typescript': 'टाइपस्क्रिप्ट',
-        'contacto.p1': 'क्या आपके मन में कोई परियोजना है? मुझे लिखें:',
-        'contacto.email': 'mauriciogorilluberas@gmail.com',
-        'contacto.github': 'गिटहब',
-        'footer.copyright': '© <span id="year"></span> Mauricio · ओपन सोर्स कोड के साथ बनाया गया'
-      }
-    };
-
-    const selector = document.getElementById('idioma-selector');
-    let idiomaActual = localStorage.getItem('idioma') || 'es';
-
-    function render(idioma) {
-      const t = TRADUCCIONES[idioma];
-      if (!t) return;
-
-      document.querySelectorAll('[data-i18n]').forEach(function (el) {
-        const clave = el.getAttribute('data-i18n');
-        const texto = t[clave];
-        if (texto !== undefined) {
-          el.innerHTML = texto;
-        }
-      });
-
-      if (selector) selector.value = idioma;
-      localStorage.setItem('idioma', idioma);
-      idiomaActual = idioma;
-    }
-
-    if (selector) {
-      selector.value = idiomaActual;
-      selector.addEventListener('change', function (e) {
-        render(e.target.value);
-      });
-    }
-
-    render(idiomaActual);
-
-    // Volver a poner el año tras cada render (el innerHTML recrea el span)
-    const yearSpan = document.getElementById('year');
-    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
-  })();
-</script>
-
+  <script src="js/main.js" defer></script>
 </body>
 </html>
