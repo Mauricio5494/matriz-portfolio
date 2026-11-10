@@ -139,6 +139,22 @@
     font-weight: normal;
   }
 
+  .hero-nombre {
+    display: block;
+    font-size: 1.6rem;
+    margin-top: 0.5rem;
+    color: var(--matrix-amber);
+    letter-spacing: 1px;
+  }
+
+  .hero-subtitulo {
+    font-size: calc(2.4rem - 2px);
+    color: var(--matrix-red);
+    margin-top: 0.5rem;
+    font-weight: normal;
+    opacity: 0.9;
+  }
+
   .hero p {
     color: var(--text);
     max-width: 620px;
@@ -362,7 +378,8 @@
 
 <div class="container">
   <header class="hero fade-in">
-    <h1>Desarrollador de Software</h1>
+    <h1>Desarrollador de Software<br><span class="hero-nombre">Mauricio Gori</span></h1>
+    <h2 class="hero-subtitulo">Desarrollador de Software</h2>
     <h2>Enfoque en Python, JavaScript y automatización creativa</h2>
     <p>Construyendo herramientas que resuelven problemas reales. Enfocado en pilas tecnológicas demandadas por el mercado actual.</p>
     <span class="badge">Código abierto &middot; En constante aprendizaje</span>
