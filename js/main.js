@@ -825,12 +825,21 @@ document.getElementById('year').textContent = new Date().getFullYear();
     }
   });
 
+  // Convierte URLs y emails en enlaces clickeables
+  function enlazarTexto(texto) {
+    return texto
+      // Enlaces http/https
+      .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
+      // Correos electrónicos
+      .replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, '<a href="mailto:$1" target="_blank" rel="noopener noreferrer">$1</a>');
+  }
+
   function agregarMensaje(texto, quien) {
     const div = document.createElement('div');
     div.className = 'message ' + quien;
     const bubble = document.createElement('div');
     bubble.className = 'bubble';
-    bubble.textContent = texto;
+    bubble.innerHTML = enlazarTexto(texto);
     div.appendChild(bubble);
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
