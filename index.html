@@ -141,6 +141,21 @@
     &copy; <span id="year"></span> Mauricio &middot; Construido con código abierto
   </footer>
 
+  <!-- Chat IA demo -->
+  <div id="chat-widget">
+    <button id="chat-toggle" class="chat-toggle" aria-label="Abrir asistente IA">🤖</button>
+    <div id="chat-panel">
+      <div class="chat-header">Asistente IA</div>
+      <div id="chat-messages" class="chat-messages">
+        <div class="message bot"><div class="bubble">¡Hola! Soy el asistente virtual de Mauricio. Pregúntame sobre sus proyectos, habilidades o cómo contactarlo.</div></div>
+      </div>
+      <div class="chat-footer">
+        <input type="text" id="chat-input" placeholder="Escribe un mensaje..." autocomplete="off">
+        <button id="chat-send">Enviar</button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/main.js" defer></script>
 </body>
 </html>

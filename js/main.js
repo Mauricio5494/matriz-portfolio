@@ -795,3 +795,81 @@ document.getElementById('year').textContent = new Date().getFullYear();
     });
   });
 })();
+
+/* ============================================================
+   CHAT IA — MODO DEMO (respuestas simuladas)
+   Conectá una API real (Anthropic/OpenAI) reemplazando
+   la función respuestaIA() por un fetch a tu endpoint.
+   ============================================================ */
+(function () {
+  const toggle = document.getElementById('chat-toggle');
+  const panel = document.getElementById('chat-panel');
+  const input = document.getElementById('chat-input');
+  const send = document.getElementById('chat-send');
+  const messages = document.getElementById('chat-messages');
+  if (!toggle || !panel || !input || !send || !messages) return;
+
+  let abierto = false;
+
+  toggle.addEventListener('click', () => {
+    abierto = !abierto;
+    panel.style.display = abierto ? 'flex' : 'none';
+    if (abierto) input.focus();
+  });
+
+  // Cerrar al hacer clic fuera
+  document.addEventListener('click', (e) => {
+    if (abierto && !panel.contains(e.target) && e.target !== toggle) {
+      abierto = false;
+      panel.style.display = 'none';
+    }
+  });
+
+  function agregarMensaje(texto, quien) {
+    const div = document.createElement('div');
+    div.className = 'message ' + quien;
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = texto;
+    div.appendChild(bubble);
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function escribir(texto, quien, delay = 0) {
+    setTimeout(() => agregarMensaje(texto, quien), delay);
+  }
+
+  // Respuestas simuladas (demo). Reemplazá esta función por un fetch real a tu API de IA.
+  function respuestaIA(texto) {
+    const t = texto.toLowerCase();
+
+    if (/hola|buenas|buen dia|buenas tardes|buenas noches/.test(t)) {
+      return '¡Hola! Soy el asistente de Mauricio. En qué puedo ayudarte.';
+    }
+    if (/proyecto|proyectos/.test(t)) {
+      return 'Tiene tres proyectos principales: un validador de assets para motores de juegos en Python, un analizador de game.log para Proton/Wine y un panel de administración Full Stack con React y Node.js.';
+    }
+    if (/habilidad|skill|python|javascript|typescript|react|node|docker|git|blender/.test(t)) {
+      return 'Sus habilidades incluyen Python, JavaScript, TypeScript, React, HTML/CSS, Tailwind, Node.js, Docker, Git, CI/CD básico y Blender (Python API).';
+    }
+    if (/contacto|email|contratar|escribir|mail/.test(t)) {
+      return 'Podés escribirle a mauriciogorilluberas@gmail.com o visitar su GitHub en github.com/Mauricio5494.';
+    }
+    if (/sobre|qui[eé]n|quiere saber|quién es/.test(t)) {
+      return 'Mauricio es desarrollador de software, enfocado en Python, JavaScript y automatización creativa, con experiencia en modding de juegos y pipelines automatizados.';
+    }
+    return 'Interesante pregunta. Soy un asistente demo; para respuestas reales conectá una API de IA. Podés preguntarme sobre sus proyectos, habilidades o cómo contactarlo.';
+  }
+
+  function enviar() {
+    const texto = input.value.trim();
+    if (!texto) return;
+    agregarMensaje(texto, 'user');
+    input.value = '';
+    setTimeout(() => escribir(respuestaIA(texto), 'bot', 600), 400);
+  }
+
+  send.addEventListener('click', enviar);
+  input.addEventListener('keypress', (e) => { if (e.key === 'Enter') enviar(); });
+})();
