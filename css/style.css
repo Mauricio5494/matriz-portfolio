@@ -411,8 +411,8 @@ footer {
   /* Flecha clásica estática: sin rotación, solo se mueve de posición */
   transition: width 0.18s ease, height 0.18s ease;
   mix-blend-mode: difference;
-  /* Forma de flecha clásica apuntando hacia arriba-izquierda */
-  clip-path: polygon(25% 0, 0 0, 0 25%, 35% 60%, 35% 35%, 60% 35%, 60% 0, 100% 0, 100% 100%, 0 100%, 0 60%, 35% 35%);
+  /* Forma de flecha clásica tipo Windows: punta arriba-izquierda, cola abajo-derecha */
+  clip-path: polygon(0 0, 60% 0, 60% 30%, 100% 30%, 35% 100%, 35% 70%, 0 70%);
 }
 
 #cursor-custom::before {
