@@ -577,10 +577,11 @@ document.getElementById('year').textContent = new Date().getFullYear();
 })();
 
 /* ============================================================
-   CURSOR PERSONALIZADO: FLECHA CON ESTELA Y PARTÍCULAS
-   - Flecha clásica estática que sigue al mouse (sin rotación)
-   - Estela de partículas que se desvanecen con movimiento y brillo
-   - Partículas de impacto al hacer clic
+   CURSOR PERSONALIZADO — WITCH PUSHEEN
+   - Gatito quieto (idle) y moviéndose (move) según el mouse
+   - Rota según la dirección del movimiento
+   - Trail mágico con colores de fantasía
+   - Partículas de impacto mágico al hacer clic
    ============================================================ */
 (function () {
   const cursor = document.getElementById('cursor-custom');
@@ -592,18 +593,45 @@ document.getElementById('year').textContent = new Date().getFullYear();
   let lastX = 0;
   let lastY = 0;
   let trailIndex = 0;
+  let quietoTimeout = null;
 
-  // --- Movimiento de la flecha y estela ---
-  // La flecha queda estática (sin rotación), solo se traslada con el mouse
+  // Colores mágicos de fantasía para el trail
+  const COLORES_MAGICOS = [
+    '#bf00ff', // morado brujo
+    '#ff00ff', // rosa mágico
+    '#00ffff', // cyan brillante
+    '#ffd700', // dorado
+    '#e0bbff', // lavanda
+    '#ff69b4', // rosa fuerte
+  ];
+
+  // --- Movimiento del cursor y detección de movimiento/quietud ---
   function moverCursor(x, y) {
+    const dx = x - lastX;
+    const dy = y - lastY;
+
+    // Calcular ángulo de rotación según dirección
+    if (dx !== 0 || dy !== 0) {
+      const angulo = Math.atan2(dy, dx) * (180 / Math.PI);
+      cursor.style.transform = `translate(-50%, -50%) rotate(${angulo}deg)`;
+      // Marcar como moviéndose (imagen de gatito volando)
+      cursor.classList.add('moviendose');
+    }
+
     cursor.style.left = x + 'px';
     cursor.style.top = y + 'px';
 
     lastX = x;
     lastY = y;
 
-    // Crear partícula de estela periódicamente
-    crearTrail(x, y);
+    // Detectar que se está moviendo: resetear timeout de quietud
+    if (quietoTimeout) clearTimeout(quietoTimeout);
+    quietoTimeout = setTimeout(() => {
+      cursor.classList.remove('moviendose');
+    }, 150);
+
+    // Crear partícula de estela mágica periódicamente
+    crearTrailMagico(x, y);
   }
 
   window.addEventListener('mousemove', (e) => moverCursor(e.clientX, e.clientY));
@@ -616,50 +644,49 @@ document.getElementById('year').textContent = new Date().getFullYear();
     cursor.style.opacity = '1';
   });
 
-  // Crear una partícula de estela en la posición dada
-  function crearTrail(x, y) {
-    // A veces crear dos partículas para mayor densidad visual
-    const cantidad = Math.random() > 0.7 ? 2 : 1;
+  // Crear una partícula de estela mágica en la posición dada
+  function crearTrailMagico(x, y) {
+    const cantidad = Math.random() > 0.6 ? 2 : 1;
     for (let c = 0; c < cantidad; c++) {
       const p = document.createElement('div');
       p.className = 'trail-particle';
-      const size = Math.random() * 5 + 3;
-      const offsetX = (Math.random() - 0.5) * 6;
-      const offsetY = (Math.random() - 0.5) * 6;
+      const size = Math.random() * 6 + 4;
+      const offsetX = (Math.random() - 0.5) * 8;
+      const offsetY = (Math.random() - 0.5) * 8;
+      const color = COLORES_MAGICOS[Math.floor(Math.random() * COLORES_MAGICOS.length)];
       p.style.width = size + 'px';
       p.style.height = size + 'px';
-      p.style.background = Math.random() > 0.45 ? 'var(--matrix-red)' : 'var(--matrix-amber)';
-      p.style.opacity = Math.random() * 0.4 + 0.5;
+      p.style.background = color;
+      p.style.opacity = Math.random() * 0.4 + 0.6;
       p.style.left = (x - size / 2 + offsetX) + 'px';
       p.style.top = (y - size / 2 + offsetY) + 'px';
-      p.style.animationDelay = (trailIndex * 0.015) + 's';
+      p.style.animationDelay = (trailIndex * 0.02) + 's';
       trailIndex = (trailIndex + 1) % 60;
 
       trailContainer.appendChild(p);
 
-      // Eliminar la partícula tras la animación
       setTimeout(() => {
         if (p.parentNode) p.parentNode.removeChild(p);
-      }, 650);
+      }, 900);
     }
   }
 
-  // --- Partículas de impacto al hacer clic ---
-  function crearImpacto(x, y) {
-    const cantidad = 8;
+  // --- Partículas de impacto mágico al hacer clic ---
+  function crearImpactoMagico(x, y) {
+    const cantidad = 12;
     for (let i = 0; i < cantidad; i++) {
       const p = document.createElement('div');
       p.className = 'impact-particle';
-      const size = Math.random() * 5 + 3;
+      const size = Math.random() * 7 + 4;
       p.style.width = size + 'px';
       p.style.height = size + 'px';
-      p.style.background = Math.random() > 0.5 ? 'var(--matrix-red)' : 'var(--matrix-amber)';
+      const color = COLORES_MAGICOS[Math.floor(Math.random() * COLORES_MAGICOS.length)];
+      p.style.background = color;
       p.style.left = (x - size / 2) + 'px';
       p.style.top = (y - size / 2) + 'px';
 
-      // Dirección y distancia aleatoria para el burst
       const angulo = (i / cantidad) * Math.PI * 2;
-      const distancia = 40 + Math.random() * 60;
+      const distancia = 50 + Math.random() * 80;
       const tx = Math.cos(angulo) * distancia;
       const ty = Math.sin(angulo) * distancia;
       p.style.setProperty('--tx', tx + 'px');
@@ -669,11 +696,11 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
       setTimeout(() => {
         if (p.parentNode) p.parentNode.removeChild(p);
-      }, 600);
+      }, 700);
     }
   }
 
-  window.addEventListener('mousedown', (e) => crearImpacto(e.clientX, e.clientY));
+  window.addEventListener('mousedown', (e) => crearImpactoMagico(e.clientX, e.clientY));
 
   // Clase .activo al pasar sobre elementos interactivos
   document.querySelectorAll(interactivos).forEach(function (el) {

@@ -394,61 +394,40 @@ footer {
 }
 
 /* ============================================================
-   CURSOR PERSONALIZADO ESTILO MATRIX — FLECHA CON ESTELA
-   Flecha neón que sigue al mouse, deja estela al moverse y
-   genera partículas al hacer clic. Se expande sobre elementos
-   interactivos.
+   CURSOR PERSONALIZADO — WITCH PUSHEEN
+   Cursor con imagen de gatito brujo: quieto (idle) y moviéndose (move),
+   rota según la dirección, deja trail mágico de colores de fantasía.
    ============================================================ */
 #cursor-custom {
   position: fixed;
   top: 0;
   left: 0;
-  width: 30px;
-  height: 30px;
+  width: 48px;
+  height: 48px;
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
-  /* Flecha clásica estática: sin rotación, solo se mueve de posición */
-  transition: width 0.18s ease, height 0.18s ease;
+  /* Imagen por defecto: gatito quieto */
+  background-image: url('../img/cursor-pusheen-idle.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.15s ease, width 0.18s ease, height 0.18s ease;
   mix-blend-mode: difference;
-  /* Forma de flecha clásica tipo Windows: punta arriba-izquierda, cola abajo-derecha */
-  clip-path: polygon(0 0, 60% 0, 60% 30%, 100% 30%, 35% 100%, 35% 70%, 0 70%);
 }
 
-#cursor-custom::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border: 2px solid var(--matrix-red);
-  clip-path: inherit;
-  box-sizing: border-box;
+/* Cuando se mueve el mouse: imagen de gatito volando */
+#cursor-custom.moviendose {
+  background-image: url('../img/cursor-pusheen-move.png');
 }
 
-#cursor-custom::after {
-  content: '';
-  position: absolute;
-  inset: 3px;
-  background: rgba(255, 26, 26, 0.25);
-  clip-path: inherit;
-  box-sizing: border-box;
-}
-
-/* Estado activo: sobre elementos interactivos → ámbar y más grande */
+/* Estado activo: sobre elementos interactivos → más grande */
 #cursor-custom.activo {
-  width: 44px;
-  height: 44px;
+  width: 64px;
+  height: 64px;
 }
 
-#cursor-custom.activo::before {
-  border-color: var(--matrix-amber);
-  box-shadow: 0 0 16px rgba(255, 170, 0, 0.45);
-}
-
-#cursor-custom.activo::after {
-  background: rgba(255, 170, 0, 0.35);
-}
-
-/* Estela (trail) que deja el cursor al moverse */
+/* Estela mágica (trail) que deja el cursor al moverse */
 #cursor-trail {
   position: fixed;
   top: 0;
@@ -465,27 +444,27 @@ footer {
   border-radius: 50%;
   pointer-events: none;
   z-index: 9998;
-  mix-blend-mode: difference;
-  box-shadow: 0 0 6px currentColor;
-  animation: trailFade 0.55s ease-out forwards;
+  mix-blend-mode: screen;
+  box-shadow: 0 0 8px currentColor;
+  animation: trailMagico 0.8s ease-out forwards;
 }
 
-@keyframes trailFade {
+@keyframes trailMagico {
   0% {
-    opacity: 0.85;
-    transform: translate(0, 0) scale(1);
+    opacity: 0.9;
+    transform: translate(0, 0) scale(1) rotate(0deg);
   }
   50% {
     opacity: 0.5;
-    transform: translate(4px, 4px) scale(0.7);
+    transform: translate(6px, -6px) scale(0.8) rotate(180deg);
   }
   100% {
     opacity: 0;
-    transform: translate(8px, 8px) scale(0);
+    transform: translate(12px, -12px) scale(0) rotate(360deg);
   }
 }
 
-/* Partículas de clic/impacto */
+/* Partículas de clic/impacto mágico */
 #cursor-impact {
   position: fixed;
   top: 0;
@@ -502,18 +481,18 @@ footer {
   border-radius: 50%;
   pointer-events: none;
   z-index: 9997;
-  mix-blend-mode: difference;
-  animation: impactBurst 0.5s ease-out forwards;
+  mix-blend-mode: screen;
+  animation: impactoMagico 0.6s ease-out forwards;
 }
 
-@keyframes impactBurst {
+@keyframes impactoMagico {
   0% {
     opacity: 0.9;
     transform: scale(0) translate(0, 0);
   }
   50% {
     opacity: 0.7;
-    transform: scale(1.2) translate(var(--tx), var(--ty));
+    transform: scale(1.4) translate(var(--tx), var(--ty));
   }
   100% {
     opacity: 0;
