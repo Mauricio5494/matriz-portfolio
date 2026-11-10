@@ -841,7 +841,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
   }
 
   // URLs — ajustá RAILWAY_BACKEND_URL al dominio de tu backend en Railway
-  const RAILWAY_BACKEND_URL = 'https://admin-panel-backend-production-5290.up.railway.app';
+  const RAILWAY_BACKEND_URL = 'https://railway-chat-backend-production.up.railway.app';
 
   // Respuestas de IA: intenta Railway, si falla usa demo simulado
   async function respuestaIA(texto) {
