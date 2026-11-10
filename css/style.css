@@ -501,6 +501,7 @@ footer {
   bottom: 70px;
   right: 0;
   width: 340px;
+  max-width: 92vw;
   height: 460px;
   background: var(--panel);
   border: 1px solid var(--border);
@@ -515,11 +516,27 @@ footer {
   display: none;
 }
 
+@media (min-width: 641px) {
+  #chat-panel {
+    width: 430px;
+  }
+}
+
 #chat-panel.open {
   display: flex;
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+}
+
+.chat-header {
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--matrix-amber);
+  border-bottom: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.5px;
 }
 
 /* Animación de entrada de mensajes */
@@ -648,8 +665,8 @@ footer {
 .chat-quick-replies {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  padding: 0.4rem 1rem;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
   background: rgba(0, 0, 0, 0.3);
   border-bottom: 1px solid var(--border);
   transition: padding 0.3s ease, border-bottom 0.3s ease;
@@ -672,12 +689,13 @@ footer {
   background: transparent;
   border: 1px solid var(--matrix-red);
   color: var(--matrix-amber);
-  border-radius: 4px;
-  padding: 0.2rem 0.5rem;
-  font-size: 0.7rem;
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
   font-family: var(--font-mono);
   cursor: pointer;
   white-space: nowrap;
+  transition: all 0.2s ease;
 }
 
 .chat-quick-replies .qr:hover {
@@ -709,11 +727,12 @@ footer {
   border: 1px solid var(--matrix-red-dark);
   color: var(--matrix-red);
   border-radius: 4px;
-  padding: 0.2rem 0.5rem;
+  padding: 0.2rem 0.75rem;
   font-size: 0.7rem;
   font-family: var(--font-mono);
   cursor: pointer;
   margin-left: auto;
+  margin-right: 0.5rem;
 }
 
 .chat-clear:hover {
