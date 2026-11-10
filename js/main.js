@@ -1122,6 +1122,34 @@ document.getElementById('year').textContent = new Date().getFullYear();
       prioridad: 60,
     },
 
+    // --- Precios ---
+    {
+      patrones: [/precio|precios|cu[aá]nto\s+costa|cu[aá]nto\s+cobra|tarifa|presupuesto|costo/i],
+      respuesta: 'El precio depende de la complejidad y el tiempo del proyecto. Algo sencillo que no tome más de unas horas puede rondar los 2 a 5 USD. Para proyectos más grandes, se hace un presupuesto a medida.',
+      prioridad: 70,
+    },
+
+    // --- Tiempos de entrega ---
+    {
+      patrones: [/tiempo\s+de\s+entrega|cu[aá]nto\s+tarda|plazo|entrega/i],
+      respuesta: 'Los tiempos de entrega dependen del alcance. Algo sencillo puede listarse en días; proyectos complejos pueden tomar semanas o meses. Contáctame para estimar tu caso.',
+      prioridad: 70,
+    },
+
+    // --- Horario y disponibilidad ---
+    {
+      patrones: [/horario|disponibilidad|cu[aá]ndo\s+trabajas|hora\s+de\s+atenci[oó]n|diferencia\s+horaria|qu[eé]\s+hora\s+es\s+en\s+uruguay/i],
+      respuesta: 'Mi horario de atención es después de la 1 PM, hora de Uruguay (GMT-3), todos los días. Si no respondo en media hora, puede ser que tarde un poco más.',
+      prioridad: 70,
+    },
+
+    // --- Derechos y código fuente ---
+    {
+      patrones: [/derechos|c[oó]digo\s+fuente|derechos\s+de\s+autor|propiedad\s+intelectual|comprar\s+derechos/i],
+      respuesta: 'Para derechos completos del código, se requiere un depósito basado en el cálculo de estimación del proyecto (tipo COCOMO). Tras el pago, se entregan los derechos completos al comisionista. Si quieres derechos parciales, entrego el programa pero me quedo con el código fuente.',
+      prioridad: 70,
+    },
+
     // --- Fallback genérico (prioridad mínima, coincide con cualquier cosa) ---
     {
       patrones: [/.*/],
@@ -1156,6 +1184,10 @@ document.getElementById('year').textContent = new Date().getFullYear();
       despedida: ['¡Hasta luego! Si necesitás algo más, acá estaré.'],
       agradecimiento: ['¡De nada! Si tenés otra duda, acá estoy.'],
       sobre_mi: ['Mauricio Gori es un programador joven de 22 años que reside en Uruguay. Desarrollador de software enfocado en Python, JavaScript y automatización creativa. Le gusta construir herramientas que resuelven problemas reales y está en constante aprendizaje.'],
+      precios: ['El precio depende de la complejidad y el tiempo del proyecto. Algo sencillo que no tome más de unas horas puede rondar los 2 a 5 USD. Para proyectos más grandes, se hace un presupuesto a medida.'],
+      tiempos: ['Los tiempos de entrega dependen del alcance. Algo sencillo puede listarse en días; proyectos complejos pueden tomar semanas o meses. Contáctame para estimar tu caso.'],
+      horario: ['Mi horario de atención es después de la 1 PM, hora de Uruguay (GMT-3), todos los días. Si no respondo en media hora, puede ser que tarde un poco más.'],
+      derechos: ['Para derechos completos del código, se requiere un depósito basado en el cálculo de estimación del proyecto (tipo COCOMO). Tras el pago, se entregan los derechos completos al comisionista. Si quieres derechos parciales, entrego el programa pero me quedo con el código fuente.'],
       experiencia: ['Su experiencia abarca scripting en Python, desarrollo web con JavaScript/TypeScript, automatización de pipelines, análisis de game.log para Proton/Wine y herramientas de modding.'],
       proyectos: ['Tiene tres proyectos principales: (1) Validador de assets para motor de juegos en Python — valida archivos .inc, .ext, .mdl antes de instalar mods. (2) Analizador de game.log para Proton/Wine — traduce errores del motor a pasos de solución. (3) Panel de administración Full Stack — con autenticación JWT, gestión de usuarios, subida de imágenes y exportación a CSV.'],
       habilidades: ['Sus habilidades incluyen: Python, JavaScript, TypeScript, React, HTML5/CSS3, Tailwind CSS, Node.js, Docker, Git, CI/CD básico, SQL, análisis de logs y Blender (Python API).'],
@@ -1168,6 +1200,10 @@ document.getElementById('year').textContent = new Date().getFullYear();
       despedida: ['See you later! If you need anything else, I\'ll be here.'],
       agradecimiento: ['You\'re welcome! If you have any other questions, let me know.'],
       sobre_mi: ['Mauricio Gori is a young 22-year-old programmer based in Uruguay. Software developer focused on Python, JavaScript and creative automation. He loves building tools that solve real problems and is constantly learning.'],
+      precios: ['The price depends on the complexity and time of the project. Something simple that takes a few hours can range from 2 to 5 USD. For larger projects, a custom budget is made.'],
+      tiempos: ['Delivery times depend on the scope. Something simple can be ready in days; complex projects can take weeks or months. Contact me to estimate your case.'],
+      horario: ['My availability is after 1 PM, Uruguay time (GMT-3), every day. If I do not respond within half an hour, it may take a little longer.'],
+      derechos: ['For full code rights, a deposit based on project estimation (such as COCOMO: lines of code, team members, and time needed) is required. After payment, full rights are delivered to the client.'],
       experiencia: ['His experience covers Python scripting, web development with JavaScript/TypeScript, automated pipelines, game.log analysis for Proton/Wine and game modding tools.'],
       proyectos: ['He has three main projects: (1) Game engine asset validator in Python — validates .inc, .ext, .mdl files before installing mods. (2) game.log analyzer for Proton/Wine — translates engine errors into troubleshooting steps. (3) Full Stack admin panel — with JWT authentication, user management, image upload and CSV export.'],
       habilidades: ['His skills include: Python, JavaScript, TypeScript, React, HTML5/CSS3, Tailwind CSS, Node.js, Docker, Git, basic CI/CD, SQL, log analysis and Blender (Python API).'],
@@ -1180,6 +1216,10 @@ document.getElementById('year').textContent = new Date().getFullYear();
       despedida: ['До свидания! Если нужно что-то еще, я здесь.'],
       agradecimiento: ['Пожалуйста! Если есть еще вопросы, обращайтесь.'],
       sobre_mi: ['Маурисио Гори — молодой 22-летний программист, проживающий в Уругвае. Разработчик ПО с акцентом на Python, JavaScript и креативную автоматизацию. Ему нравится создавать инструменты, которые решают реальные задачи, и он постоянно учится.'],
+      precios: ['Цена зависит от сложности и времени проекта. Что-то простое, занимающее несколько часов, может стоить от 2 до 5 USD. Для крупных проектов составляется индивидуальный бюджет.'],
+      tiempos: ['Сроки поставки зависят от объёма работы. Что-то простое можно сделать за дни; сложные проекты могут занять недели или месяцы. Свяжитесь со мной для оценки.'],
+      horario: ['Моё время работы — после 13:00 по uruguaysкому времени (GMT-3), каждый день. Если не отвечаю в течение получаса, может потребоваться подождать чуть дольше.'],
+      derechos: ['За полные права на код требуется депозит на основе оценки проекта (по типу COCOMO). После оплаты полные права передаются заказчику. Если нужны частичные права, я передаю программу, но оставляю исходный код у себя.'],
       experiencia: ['Его опыт включает скрипты на Python, веб-разработку на JavaScript/TypeScript, автоматизацию конвейеров, анализ game.log для Proton/Wine и инструменты моддинга.'],
       proyectos: ['У него три основных проекта: (1) Валидатор ассетов для игрового движка на Python. (2) Анализатор game.log для Proton/Wine. (3) Полноценная панель администрирования на React и Node.js.'],
       habilidades: ['Его навыки включают: Python, JavaScript, TypeScript, React, HTML5/CSS3, Tailwind CSS, Node.js, Docker, Git, базовый CI/CD, SQL, анализ логов и Blender (Python API).'],
@@ -1192,6 +1232,10 @@ document.getElementById('year').textContent = new Date().getFullYear();
       despedida: ['फिर मिलेंगे! अगर कुछ और चाहिए तो यहाँ रहूँगा।'],
       agradecimiento: ['आपका स्वागत है! अगर कोई और सवाल हो तो बताएं।'],
       sobre_mi: ['मॉरिसियो गोरी 22 वर्ष के एक युवा प्रोग्रामर हैं जो उरुग्वे में रहते हैं। सॉफ्टवेयर डेवलपर जो पायथन, जावास्क्रिप्ट और क्रिएटिव ऑटोमेशन पर फोकस करते हैं। उन्हें वास्तविक समस्याओं को हल करने वाले टूल बनाना पसंद है और वे लगातार सीख रहे हैं।'],
+      precios: ['कीमत प्रोजेक्ट की जटिलता और समय पर निर्भर करती है। कुछ सरल जो कुछ घंटों में हो जाए उसकी कीमत 2 से 5 डॉलर तक हो सकती है। बड़े प्रोजेक्ट्स के लिए कस्टम बजट बनता है।'],
+      tiempos: ['डिलीवरी समय प्रोजेक्ट के स्कोप पर निर्भर करता है। सरल काम कुछ दिनों में तैयार हो सकता है; जटिल प्रोजेक्ट्स में हफ्तों या महीनों लग सकते हैं। अपने केस का अंदाजा लगाने के लिए मुझसे संपर्क करें।'],
+      horario: ['मेरी उपलब्धता उरुग्वे समय (GMT-3) के बाद दोपहर 1 बजे से है, हर दिन। अगर मैं आधे घंटे में जवाब नहीं देता, तो थोड़ा अधिक समय लग सकता है।'],
+      derechos: ['कोड के पूर्ण अधिकारों के लिए, प्रोजेक्ट अनुमान (जैसे COCOMO) के आधार पर डिपॉज़िट की आवश्यकता है। भुगतान के बाद, क्लाइंट को पूर्ण अधिकार हस्तांतरित किए जाते हैं। अगर आप आंशिक अधिकार चाहते हैं, तो मैं प्रोग्राम डिलीवर करता हूँ लेकिन सोर्स कोड अपने पास रखता हूँ।'],
       experiencia: ['उनका अनुभव पायथन स्क्रिप्टिंग, जावास्क्रिप्ट/टाइपस्क्रिप्ट के साथ वेब विकास, स्वचालित पाइपलाइन्स, प्रोटॉन/वाइन के लिए गेम.लॉग विश्लेषण और मोडिंग टूल्स को कवर करता है।'],
       proyectos: ['उनके तीन मुख्य प्रोजेक्ट्स हैं: (1) गेम इंजन के लिए एसेट वैलिडेटर पायथन में। (2) प्रोटॉन/वाइन के लिए गेम.लॉग विश्लेषक। (3) फुल स्टैक एडमिन पैनल रिएक्ट और नोड.जेएस में।'],
       habilidades: ['उनके स्किल्स में शामिल हैं: पायथन, जावास्क्रिप्ट, टाइपस्क्रिप्ट, रिएक्ट, HTML5/CSS3, टेलविंड CSS, नोड.जेएस, डॉकर, गिट, बेसिक CI/CD, SQL, लॉग विश्लेषण और ब्लेंडर (पायथन API)।'],
@@ -1236,6 +1280,10 @@ document.getElementById('year').textContent = new Date().getFullYear();
         { patrones: [/habilidad|skill|tecnolog[ií]a|tecnolog[ií]as|stack|qu[eé]\s+sabe/i], intent: 'habilidades' },
         { patrones: [/contacto|email|correo|escribir|mail|escr[ií]beme/i], intent: 'contacto' },
         { patrones: [/idioma|idiomas|en\s+qué\s+idiomas|idiomas\s+disponibles|qué\s+lenguas|lenguas|traducci[oó]n|traducir|español|ingl[ée]s|ruso|hindi|multidioma/i], intent: 'idiomas' },
+        { patrones: [/precio|precios|cu[aá]nto\s+costa|cu[aá]nto\s+cobra|tarifa|presupuesto|costo/i], intent: 'precios' },
+        { patrones: [/tiempo\s+de\s+entrega|cu[aá]nto\s+tarda|plazo|entrega/i], intent: 'tiempos' },
+        { patrones: [/horario|disponibilidad|cu[aá]ndo\s+trabajas|hora\s+de\s+atenci[oó]n|diferencia\s+horaria|qu[eé]\s+hora\s+es\s+en\s+uruguay/i], intent: 'horario' },
+        { patrones: [/derechos|c[oó]digo\s+fuente|derechos\s+de\s+autor|propiedad\s+intelectual|comprar\s+derechos/i], intent: 'derechos' },
       ],
       en: [
         { patrones: [/^(hello|hi|hey|good morning|good afternoon|good evening)\b/i], intent: 'saludo' },
@@ -1247,6 +1295,10 @@ document.getElementById('year').textContent = new Date().getFullYear();
         { patrones: [/skill|skills|technology|technologies|stack|what does he know/i], intent: 'habilidades' },
         { patrones: [/contact|email|write to|mail|reach/i], intent: 'contacto' },
         { patrones: [/language|languages|what languages|translate/i], intent: 'idiomas' },
+        { patrones: [/price|prices|how much|cost|tariff|budget/i], intent: 'precios' },
+        { patrones: [/delivery time|how long|deadline|turnaround/i], intent: 'tiempos' },
+        { patrones: [/schedule|availability|when do you work|time zone|time difference|what time is it in uruguay/i], intent: 'horario' },
+        { patrones: [/rights|source code|copyright|intellectual property|buy rights/i], intent: 'derechos' },
       ],
       ru: [
         { patrones: [/^(привет|здравствуйте|добрый день|добрый вечер)\b/i], intent: 'saludo' },
@@ -1258,6 +1310,10 @@ document.getElementById('year').textContent = new Date().getFullYear();
         { patrones: [/навык|навыки|технология|технологии|стек/i], intent: 'habilidades' },
         { patrones: [/контакт|почте|написать|связаться/i], intent: 'contacto' },
         { patrones: [/язык|языки|какие языки|перевод/i], intent: 'idiomas' },
+        { patrones: [/цена|цены|сколько стоит|бюджет|тариф/i], intent: 'precios' },
+        { patrones: [/срок|доставка|сколько времени/i], intent: 'tiempos' },
+        { patrones: [/график|время работы|часовая зона|разница во времени|сколько время в уругвае/i], intent: 'horario' },
+        { patrones: [/права|исходный код|авторское право|купить права/i], intent: 'derechos' },
       ],
       hi: [
         { patrones: [/^(नमस्ते|नमस्कार|हैलो|हाय)\b/i], intent: 'saludo' },
@@ -1269,6 +1325,10 @@ document.getElementById('year').textContent = new Date().getFullYear();
         { patrones: [/स्किल|स्किल्स|तकनीक|तकनीकें/i], intent: 'habilidades' },
         { patrones: [/संपर्क|ईमेल|लिखें|मेल/i], intent: 'contacto' },
         { patrones: [/भाषा|भाषाएं|कौन सी भाषा|अनुवाद/i], intent: 'idiomas' },
+        { patrones: [/कीमत|कीमतें|कितना खर्च|बजट|शुल्क/i], intent: 'precios' },
+        { patrones: [/डिलीवरी समय|कितना समय|डेडलाइन/i], intent: 'tiempos' },
+        { patrones: [/समय|उपलब्धता|कब काम करते हैं|टाइम ज़ोन|समय अंतर|उरुग्वे में क्या समय है/i], intent: 'horario' },
+        { patrones: [/अधिकार|सोर्स कोड|कॉपीराइट|बौद्धिक संपदा|अधिकार खरीदें/i], intent: 'derechos' },
       ],
     };
 
