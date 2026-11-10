@@ -28,7 +28,7 @@
   html, body {
     margin: 0;
     padding: 0;
-    background: transparent;
+    background: var(--bg);
     color: var(--text);
     font-family: var(--font-mono);
     line-height: 1.7;
@@ -49,12 +49,14 @@
 
   #particle-canvas {
     z-index: -2;
+    mix-blend-mode: screen;
+    opacity: 0.8;
   }
 
   .bg-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.3);
     z-index: -4;
     backdrop-filter: blur(2px);
     pointer-events: none;
@@ -102,6 +104,7 @@
     padding: 3.5rem 1.5rem 4rem;
     position: relative;
     z-index: 1;
+    isolation: isolate;
   }
 
   /* Hero */
@@ -461,8 +464,7 @@
 
   /* ============================================================
      EFECTO MATRIX (lluvia de código roja/ámbar)
-     Generado enteramente por JavaScript: crea el canvas dinámicamente
-     y dibuja la lluvia sin depender de CSS ni HTML predefinido.
+     Generado enteramente por JavaScript.
      ============================================================ */
   (function () {
     const canvas = document.createElement('canvas');
@@ -473,7 +475,8 @@
     canvas.style.width = '100vw';
     canvas.style.height = '100vh';
     canvas.style.zIndex = '-1';
-    canvas.style.opacity = '0.15';
+    canvas.style.opacity = '0.4';
+    canvas.style.mixBlendMode = 'screen';
     document.body.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
@@ -534,6 +537,14 @@
     let particles = [];
     let mouse = { x: null, y: null, active: false };
 
+    function presize() {
+      pwidth = pcanvas.width = window.innerWidth;
+      pheight = pcanvas.height = window.innerHeight;
+      initParticles();
+    }
+    window.addEventListener('resize', presize);
+    presize();
+
     class Particle {
       constructor() {
         this.reset();
@@ -583,14 +594,6 @@
         pctx.fill();
       }
     }
-
-    function presize() {
-      pwidth = pcanvas.width = window.innerWidth;
-      pheight = pcanvas.height = window.innerHeight;
-      initParticles();
-    }
-    window.addEventListener('resize', presize);
-    presize();
 
     function initParticles() {
       const count = Math.min(80, Math.floor((pwidth * pheight) / 20000));
