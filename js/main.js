@@ -1319,7 +1319,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
   // Quick replies: al hacer clic, inserta la pregunta, envía y colapsa sugerencias
   document.querySelectorAll('.qr').forEach(btn => {
     btn.addEventListener('click', () => {
-      const q = btn.getAttribute('data-q');
+      const q = btn.textContent.trim();
       if (!q) return;
       input.value = q;
       colapsarQuickReplies();
