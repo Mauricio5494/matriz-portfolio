@@ -44,18 +44,18 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    z-index: -3;
+    z-index: -5;
   }
 
   #particle-canvas {
-    z-index: -2;
+    z-index: -3;
   }
 
   .bg-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: -1;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: -4;
     backdrop-filter: blur(2px);
     pointer-events: none;
   }
@@ -472,7 +472,7 @@
     canvas.style.left = '0';
     canvas.style.width = '100vw';
     canvas.style.height = '100vh';
-    canvas.style.zIndex = '-1';
+    canvas.style.zIndex = '-2';
     document.body.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
