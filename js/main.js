@@ -610,11 +610,10 @@ document.getElementById('year').textContent = new Date().getFullYear();
     const dx = x - lastX;
     const dy = y - lastY;
 
-    // Calcular ángulo de rotación según dirección
+    // Si hay movimiento real: rotar y mostrar imagen de vuelo
     if (dx !== 0 || dy !== 0) {
       const angulo = Math.atan2(dy, dx) * (180 / Math.PI);
       cursor.style.transform = `translate(-50%, -50%) rotate(${angulo}deg)`;
-      // Marcar como moviéndose (imagen de gatito volando)
       cursor.classList.add('moviendose');
     }
 
@@ -627,7 +626,9 @@ document.getElementById('year').textContent = new Date().getFullYear();
     // Detectar que se está moviendo: resetear timeout de quietud
     if (quietoTimeout) clearTimeout(quietoTimeout);
     quietoTimeout = setTimeout(() => {
+      // Al quedar quieto: imagen estática idle y rotación 0deg
       cursor.classList.remove('moviendose');
+      cursor.style.transform = 'translate(-50%, -50%) rotate(0deg)';
     }, 150);
 
     // Crear partícula de estela mágica periódicamente
