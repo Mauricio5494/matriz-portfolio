@@ -1117,7 +1117,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
     // --- Preguntas sobre el asistente ---
     {
-      patrones: [/eres\s+tú|qu[ié]n\s+sos|qué\s+eres|asistente|chat|bot/i],
+      patrones: [/eres\s+tú|qui[eé]n\s+sos|qué\s+eres|asistente|chat|bot/i],
       respuesta: 'Soy el asistente virtual demo de Mauricio. Puedo aprender nuevas respuestas si me enseñás, o responder sobre sus proyectos, habilidades y contacto.',
       prioridad: 60,
     },
