@@ -1046,20 +1046,82 @@ document.getElementById('year').textContent = new Date().getFullYear();
     },
   ];
 
-  const RESPUESTAS_GENERICAS = [
-    'Interesante pregunta. En este modo demo puedo responder sobre sus proyectos, habilidades, experiencia, tecnologías y cómo contactarlo.',
-    'Aún no tengo esa información en el modo demo. Probá preguntarme sobre sus proyectos, habilidades (Python, JavaScript, React, etc.) o su email de contacto.',
-    'Ese tema no lo cubro en el modo demo. Intentá con algo sobre sus proyectos, habilidades o cómo escribirle.',
-    'No estoy seguro de esa respuesta. Probá preguntándome sobre los proyectos de Mauricio, sus habilidades o su contacto.',
-  ];
+  // --- Detección de idioma del mensaje (modo demo) ---
+  function detectarIdiomaTexto(texto) {
+    const t = texto.trim();
+    if (/[Ѐ-ӿ]/.test(t)) return 'ru';           // cirílico → ruso
+    if (/[ऀ-ॿ]/.test(t)) return 'hi';           // devanagari → hindi
+    const tl = t.toLowerCase();
+    const enWords = ['hello','hi ',' hi','hey','how are','what is','who is','can you','projects','skills','contact','thank','goodbye','bye','can i','how can'];
+    for (const p of enWords) if (tl.includes(p)) return 'en';
+    const esWords = ['hola','buenas','gracias','proyecto','proyectos','habilidad','habilidades','contacto','¿quién','quien','sobre','python','javascript','idioma','idiomas','español','cambiar','puedes','cómo','cuál','¿qué'];
+    for (const p of esWords) if (tl.includes(p)) return 'es';
+    return 'es'; // por defecto español
+  }
 
+  // Respuestas demo multidioma por intent
+  const RESPUESTAS_DEMO_IDIOMAS = {
+    es: {
+      saludo: ['¡Hola! Soy el asistente virtual de Mauricio Gori. Pregúntame sobre sus proyectos, habilidades, experiencia o cómo contactarlo.'],
+      despedida: ['¡Hasta luego! Si necesitás algo más, acá estaré.'],
+      agradecimiento: ['¡De nada! Si tenés otra duda, acá estoy.'],
+      sobre_mi: ['Mauricio Gori es desarrollador de software, enfocado en Python, JavaScript y automatización creativa. Tiene experiencia en modding de juegos, pipelines automatizados y análisis de logs.'],
+      experiencia: ['Su experiencia abarca scripting en Python, desarrollo web con JavaScript/TypeScript, automatización de pipelines, análisis de game.log para Proton/Wine y herramientas de modding.'],
+      proyectos: ['Tiene tres proyectos principales: (1) Validador de assets para motor de juegos en Python — valida archivos .inc, .ext, .mdl antes de instalar mods. (2) Analizador de game.log para Proton/Wine — traduce errores del motor a pasos de solución. (3) Panel de administración Full Stack — con autenticación JWT, gestión de usuarios, subida de imágenes y exportación a CSV.'],
+      habilidades: ['Sus habilidades incluyen: Python, JavaScript, TypeScript, React, HTML5/CSS3, Tailwind CSS, Node.js, Docker, Git, CI/CD básico, SQL, análisis de logs y Blender (Python API).'],
+      contacto: ['Podés escribirle a mauriciogorilluberas@gmail.com o visitar su GitHub en github.com/Mauricio5494.'],
+      idiomas: ['El portfolio está disponible en español, inglés, ruso e hindi. Podés cambiar el idioma desde el selector en el menú de navegación.'],
+      generico: ['Interesante pregunta. En este modo demo puedo responder sobre sus proyectos, habilidades, experiencia, tecnologías y cómo contactarlo.'],
+    },
+    en: {
+      saludo: ['Hello! I am Mauricio\'s chatbot. Ask me about his projects, skills, experience or how to contact him.'],
+      despedida: ['See you later! If you need anything else, I\'ll be here.'],
+      agradecimiento: ['You\'re welcome! If you have any other questions, let me know.'],
+      sobre_mi: ['Mauricio Gori is a software developer focused on Python, JavaScript and creative automation. He has experience in game modding, automated pipelines and log analysis.'],
+      experiencia: ['His experience covers Python scripting, web development with JavaScript/TypeScript, automated pipelines, game.log analysis for Proton/Wine and game modding tools.'],
+      proyectos: ['He has three main projects: (1) Game engine asset validator in Python — validates .inc, .ext, .mdl files before installing mods. (2) game.log analyzer for Proton/Wine — translates engine errors into troubleshooting steps. (3) Full Stack admin panel — with JWT authentication, user management, image upload and CSV export.'],
+      habilidades: ['His skills include: Python, JavaScript, TypeScript, React, HTML5/CSS3, Tailwind CSS, Node.js, Docker, Git, basic CI/CD, SQL, log analysis and Blender (Python API).'],
+      contacto: ['You can write to him at mauriciogorilluberas@gmail.com or visit his GitHub at github.com/Mauricio5494.'],
+      idiomas: ['This portfolio is available in Spanish, English, Russian and Hindi. You can change the language from the selector in the navigation menu.'],
+      generico: ['Interesting question. In demo mode I can answer about his projects, skills, experience, technologies and how to contact him.'],
+    },
+    ru: {
+      saludo: ['Привет! Я чат-бот Маурисио. Спросите о его проектах, навыках, опыте или как с ним связаться.'],
+      despedida: ['До свидания! Если нужно что-то еще, я здесь.'],
+      agradecimiento: ['Пожалуйста! Если есть еще вопросы, обращайтесь.'],
+      sobre_mi: ['Маурисио Гори — разработчик ПО с акцентом на Python, JavaScript и креативную автоматизацию. У него опыт в моддинге игр, автоматизации конвейеров и анализе логов.'],
+      experiencia: ['Его опыт включает скрипты на Python, веб-разработку на JavaScript/TypeScript, автоматизацию конвейеров, анализ game.log для Proton/Wine и инструменты моддинга.'],
+      proyectos: ['У него три основных проекта: (1) Валидатор ассетов для игрового движка на Python. (2) Анализатор game.log для Proton/Wine. (3) Полноценная панель администрирования на React и Node.js.'],
+      habilidades: ['Его навыки включают: Python, JavaScript, TypeScript, React, HTML5/CSS3, Tailwind CSS, Node.js, Docker, Git, базовый CI/CD, SQL, анализ логов и Blender (Python API).'],
+      contacto: ['Свяжитесь с ним по mauriciogorilluberas@gmail.com или посетите его GitHub github.com/Mauricio5494.'],
+      idiomas: ['Это портфолио доступно на четырех языках: испанский, английский, русский и хинди. Вы можете сменить язык через селектор в меню навигации.'],
+      generico: ['Интересный вопрос. В демо-режиме я могу ответить о его проектах, навыках, опыте, технологиях и как с ним связаться.'],
+    },
+    hi: {
+      saludo: ['नमस्ते! मैं मॉरिसियो का चैटबॉट हूँ। उनके प्रोजेक्ट्स, स्किल्स, अनुभव या संपर्क के बारे में पूछें।'],
+      despedida: ['फिर मिलेंगे! अगर कुछ और चाहिए तो यहाँ रहूँगा।'],
+      agradecimiento: ['आपका स्वागत है! अगर कोई और सवाल हो तो बताएं।'],
+      sobre_mi: ['मॉरिसियो गोरी एक सॉफ्टवेयर डेवलपर हैं, जो पायथन, जावास्क्रिप्ट और क्रिएटिव ऑटोमेशन पर फोकस करते हैं।'],
+      experiencia: ['उनका अनुभव पायथन स्क्रिप्टिंग, जावास्क्रिप्ट/टाइपस्क्रिप्ट के साथ वेब विकास, स्वचालित पाइपलाइन्स, प्रोटॉन/वाइन के लिए गेम.लॉग विश्लेषण और मोडिंग टूल्स को कवर करता है।'],
+      proyectos: ['उनके तीन मुख्य प्रोजेक्ट्स हैं: (1) गेम इंजन के लिए एसेट वैलिडेटर पायथन में। (2) प्रोटॉन/वाइन के लिए गेम.लॉग विश्लेषक। (3) फुल स्टैक एडमिन पैनल रिएक्ट और नोड.जेएस में।'],
+      habilidades: ['उनके स्किल्स में शामिल हैं: पायथन, जावास्क्रिप्ट, टाइपस्क्रिप्ट, रिएक्ट, HTML5/CSS3, टेलविंड CSS, नोड.जेएस, डॉकर, गिट, बेसिक CI/CD, SQL, लॉग विश्लेषण और ब्लेंडर (पायथन API)।'],
+      contacto: ['उनसे mauriciogorilluberas@gmail.com पर संपर्क करें या उनका गिटहब github.com/Mauricio5494 पर जाएँ।'],
+      idiomas: ['यह पोर्टफोलियो चार भाषाओं में उपलब्ध है: स्पेनिश, अंग्रेजी, रूसी और हिंदी। आप नेविगेशन मेनू में भाषा सेलेक्टर से भाषा बदल सकते हैं।'],
+      generico: ['मैं उस विषय के बारे में निश्चित नहीं हूँ। कृपया मॉरिसियो के प्रोजेक्ट्स, कौशल या संपर्क के बारे में पूछें।'],
+    },
+  };
+
+  // Respuestas simuladas (demo) como fallback absoluto si el backend no responde.
+  // Ahora multidioma: detecta el idioma del mensaje y responde en ese idioma.
   function respuestaDemo(texto) {
     const t = texto.trim().toLowerCase();
+    const idioma = detectarIdiomaTexto(texto);
+    const tabla = RESPUESTAS_DEMO_IDIOMAS[idioma] || RESPUESTAS_DEMO_IDIOMAS.es;
 
-    // --- Cambio de idioma (modo demo) ---
-    const cambioIdioma = t.match(/cambiar.*(español|ingl[ée]s|ruso|hindi)|idioma.*(español|ingl[ée]s|ruso|hindi)|pon.*(español|ingl[ée]s|ruso|hindi)|idioma a (español|ingl[ée]s|ruso|hindi)|quiero (en |en )?(español|ingl[ée]s|ruso|hindi)/i);
+    // Cambio de idioma (modo demo)
+    const cambioIdioma = texto.match(/cambiar.*(español|ingl[ée]s|ruso|hindi)|idioma.*(español|ingl[ée]s|ruso|hindi)|pon.*(español|ingl[ée]s|ruso|hindi)|idioma a (español|ingl[ée]s|ruso|hindi)|quiero (en |en )?(español|ingl[ée]s|ruso|hindi)|change.*(spanish|english|russian|hindi)|language.*(spanish|english|russian|hindi)|switch to (spanish|english|russian|hindi)/i);
     if (cambioIdioma && typeof window.cambiarIdiomaPortfolio === 'function') {
-      const mapaIdiomas = { español: 'es', ingles: 'en', inglés: 'en', ruso: 'ru', hindi: 'hi' };
+      const mapaIdiomas = { español: 'es', ingles: 'en', inglés: 'en', ruso: 'ru', hindi: 'hi', spanish: 'es', english: 'en', russian: 'ru', hindi: 'hi' };
       let clave = '';
       for (let i = 1; i < cambioIdioma.length; i++) {
         if (cambioIdioma[i]) { clave = cambioIdioma[i]; break; }
@@ -1067,30 +1129,72 @@ document.getElementById('year').textContent = new Date().getFullYear();
       const codigo = mapaIdiomas[clave.toLowerCase()];
       if (codigo) {
         window.cambiarIdiomaPortfolio(codigo);
-        return `Idioma cambiado a ${clave}. ${RESPUESTAS_GENERICAS[0]}`;
+        const nombreIdioma = { es: 'español', en: 'inglés', ru: 'ruso', hi: 'hindi' }[codigo] || codigo;
+        return `Idioma cambiado a ${nombreIdioma}. ${tabla.generico[0]}`;
       }
     }
 
-    // Ordenar por prioridad descendente para que los intents más específicos ganen
-    const ordenados = [...INTENTOS_DEMO].sort((a, b) => b.prioridad - a.prioridad);
+    // Matching por intents en el idioma detectado
+    const patronesPorIdioma = {
+      es: [
+        { patrones: [/^(hola|buenas|buen\s+d[ií]a|buenas\s+tardes|buenas\s+noches|hey|hello|hi)\b/i], intent: 'saludo' },
+        { patrones: [/^(adiós|chao|hasta+luego|nos+vemos|bye|goodbye|hasta+pronto)\b/i], intent: 'despedida' },
+        { patrones: [/^(gracias|muchas+gracias|te+lo+agradezco|se+lo+agradezco|thanks|thank+you|gracias+por+todo)\b/i], intent: 'agradecimiento' },
+        { patrones: [/qu[ié]n\s+es|sobre\s+mí|sobre\s+mauricio|perfil|qu[ié]n\s+es\s+mauricio/i], intent: 'sobre_mi' },
+        { patrones: [/experiencia|trayectoria|historia|background/i], intent: 'experiencia' },
+        { patrones: [/proyecto|proyectos/i], intent: 'proyectos' },
+        { patrones: [/habilidad|skill|tecnolog[ií]a|tecnolog[ií]as|stack|qu[eé]\s+sabe/i], intent: 'habilidades' },
+        { patrones: [/contacto|email|correo|escribir|mail|escr[ií]beme/i], intent: 'contacto' },
+        { patrones: [/idioma|idiomas|en\s+qué\s+idiomas|idiomas\s+disponibles|qué\s+lenguas|lenguas|traducci[oó]n|traducir|español|ingl[ée]s|ruso|hindi|multidioma/i], intent: 'idiomas' },
+      ],
+      en: [
+        { patrones: [/^(hello|hi|hey|good morning|good afternoon|good evening)\b/i], intent: 'saludo' },
+        { patrones: [/^(goodbye|bye|see you|take care)\b/i], intent: 'despedida' },
+        { patrones: [/^(thank you|thanks|thank you very much)\b/i], intent: 'agradecimiento' },
+        { patrones: [/who is|about mauricio|profile|tell me about/i], intent: 'sobre_mi' },
+        { patrones: [/experience|background|career/i], intent: 'experiencia' },
+        { patrones: [/project|projects/i], intent: 'proyectos' },
+        { patrones: [/skill|skills|technology|technologies|stack|what does he know/i], intent: 'habilidades' },
+        { patrones: [/contact|email|write to|mail|reach/i], intent: 'contacto' },
+        { patrones: [/language|languages|what languages|translate/i], intent: 'idiomas' },
+      ],
+      ru: [
+        { patrones: [/^(привет|здравствуйте|добрый день|добрый вечер)\b/i], intent: 'saludo' },
+        { patrones: [/^(до свидания|пока|до скорой встречи)\b/i], intent: 'despedida' },
+        { patrones: [/^(спасибо|благодарю)\b/i], intent: 'agradecimiento' },
+        { patrones: [/кто такой|о Маурисио|профиль|расскажи о/i], intent: 'sobre_mi' },
+        { patrones: [/опыт|предыстория|карьера/i], intent: 'experiencia' },
+        { patrones: [/проект|проекты/i], intent: 'proyectos' },
+        { patrones: [/навык|навыки|технология|технологии|стек/i], intent: 'habilidades' },
+        { patrones: [/контакт|почте|написать|связаться/i], intent: 'contacto' },
+        { patrones: [/язык|языки|какие языки|перевод/i], intent: 'idiomas' },
+      ],
+      hi: [
+        { patrones: [/^(नमस्ते|नमस्कार|हैलो|हाय)\b/i], intent: 'saludo' },
+        { patrones: [/^(अलविदा|फिर मिलेंगे|बाय)\b/i], intent: 'despedida' },
+        { patrones: [/^(धन्यवाद|शुक्रिया)\b/i], intent: 'agradecimiento' },
+        { patrones: [/मॉरिसियो कौन है|मॉरिसियो के बारे में|प्रोफाइल/i], intent: 'sobre_mi' },
+        { patrones: [/अनुभव|पृष्ठभूमि|करियर/i], intent: 'experiencia' },
+        { patrones: [/प्रोजेक्ट|प्रोजेक्ट्स/i], intent: 'proyectos' },
+        { patrones: [/स्किल|स्किल्स|तकनीक|तकनीकें/i], intent: 'habilidades' },
+        { patrones: [/संपर्क|ईमेल|लिखें|मेल/i], intent: 'contacto' },
+        { patrones: [/भाषा|भाषाएं|कौन सी भाषा|अनुवाद/i], intent: 'idiomas' },
+      ],
+    };
 
-    for (const intent of ordenados) {
-      for (const pat of intent.patrones) {
+    const listaPatrones = patronesPorIdioma[idioma] || patronesPorIdioma.es;
+    for (const grupo of listaPatrones) {
+      for (const pat of grupo.patrones) {
         if (pat.test(t)) {
-          if (typeof intent.respuesta === 'function') {
-            return intent.respuesta(texto);
-          }
-          if (intent.respuesta) {
-            return intent.respuesta;
-          }
-          // fallback dinámico
-          return RESPUESTAS_GENERICAS[Math.floor(Math.random() * RESPUESTAS_GENERICAS.length)];
+          const claveIntent = grupo.intent;
+          const respuestas = tabla[claveIntent] || tabla.generico;
+          return respuestas[Math.floor(Math.random() * respuestas.length)];
         }
       }
     }
 
-    // Nunca debería llegar acá por el patrón /.*/ de fallback, pero por seguridad:
-    return RESPUESTAS_GENERICAS[0];
+    // Fallback genérico en el idioma detectado
+    return tabla.generico[0];
   }
 
   async function enviar() {
