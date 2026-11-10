@@ -17,6 +17,8 @@
     --border: #330000;
     --accent-glow: rgba(255, 26, 26, 0.35);
     --font-mono: 'Courier Prime', Courier, monospace;
+    --particle-color: rgba(255, 26, 26, 0.35);
+    --particle-line: rgba(255, 170, 0, 0.15);
   }
 
   * {
@@ -31,17 +33,35 @@
     font-family: var(--font-mono);
     line-height: 1.7;
     overflow-x: hidden;
+    height: 100%;
   }
 
-  /* Canvas efecto Matrix (fondo) */
-  #matrix-canvas {
+  /* Capas de fondo */
+  .bg-layer {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
+  }
+
+  #particle-canvas {
+    z-index: -3;
+  }
+
+  #matrix-canvas {
     z-index: -1;
-    opacity: 0.45;
+    opacity: 0.25;
+  }
+
+  .bg-overlay {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%);
+    z-index: -2;
+    backdrop-filter: blur(2px);
+    pointer-events: none;
   }
 
   /* Navegación */
@@ -319,6 +339,11 @@
 </head>
 <body>
 
+<div class="bg-layer">
+  <canvas id="particle-canvas"></canvas>
+  <div class="bg-overlay"></div>
+</div>
+
 <canvas id="matrix-canvas"></canvas>
 
 <nav>
@@ -432,59 +457,201 @@
 </div>
 
 <footer>
-  &copy; <span id="year"></span> Mauricio Gori &middot; Construido con código abierto
+  &copy; <span id="year"></span> Tu Nombre &middot; Construido con código abierto
 </footer>
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  /* Efecto Matrix rojo/cálido */
-  const canvas = document.getElementById('matrix-canvas');
-  const ctx = canvas.getContext('2d');
+  /* ============================================================
+     EFECTO MATRIX (lluvia de código roja/ámbar)
+     ============================================================ */
+  const matrixCanvas = document.getElementById('matrix-canvas');
+  const mctx = matrixCanvas.getContext('2d');
 
-  let width, height;
-  function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+  let mwidth, mheight;
+  function mresize() {
+    mwidth = matrixCanvas.width = window.innerWidth;
+    mheight = matrixCanvas.height = window.innerHeight;
   }
-  window.addEventListener('resize', resize);
-  resize();
+  window.addEventListener('resize', mresize);
+  mresize();
 
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%+-/[~]{}|';
-  const fontSize = 14;
-  const columns = Math.floor(width / fontSize);
-  const drops = [];
+  const mchars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%+-/[~]{}|';
+  const mfontSize = 14;
+  const mcolumns = Math.floor(mwidth / mfontSize);
+  const mdrops = [];
 
-  for (let i = 0; i < columns; i++) {
-    drops[i] = Math.random() * height;
+  for (let i = 0; i < mcolumns; i++) {
+    mdrops[i] = Math.random() * mheight;
   }
 
-  function draw() {
-    ctx.fillStyle = 'rgba(5, 5, 5, 0.15)';
-    ctx.fillRect(0, 0, width, height);
+  function mdraw() {
+    mctx.fillStyle = 'rgba(5, 5, 5, 0.15)';
+    mctx.fillRect(0, 0, mwidth, mheight);
+    mctx.font = mfontSize + 'px monospace';
 
-    ctx.font = fontSize + 'px monospace';
+    for (let i = 0; i < mdrops.length; i++) {
+      const char = mchars[Math.floor(Math.random() * mchars.length)];
+      const x = i * mfontSize;
 
-    for (let i = 0; i < drops.length; i++) {
-      const char = chars[Math.floor(Math.random() * chars.length)];
-      const x = i * fontSize;
+      mctx.fillStyle = '#ffaa00';
+      mctx.fillText(char, x, mdrops[i] * mfontSize);
 
-      ctx.fillStyle = '#ffaa00';
-      ctx.fillText(char, x, drops[i] * fontSize);
+      mctx.fillStyle = '#ff1a1a';
+      mctx.fillText(char, x, (mdrops[i] - 1) * mfontSize);
+      mctx.fillText(char, x, (mdrops[i] - 2) * mfontSize);
 
-      ctx.fillStyle = '#ff1a1a';
-      ctx.fillText(char, x, (drops[i] - 1) * fontSize);
-      ctx.fillText(char, x, (drops[i] - 2) * fontSize);
-
-      if (drops[i] * fontSize > height && Math.random() > 0.975) {
-        drops[i] = 0;
+      if (mdrops[i] * mfontSize > mheight && Math.random() > 0.975) {
+        mdrops[i] = 0;
       }
 
-      drops[i]++;
+      mdrops[i]++;
     }
   }
 
-  setInterval(draw, 50);
+  setInterval(mdraw, 50);
+
+  /* ============================================================
+     FONDO INTERACTIVO DE PARTÍCULAS (constelación)
+     PC: sigue el ratón. Móvil: sigue el dedo.
+     ============================================================ */
+  const pcanvas = document.getElementById('particle-canvas');
+  const pctx = pcanvas.getContext('2d');
+
+  let pwidth, pheight;
+  let particles = [];
+  let mouse = { x: null, y: null, active: false };
+
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+
+    reset() {
+      this.x = Math.random() * pwidth;
+      this.y = Math.random() * pheight;
+      this.vx = (Math.random() - 0.5) * 0.5;
+      this.vy = (Math.random() - 0.5) * 0.5;
+      this.size = Math.random() * 2 + 1;
+      this.alpha = Math.random() * 0.5 + 0.1;
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+
+      // Rebote en bordes
+      if (this.x < 0 || this.x > pwidth) this.vx *= -1;
+      if (this.y < 0 || this.y > pheight) this.vy *= -1;
+
+      // Atracción suave hacia el cursor si está activo
+      if (mouse.active) {
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < 200) {
+          const force = (200 - dist) / 200;
+          this.vx += (dx / dist) * force * 0.02;
+          this.vy += (dy / dist) * force * 0.02;
+        }
+      }
+
+      // Limitar velocidad
+      const speed = Math.hypot(this.vx, this.vy);
+      if (speed > 1.5) {
+        this.vx = (this.vx / speed) * 1.5;
+        this.vy = (this.vy / speed) * 1.5;
+      }
+
+      // Desvanecer partículas muy viejas
+      if (this.alpha > 0) this.alpha -= 0.001;
+      if (this.alpha <= 0) this.reset();
+    }
+
+    draw() {
+      pctx.beginPath();
+      pctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      pctx.fillStyle = `rgba(255, 26, 26, ${this.alpha})`;
+      pctx.fill();
+    }
+  }
+
+  function initParticles() {
+    const count = Math.min(80, Math.floor((pwidth * pheight) / 20000));
+    particles = [];
+    for (let i = 0; i < count; i++) {
+      particles.push(new Particle());
+    }
+  }
+
+  function presize() {
+    pwidth = pcanvas.width = window.innerWidth;
+    pheight = pcanvas.height = window.innerHeight;
+    initParticles();
+  }
+  window.addEventListener('resize', presize);
+  presize();
+
+  function pdraw() {
+    pctx.clearRect(0, 0, pwidth, pheight);
+
+    // Dibujar líneas entre partículas cercanas
+    pctx.beginPath();
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < 150) {
+          const opacity = 1 - dist / 150;
+          pctx.moveTo(particles[i].x, particles[i].y);
+          pctx.lineTo(particles[j].x, particles[j].y);
+          pctx.strokeStyle = `rgba(255, 170, 0, ${opacity * 0.4})`;
+          pctx.lineWidth = 0.8;
+        }
+      }
+    }
+    pctx.stroke();
+
+    // Actualizar y dibujar partículas
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+
+    // Si hay cursor activo, dibujar punto del cursor
+    if (mouse.active) {
+      pctx.beginPath();
+      pctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
+      pctx.fillStyle = 'rgba(255, 170, 0, 0.8)';
+      pctx.fill();
+    }
+
+    requestAnimationFrame(pdraw);
+  }
+
+  pdraw();
+
+  /* Eventos de interacción */
+  function setMouse(x, y, active) {
+    mouse.x = x;
+    mouse.y = y;
+    mouse.active = active;
+  }
+
+  window.addEventListener('mousemove', (e) => setMouse(e.clientX, e.clientY, true));
+  window.addEventListener('mouseleave', () => setMouse(null, null, false));
+
+  window.addEventListener('touchmove', (e) => {
+    const touch = e.touches[0];
+    setMouse(touch.clientX, touch.clientY, true);
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => setMouse(null, null, false));
+
+  // Inicializar partículas tras un pequeño delay para asegurar el primer frame
+  setTimeout(initParticles, 100);
 </script>
 
 </body>
