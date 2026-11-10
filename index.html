@@ -758,6 +758,38 @@
       lastEl = null;
     });
   })();
+
+  /* ============================================================
+     EFECTO ELÉCTRICO EN BORDES (hero y tarjetas de proyecto)
+     JS inyecta una animación de box-shadow que pulsa entre rojo
+     y ámbar, dando sensación de electricidad/neón inestable.
+     ============================================================ */
+  (function () {
+    const style = document.createElement('style');
+    style.textContent = `
+      .electric-border {
+        animation: electric-border 2s ease-in-out infinite;
+      }
+      @keyframes electric-border {
+        0%, 100% {
+          box-shadow: 0 0 10px var(--matrix-red), 0 0 20px rgba(255, 26, 26, 0.3);
+          border-color: var(--matrix-red);
+        }
+        50% {
+          box-shadow: 0 0 20px var(--matrix-amber), 0 0 40px rgba(255, 170, 0, 0.5), 0 0 60px rgba(255, 170, 0, 0.2);
+          border-color: var(--matrix-amber);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    const hero = document.querySelector('.hero');
+    if (hero) hero.classList.add('electric-border');
+
+    document.querySelectorAll('.project-card').forEach(function (card) {
+      card.classList.add('electric-border');
+    });
+  })();
 </script>
 
 </body>
