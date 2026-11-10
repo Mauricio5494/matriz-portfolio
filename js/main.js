@@ -1,6 +1,38 @@
 document.getElementById('year').textContent = new Date().getFullYear();
 
 /* ============================================================
+   CICLADOR DE TEMAS (Matrix / Claro / Sepia)
+   - Guarda la elección en localStorage
+   - Aplica la clase al <body> para que las variables CSS se actualicen
+   - Restaura el tema guardado al cargar la página
+   ============================================================ */
+(function () {
+  const selector = document.getElementById('tema-selector');
+  if (!selector) return;
+
+  const temasValidos = ['matrix', 'claro', 'sepia'];
+  let temaActual = localStorage.getItem('tema-portfolio') || 'matrix';
+
+  function aplicarTema(tema) {
+    if (!temasValidos.includes(tema)) tema = 'matrix';
+    document.body.className = '';
+    if (tema !== 'matrix') {
+      document.body.classList.add('tema-' + tema);
+    }
+    selector.value = tema;
+    localStorage.setItem('tema-portfolio', tema);
+    temaActual = tema;
+  }
+
+  selector.value = temaActual;
+  aplicarTema(temaActual); // aplica clase al body (si es matrix no agrega clase)
+
+  selector.addEventListener('change', function (e) {
+    aplicarTema(e.target.value);
+  });
+})();
+
+/* ============================================================
    EFECTO MATRIX (lluvia de código roja/ámbar)
    Generado enteramente por JavaScript con fondo NEGRO dentro del canvas.
    body es completamente transparente.

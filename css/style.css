@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
+  /* Tema 1: Matrix (oscuro) — por defecto */
   --bg: #050505;
   --panel: #0a0a0a;
   --text: #c9c9c9;
@@ -14,6 +15,38 @@
   --particle-line: rgba(255, 170, 0, 0.15);
   --bloom: 0 0 14px rgba(255, 26, 26, 0.45);
   --bloom-amber: 0 0 14px rgba(255, 170, 0, 0.45);
+}
+
+/* Tema 2: Claro (light) — fondo blanco, texto oscuro */
+body.tema-claro {
+  --bg: #f5f5f5;
+  --panel: #ffffff;
+  --text: #1a1a1a;
+  --matrix-red: #d32f2f;
+  --matrix-red-dark: #8e1e1e;
+  --matrix-amber: #f57c00;
+  --border: #cccccc;
+  --accent-glow: rgba(211, 47, 47, 0.25);
+  --particle-color: rgba(211, 47, 47, 0.25);
+  --particle-line: rgba(245, 124, 0, 0.12);
+  --bloom: 0 0 14px rgba(211, 47, 47, 0.25);
+  --bloom-amber: 0 0 14px rgba(245, 124, 0, 0.25);
+}
+
+/* Tema 3: Sepia cálido — fondo crema, texto marrón suave */
+body.tema-sepia {
+  --bg: #fdf6e3;
+  --panel: #f5e8d0;
+  --text: #583a22;
+  --matrix-red: #b23a48;
+  --matrix-red-dark: #7c2a30;
+  --matrix-amber: #d19a48;
+  --border: #d4c0a8;
+  --accent-glow: rgba(178, 58, 72, 0.25);
+  --particle-color: rgba(178, 58, 72, 0.25);
+  --particle-line: rgba(209, 154, 72, 0.12);
+  --bloom: 0 0 14px rgba(178, 58, 72, 0.25);
+  --bloom-amber: 0 0 14px rgba(209, 154, 72, 0.25);
 }
 
 * {
