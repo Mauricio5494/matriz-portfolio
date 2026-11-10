@@ -534,14 +534,6 @@
     let particles = [];
     let mouse = { x: null, y: null, active: false };
 
-    function presize() {
-      pwidth = pcanvas.width = window.innerWidth;
-      pheight = pcanvas.height = window.innerHeight;
-      initParticles();
-    }
-    window.addEventListener('resize', presize);
-    presize();
-
     class Particle {
       constructor() {
         this.reset();
@@ -591,6 +583,14 @@
         pctx.fill();
       }
     }
+
+    function presize() {
+      pwidth = pcanvas.width = window.innerWidth;
+      pheight = pcanvas.height = window.innerHeight;
+      initParticles();
+    }
+    window.addEventListener('resize', presize);
+    presize();
 
     function initParticles() {
       const count = Math.min(80, Math.floor((pwidth * pheight) / 20000));
