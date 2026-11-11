@@ -224,22 +224,22 @@ h2 {
 }
 
 .service-card {
-  background: rgba(10, 10, 10, 0.95);
-  border: 1px solid var(--border);
+  background: var(--service-card-bg);
+  border: 1px solid var(--service-card-border);
   border-radius: 8px;
   padding: 1.5rem;
   transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
 }
 
 .service-card:hover {
-  border-color: var(--matrix-amber);
+  border-color: var(--service-card-hover-border);
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--service-card-hover-shadow);
 }
 
 .service-card h3 {
   margin-top: 0;
-  color: var(--matrix-amber);
+  color: var(--service-card-title-color);
   font-size: 1.1rem;
   margin-bottom: 0.75rem;
 }
@@ -247,7 +247,7 @@ h2 {
 .service-card p {
   font-size: 0.92rem;
   opacity: 0.9;
-  color: var(--text);
+  color: var(--service-card-text-color);
   line-height: 1.5;
 }
 

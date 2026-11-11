@@ -23,6 +23,14 @@ body.tema-milk-chan {
   --milk-skin: #ebd9bc;   /* piel pálida del juego */
   --milk-hair: #32355a;   /* pelo castaño oscuro */
   --milk-window: rgba(172, 50, 50, 0.15);
+
+  /* Variables de componente: tarjetas de servicio en tema Milk-chan */
+  --service-card-bg: var(--panel);
+  --service-card-border: var(--border);
+  --service-card-title-color: #ac3232;
+  --service-card-text-color: var(--text);
+  --service-card-hover-border: #ac3232;
+  --service-card-hover-shadow: 0 8px 24px rgba(172, 50, 50, 0.15);
 }
 
 /* Ocultar canvas Matrix y oscurecedor en tema milk-chan */

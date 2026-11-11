@@ -233,19 +233,12 @@ body.tema-sepia .typing-indicator span {
   background: var(--text) !important;
 }
 
-/* ── Tarjetas de servicios en tema Sepia ── */
-body.tema-sepia .service-card {
-  background: var(--panel) !important;
-  border-color: var(--border) !important;
-}
-body.tema-sepia .service-card h3 {
-  color: #7c2a30 !important;
-}
-body.tema-sepia .service-card p {
-  color: var(--text) !important;
-  opacity: 1 !important;
-}
-body.tema-sepia .service-card:hover {
-  border-color: #7c2a30 !important;
-  box-shadow: 0 8px 24px rgba(124, 42, 48, 0.15) !important;
+/* ── Variables de componente: tarjetas de servicio en tema Sepia ── */
+body.tema-sepia {
+  --service-card-bg: var(--panel);
+  --service-card-border: var(--border);
+  --service-card-title-color: #7c2a30;
+  --service-card-text-color: var(--text);
+  --service-card-hover-border: #7c2a30;
+  --service-card-hover-shadow: 0 8px 24px rgba(124, 42, 48, 0.15);
 }
