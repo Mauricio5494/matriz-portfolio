@@ -23,6 +23,7 @@ body {
   height: 100vh;
   overflow-y: auto;
   scroll-snap-type: y mandatory;
+  background: transparent; /* deja ver el bg-layer y el fondo del tema */
   -webkit-overflow-scrolling: touch;
   z-index: 1; /* debajo del nav (z-index: 100) */
 }
@@ -31,6 +32,7 @@ body {
 .panel {
   height: 100vh;
   scroll-snap-align: start;
+  background: transparent; /* deja ver el fondo del tema */
   display: flex;
   flex-direction: column;
 }
