@@ -302,6 +302,12 @@ nav a:hover {
   color: var(--matrix-amber);
 }
 
+/* Enlaces del nav: rojo en Matrix oscuro, texto del tema en claro/sepia */
+body.tema-claro nav a,
+body.tema-sepia nav a {
+  color: var(--text);
+}
+
 nav #idioma-selector {
   background: var(--bg);
   color: var(--text);
