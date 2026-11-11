@@ -609,9 +609,12 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
   // Bucle de animación del trail en Canvas
   function drawTrail() {
-    // Limpiar con un trail suave (rgba baja opacidad para dejar rastro)
-    trailCtx.fillStyle = 'rgba(5, 5, 5, 0.25)';
-    trailCtx.fillRect(0, 0, twidth, theight);
+    // Limpiar completamente cada frame: fondo transparente para que se
+    // vea el fondo de la página (negro matrix, blanco claro, crema sepia)
+    trailCtx.clearRect(0, 0, twidth, theight);
+
+    // Las partículas se suman donde se superponen para que brillen
+    trailCtx.globalCompositeOperation = 'lighter';
 
     // Actualizar y dibujar partículas
     for (let i = particles.length - 1; i >= 0; i--) {
@@ -623,6 +626,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
       }
     }
 
+    trailCtx.globalCompositeOperation = 'source-over';
     requestAnimationFrame(drawTrail);
   }
   drawTrail();
