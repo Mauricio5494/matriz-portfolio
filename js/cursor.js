@@ -1,8 +1,7 @@
 /* ============================================================
-   CURSOR PERSONALIZADO — WITCH PUSHEEN
-   - Gatito quieto (idle) y moviéndose (move) según el mouse
-   - Rota según la dirección del movimiento
-   - Trail mágico con Canvas y partículas brillantes
+   CURSOR PERSONALIZADO
+   - Flecha estática (tema Matrix) / círculo rojo-negro (Milk-chan)
+   - Trail tipo Matrix: caracteres que caen como lluvia de código
    - Partículas de impacto mágico al hacer clic
    ============================================================ */
 (function () {
@@ -16,27 +15,33 @@
   const interactivos = 'a, button, select, input, .badge, [data-i18n="proyecto3.demo"]';
   let lastX = 0;
   let lastY = 0;
-  let quietoTimeout = null;
   let twidth, theight;
   let particles = [];
   let impactParticles = [];
 
-  // Colores para el trail y los impactos según el tema.
-  const COLORES_NARANJA = [
-    '#ffaa00', // ámbar matrix
-    '#ff8c00', // naranja oscuro
-    '#ff6600', // naranja
-    '#ff4500', // naranja rojo
+  // Colores tipo Matrix para el trail (a juego con el fondo Matrix)
+  const COLORES_MATRIX = [
+    '#00ff41', // verde matrix brillante
+    '#00cc00', // verde matrix oscuro
+    '#ffaa00', // ámbar matrix (a juego con la flecha)
   ];
+
+  // Caracteres tipo Matrix para el trail del cursor
+  const CHARS_MATRIX = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%+-/[~]{}|';
 
   // Color de partícula según el tema activo:
   // - rojo leche en Milk-chan
-  // - tonalidades anaranjadas en el tema Matrix (y resto)
+  // - verde/ámbar matrix en el tema Matrix (y resto)
   function colorParticula() {
     if (document.body.classList.contains('tema-milk-chan')) {
       return '#ac3232'; // rojo amapola del tema Milk-chan
     }
-    return COLORES_NARANJA[Math.floor(Math.random() * COLORES_NARANJA.length)];
+    return COLORES_MATRIX[Math.floor(Math.random() * COLORES_MATRIX.length)];
+  }
+
+  // Carácter aleatorio tipo Matrix
+  function charMatrix() {
+    return CHARS_MATRIX[Math.floor(Math.random() * CHARS_MATRIX.length)];
   }
 
   // Ajustar tamaño del canvas del trail
@@ -49,86 +54,59 @@
   window.addEventListener('resize', resize);
   resize();
 
-  // Clase Partícula para el trail mágico en Canvas
-  // modo "desdeBorde" (solo tema Milk-chan): nace en el perímetro del círculo
-  // y se dispara radialmente hacia afuera, sin estela de historial.
+  // Clase Partícula para el trail tipo Matrix en Canvas
+  // modo "desdeBorde" (solo tema Milk-chan): punto que sale del borde del círculo
+  // y se dispara radialmente hacia afuera.
+  // modo normal (tema Matrix y resto): carácter tipo Matrix que cae suavemente
+  // como la lluvia de código, desvaneciéndose.
   class TrailParticle {
     constructor(x, y, desdeBorde = false, angulo = 0, velocidad = 0) {
       this.x = x;
       this.y = y;
       this.desdeBorde = desdeBorde;
       this.color = colorParticula();
+      this.char = desdeBorde ? '' : charMatrix();
+      this.fontSize = Math.random() * 10 + 10;
+      this.life = 1.0;
+      this.alpha = Math.random() * 0.6 + 0.4;
 
       if (desdeBorde) {
-        // angulo y velocidad ya vienen calculados desde moverCursor:
-        // dirección radial desde el centro hacia el borde (y más allá).
+        // Milk-chan: dirección radial desde el centro hacia el borde (y más allá).
         this.vx = Math.cos(angulo) * velocidad;
         this.vy = Math.sin(angulo) * velocidad;
-        this.size = Math.random() * 3 + 1.5;
-        this.alpha = Math.random() * 0.5 + 0.4;
-        this.life = 1.0;
         this.decay = Math.random() * 0.06 + 0.03; // se desvanece rápido
-        this.history = [];
-        this.historyLen = 0;
       } else {
-        // Modo normal: partículas que flotan con estela de historial
-        this.vx = (Math.random() - 0.5) * 2;
-        this.vy = (Math.random() - 0.5) * 2 - 1; // tiende a subir un poco
-        this.size = Math.random() * 6 + 3;
-        this.alpha = Math.random() * 0.3 + 0.7;
-        this.life = 1.0;
+        // Matrix: carácter que cae ligeramente hacia abajo y se desvanece
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = Math.random() * 2 + 1;
         this.decay = Math.random() * 0.02 + 0.015;
-        this.history = [];          // estela sutil de posiciones pasadas
-        this.historyLen = 6;
       }
     }
 
     update() {
-      if (this.desdeBorde) {
-        // Movimiento directo radial hacia afuera, sin historial
-        this.x += this.vx;
-        this.y += this.vy;
-      } else {
-        // Guardar posición actual para la estela
-        this.history.push({ x: this.x, y: this.y, alpha: this.alpha });
-        if (this.history.length > this.historyLen) this.history.shift();
-
-        this.x += this.vx;
-        this.y += this.vy;
-      }
+      this.x += this.vx;
+      this.y += this.vy;
       this.life -= this.decay;
       this.alpha = this.life;
-      this.size *= 0.96;
+      this.fontSize *= 0.97;
     }
 
     draw(ctx) {
       ctx.save();
       ctx.fillStyle = this.color;
+      ctx.globalAlpha = this.alpha;
+      ctx.font = this.fontSize + 'px monospace';
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
 
       if (this.desdeBorde) {
-        // Solo el punto actual, sin estela de historial
-        ctx.globalAlpha = this.alpha;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, Math.max(this.fontSize * 0.4, 1), 0, Math.PI * 2);
         ctx.fill();
       } else {
-        // Dibujar estela: posiciones pasadas más pequeñas y transparentes
-        for (let i = 0; i < this.history.length; i++) {
-          const p = this.history[i];
-          const t = i / this.history.length; // 0 = más vieja, 1 = más reciente
-          ctx.globalAlpha = p.alpha * (1 - t * 0.7);
-          const s = this.size * (0.35 + t * 0.65);
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, s, 0, Math.PI * 2);
-          ctx.fill();
-        }
-
-        // Punto actual: más sólido y grande
-        ctx.globalAlpha = this.alpha;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.fillText(this.char, this.x, this.y);
       }
+
       ctx.restore();
     }
   }
@@ -170,33 +148,15 @@
     }
   }
 
-  // --- Movimiento del cursor y detección de movimiento/quietud ---
+  // --- Movimiento del cursor ---
   function moverCursor(x, y) {
-    const dx = x - lastX;
-    const dy = y - lastY;
-
-    // Si hay movimiento real: rotar y mostrar imagen de vuelo
-    if (dx !== 0 || dy !== 0) {
-      const angulo = Math.atan2(dy, dx) * (180 / Math.PI);
-      cursor.style.transform = `translate(-50%, -50%) rotate(${angulo + 180}deg)`;
-      cursor.classList.add('moviendose');
-    }
-
     cursor.style.left = x + 'px';
     cursor.style.top = y + 'px';
 
     lastX = x;
     lastY = y;
 
-    // Detectar que se está moviendo: resetear timeout de quietud
-    if (quietoTimeout) clearTimeout(quietoTimeout);
-    quietoTimeout = setTimeout(() => {
-      // Al quedar quieto: imagen estática idle y rotación 0deg
-      cursor.classList.remove('moviendose');
-      cursor.style.transform = 'translate(-50%, -50%) rotate(0deg)';
-    }, 150);
-
-    // Emitir partículas de trail mágico
+    // Emitir caracteres de trail tipo Matrix
     if (document.body.classList.contains('tema-milk-chan')) {
       // Milk-chan: el trail brota de los bordes del círculo y sale hacia afuera,
       // nunca hacia el medio del cursor.
