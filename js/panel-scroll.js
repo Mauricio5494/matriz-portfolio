@@ -51,27 +51,6 @@
     });
   }
 
-  // Al cargar, navegar al panel indicado por el hash de la URL (ej: #sobre-mi)
-  // o al primer panel si no hay hash válido. scroll-snap nativo no funciona
-  // con anclas porque el scroll ocurre dentro de .panel-scroll, no en document.
-  function initFromHash() {
-    var hash = window.location.hash.slice(1);
-    if (hash && panelById[hash] !== undefined) {
-      goTo(panelById[hash]);
-    } else {
-      goTo(0);
-    }
-  }
-
-  // Pequeño delay para asegurar que el DOM y los estilos estén listos
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(initFromHash, 50);
-    });
-  } else {
-    setTimeout(initFromHash, 50);
-  }
-
   // Navegación por enlaces del nav (anclas # no funcionan nativamente
   // porque el scroll ocurre dentro de .panel-scroll, no en document)
   var navLinks = document.querySelectorAll('nav a[href^="#"]');
@@ -83,7 +62,6 @@
       if (targetIndex !== undefined) {
         event.preventDefault();
         goTo(targetIndex);
-        window.location.hash = targetId;
       }
     });
   });
