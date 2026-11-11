@@ -13,8 +13,6 @@
   --font-mono: 'Courier Prime', Courier, monospace;
   --particle-color: rgba(255, 26, 26, 0.35);
   --particle-line: rgba(255, 170, 0, 0.15);
-  --bloom: 0 0 14px rgba(255, 26, 26, 0.45);
-  --bloom-amber: 0 0 14px rgba(255, 170, 0, 0.45);
 }
 
 /* Tema 2: Claro (light) — fondo blanco suave, texto oscuro suave */
@@ -28,11 +26,8 @@ body.tema-claro {
   --matrix-red-dark: #8e1e1e;
   --matrix-amber: #f57c00;
   --border: #dddddd;
-  --accent-glow: rgba(211, 47, 47, 0.2);
   --particle-color: rgba(211, 47, 47, 0.2);
   --particle-line: rgba(245, 124, 0, 0.1);
-  --bloom: 0 0 14px rgba(211, 47, 47, 0.2);
-  --bloom-amber: 0 0 14px rgba(245, 124, 0, 0.2);
 }
 
 /* Tema 3: Sepia cálido — fondo crema, texto marrón suave */
@@ -46,11 +41,8 @@ body.tema-sepia {
   --matrix-red-dark: #7c2a30;
   --matrix-amber: #d19a48;
   --border: #d4c0a8;
-  --accent-glow: rgba(178, 58, 72, 0.25);
   --particle-color: rgba(178, 58, 72, 0.25);
   --particle-line: rgba(209, 154, 72, 0.12);
-  --bloom: 0 0 14px rgba(178, 58, 72, 0.25);
-  --bloom-amber: 0 0 14px rgba(209, 154, 72, 0.25);
 }
 
 /* Ocultar canvas Matrix y oscurecedor de fondo en temas claros */
@@ -73,21 +65,6 @@ body.tema-sepia h2 {
   color: #4a148c !important;
 }
 
-/* ── Bloom púrpura en bordes eléctricos para tema claro ── */
-body.tema-claro .electric-border {
-  animation-name: electric-border-purpura;
-}
-
-@keyframes electric-border-purpura {
-  0%, 100% {
-    box-shadow: 0 0 2px #5e35b1, 0 0 4px rgba(94, 53, 177, 0.1);
-    border-color: #5e35b1;
-  }
-  50% {
-    box-shadow: 0 0 4px #7e57c2, 0 0 8px rgba(126, 87, 194, 0.15), 0 0 12px rgba(126, 87, 194, 0.05);
-    border-color: #7e57c2;
-  }
-}
 
 /* ── Cursor sin blend invertido en temas claros ── */
 body.tema-claro #cursor-custom,
@@ -169,10 +146,8 @@ body.tema-claro .chat-toggle {
   background: #fafafa !important;
   border-color: #d32f2f !important;
   color: #f57c00 !important;
-  box-shadow: 0 0 15px rgba(211, 47, 47, 0.2) !important;
 }
 body.tema-claro .chat-toggle:hover {
-  box-shadow: 0 0 25px rgba(245, 124, 0, 0.4) !important;
 }
 body.tema-claro .chat-clear {
   border-color: #8e1e1e !important;
@@ -186,23 +161,21 @@ body.tema-claro .typing-indicator span {
   background: #f57c00 !important;
 }
 
-/* ── Letras del Hero en tema claro: púrpura con bloom en lugar de naranja ── */
+/* ── Letras del Hero en tema claro: púrpura en lugar de naranja ── */
 body.tema-claro .hero h1,
 body.tema-claro .hero-nombre {
   color: #5e35b1 !important;
-  text-shadow: 0 0 2px #5e35b1, 0 0 4px #7e57c2 !important;
 }
 body.tema-claro .hero h2,
 body.tema-claro .hero-subtitulo {
   color: #5e35b1 !important;
-  text-shadow: 0 0 2px #5e35b1 !important;
 }
 body.tema-claro .hero p {
   color: #222222 !important;
   opacity: 1 !important;
 }
 
-/* ── Badge del Hero en tema claro: bloom en letras y crece un poco al pasar el mouse ── */
+/* ── Badge del Hero en tema claro ── */
 body.tema-claro .badge {
   border-color: #8e44ad !important;
   color: #6a1b9a !important;
@@ -220,7 +193,6 @@ body.tema-claro .hero a {
 }
 body.tema-claro .hero a:hover {
   color: #4a148c !important;
-  text-shadow: 0 0 8px #8e44ad !important;
 }
 
 /* ── Habilidades en tema claro: azul en lugar de naranja ── */
@@ -264,8 +236,6 @@ body {
   flex-direction: column;
   /* Bloqueamos el cursor nativo; usaremos uno personalizado */
   cursor: none;
-  /* Bloom sutil en todas las letras de la página */
-  text-shadow: var(--bloom);
 }
 
 /* Capas de fondo */
@@ -325,12 +295,11 @@ nav a {
   letter-spacing: 1px;
   font-size: 0.95rem;
   white-space: nowrap;
-  transition: color 0.2s, text-shadow 0.2s;
+  transition: color 0.2s;
 }
 
 nav a:hover {
   color: var(--matrix-amber);
-  text-shadow: 0 0 10px var(--accent-glow);
 }
 
 nav #idioma-selector {
@@ -367,7 +336,6 @@ nav #idioma-selector option {
   border: 1px solid var(--border);
   background: rgba(10, 10, 10, 0.95);
   border-radius: 8px;
-  box-shadow: 0 0 25px rgba(255, 26, 26, 0.06);
   margin-bottom: 2rem;
 }
 
@@ -375,7 +343,6 @@ nav #idioma-selector option {
   font-size: 2.4rem;
   margin: 0.5rem 0;
   color: var(--matrix-amber);
-  text-shadow: 0 0 12px var(--accent-glow);
   letter-spacing: 1px;
 }
 
@@ -466,7 +433,7 @@ h2 {
 
 .skill-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(255, 26, 26, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   border-color: var(--matrix-red);
 }
 
@@ -522,7 +489,7 @@ h2 {
 .project-card:hover {
   border-color: var(--matrix-red);
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(255, 26, 26, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
 .project-card h3 {
@@ -707,8 +674,8 @@ footer {
   color: var(--matrix-amber);
   font-size: 1.5rem;
   cursor: pointer;
-  box-shadow: 0 0 15px var(--accent-glow);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s;
+}
   display: flex;
   align-items: center;
   justify-content: center;
@@ -716,7 +683,6 @@ footer {
 
 .chat-toggle:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 25px rgba(255, 170, 0, 0.6);
 }
 
 .chat-toggle:active {
@@ -733,7 +699,7 @@ footer {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 10px;
-  box-shadow: 0 0 30px rgba(255, 26, 26, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   flex-direction: column;
   overflow: hidden;
   opacity: 0;
