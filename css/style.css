@@ -184,6 +184,44 @@ body.tema-claro .typing-indicator span {
   background: #f57c00 !important;
 }
 
+/* ── Letras del Hero en tema claro: púrpura con bloom en lugar de naranja ── */
+body.tema-claro .hero h1,
+body.tema-claro .hero-nombre {
+  color: #6a1b9a !important;
+  text-shadow: 0 0 10px #8e44ad, 0 0 20px #9b59b6, 0 0 35px #8e44ad !important;
+}
+body.tema-claro .hero h2,
+body.tema-claro .hero-subtitulo {
+  color: #6a1b9a !important;
+  text-shadow: 0 0 8px #8e44ad !important;
+}
+body.tema-claro .hero p {
+  color: #222222 !important;
+  opacity: 1 !important;
+}
+
+/* ── Badge del Hero en tema claro: bloom en letras y crece un poco al pasar el mouse ── */
+body.tema-claro .badge {
+  border-color: #8e44ad !important;
+  color: #6a1b9a !important;
+}
+body.tema-claro .badge:hover {
+  background: transparent !important;
+  color: #4a148c !important;
+  text-shadow: 0 0 10px #8e44ad, 0 0 20px #9b59b6 !important;
+  transform: scale(1.08) !important;
+  transition: all 0.2s ease !important;
+}
+
+/* ── Enlaces del Hero en tema claro ── */
+body.tema-claro .hero a {
+  color: #6a1b9a !important;
+}
+body.tema-claro .hero a:hover {
+  color: #4a148c !important;
+  text-shadow: 0 0 8px #8e44ad !important;
+}
+
 * {
   box-sizing: border-box;
 }
