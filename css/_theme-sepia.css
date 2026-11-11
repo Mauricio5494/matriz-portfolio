@@ -150,6 +150,11 @@ body.tema-sepia #cursor-custom.activo {
   height: 64px !important;
 }
 
+body.tema-sepia #cursor-custom::before,
+body.tema-sepia #cursor-custom::after {
+  display: none !important;
+}
+
 /* ── Nav hover en tema Sepia ── */
 body.tema-sepia nav a:hover {
   color: #b23a48 !important;

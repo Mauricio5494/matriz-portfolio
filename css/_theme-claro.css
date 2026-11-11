@@ -150,6 +150,11 @@ body.tema-claro #cursor-custom.activo {
   height: 64px !important;
 }
 
+body.tema-claro #cursor-custom::before,
+body.tema-claro #cursor-custom::after {
+  display: none !important;
+}
+
 /* ── Nav hover en tema Claro ── */
 body.tema-claro nav a:hover {
   color: #303f9f !important;

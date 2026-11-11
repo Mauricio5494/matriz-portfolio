@@ -15,6 +15,7 @@
   const interactivos = 'a, button, select, input, .badge, [data-i18n="proyecto3.demo"]';
   let lastX = 0;
   let lastY = 0;
+  let quietoTimeout = null;
   let twidth, theight;
   let particles = [];
   let impactParticles = [];
@@ -160,25 +161,36 @@
     cursor.style.left = x + 'px';
     cursor.style.top = y + 'px';
 
+    const esClaroOSepia = document.body.classList.contains('tema-claro') || document.body.classList.contains('tema-sepia');
+
+    if (esClaroOSepia) {
+      // Cambiar imagen del gatito: movimiento vs quieto, sin rotación procedural
+      if (x !== lastX || y !== lastY) {
+        cursor.classList.add('moviendose');
+        if (quietoTimeout) clearTimeout(quietoTimeout);
+        quietoTimeout = setTimeout(() => {
+          cursor.classList.remove('moviendose');
+        }, 150);
+      }
+    }
+
     lastX = x;
     lastY = y;
 
-    // Emitir caracteres de trail tipo Matrix
+    // Emitir trail solo para Matrix y Milk-chan (claro y sepia no tienen trail)
     if (document.body.classList.contains('tema-milk-chan')) {
-      // Milk-chan: el trail brota de los bordes del círculo y sale hacia afuera,
-      // nunca hacia el medio del cursor.
-      const radio = 10; // mitad del ancho del cursor (20px / 2)
+      // Milk-chan: píxeles rojos desde el borde del círculo, hacia afuera
+      const radio = 10;
       const cantidad = 2;
       for (let c = 0; c < cantidad; c++) {
         const angulo = Math.random() * Math.PI * 2;
         const px = x + Math.cos(angulo) * radio;
         const py = y + Math.sin(angulo) * radio;
-        // Dirección radial: desde el centro hacia el borde (y más allá), nunca hacia adentro
         const velocidad = Math.random() * 2.5 + 1.5;
         particles.push(new TrailParticle(px, py, true, angulo, velocidad));
       }
-    } else {
-      // Otros temas: trail normal desde el centro del cursor
+    } else if (!esClaroOSepia) {
+      // Matrix y resto: trail de caracteres tipo Matrix desde el centro
       const cantidad = Math.random() > 0.5 ? 2 : 1;
       for (let c = 0; c < cantidad; c++) {
         particles.push(new TrailParticle(x, y));
