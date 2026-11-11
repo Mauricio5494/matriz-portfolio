@@ -10,7 +10,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
   const selector = document.getElementById('tema-selector');
   if (!selector) return;
 
-  const temasValidos = ['matrix', 'claro', 'sepia'];
+  const temasValidos = ['matrix', 'claro', 'sepia', 'vino'];
   let temaActual = localStorage.getItem('tema-portfolio') || 'matrix';
 
   function aplicarTema(tema) {

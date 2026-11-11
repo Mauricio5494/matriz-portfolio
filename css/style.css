@@ -45,6 +45,125 @@ body.tema-sepia {
   --particle-line: rgba(209, 154, 72, 0.12);
 }
 
+/* Tema 4: Vino tinto — degradado negro → rojo vivo */
+body.tema-vino {
+  background: #000008 !important;
+  text-shadow: none !important;
+  --bg: #000008;
+  --panel: #450C1C;
+  --text: #D2042D;
+  --matrix-red: #A8192D;
+  --matrix-red-dark: #450C1C;
+  --matrix-amber: #D2042D;
+  --border: #70002C;
+  --accent-glow: rgba(168, 25, 45, 0.2);
+  --particle-color: rgba(168, 25, 45, 0.2);
+  --particle-line: rgba(210, 4, 45, 0.1);
+}
+
+/* Ocultar canvas Matrix y oscurecedor en tema vino */
+body.tema-vino #matrix-canvas {
+  display: none !important;
+}
+body.tema-vino .bg-overlay {
+  background: transparent !important;
+}
+
+/* Títulos de sección en tema vino */
+body.tema-vino h2 {
+  color: #D2042D !important;
+}
+
+/* Fondos de tarjetas y secciones en tema vino */
+body.tema-vino .hero,
+body.tema-vino .skill-card,
+body.tema-vino .project-card,
+body.tema-vino .contacto {
+  background: var(--panel) !important;
+}
+
+/* Enlaces del nav en tema vino */
+body.tema-claro nav a,
+body.tema-sepia nav a,
+body.tema-vino nav a {
+  color: var(--text);
+}
+
+/* ── Chat widget en tema vino ── */
+body.tema-vino #chat-panel {
+  background: var(--panel) !important;
+}
+body.tema-vino .chat-header {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--text) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.tema-vino .chat-messages {
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+body.tema-vino .message.bot .bubble {
+  background: rgba(0, 0, 0, 0.08) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-vino .message.user .bubble {
+  background: var(--matrix-amber) !important;
+  color: #000000 !important;
+}
+body.tema-vino .chat-footer {
+  background: var(--panel) !important;
+  border-top-color: var(--border) !important;
+}
+body.tema-vino .chat-footer input {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+body.tema-vino .chat-footer input:focus {
+  border-color: var(--text) !important;
+}
+body.tema-vino .chat-footer button {
+  background: var(--text) !important;
+  color: #ffffff !important;
+}
+body.tema-vino .chat-footer button:hover {
+  background: var(--border) !important;
+}
+body.tema-vino #chat-input::placeholder {
+  color: rgba(0, 0, 0, 0.4) !important;
+}
+body.tema-vino .chat-quick-replies {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.tema-vino .chat-quick-replies .qr {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-vino .chat-quick-replies .qr:hover {
+  background: var(--text) !important;
+  border-color: var(--text) !important;
+  color: #ffffff !important;
+}
+body.tema-vino .chat-toggle {
+  background: var(--panel) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-vino .chat-toggle:hover {
+}
+body.tema-vino .chat-clear {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-vino .chat-clear:hover {
+  background: var(--border) !important;
+  color: #ffffff !important;
+}
+body.tema-vino .typing-indicator span {
+  background: var(--text) !important;
+}
+
 /* Ocultar canvas Matrix y oscurecedor de fondo en temas claros */
 body.tema-claro #matrix-canvas,
 body.tema-sepia #matrix-canvas {
