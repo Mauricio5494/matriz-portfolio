@@ -506,9 +506,15 @@ document.getElementById('year').textContent = new Date().getFullYear();
       this.color = COLORES_MAGICOS[Math.floor(Math.random() * COLORES_MAGICOS.length)];
       this.life = 1.0;
       this.decay = Math.random() * 0.02 + 0.015;
+      this.history = [];          // estela sutil de posiciones pasadas
+      this.historyLen = 6;
     }
 
     update() {
+      // Guardar posición actual para la estela
+      this.history.push({ x: this.x, y: this.y, alpha: this.alpha });
+      if (this.history.length > this.historyLen) this.history.shift();
+
       this.x += this.vx;
       this.y += this.vy;
       this.life -= this.decay;
@@ -518,8 +524,21 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
     draw(ctx) {
       ctx.save();
-      ctx.globalAlpha = this.alpha;
       ctx.fillStyle = this.color;
+
+      // Dibujar estela: posiciones pasadas más pequeñas y transparentes
+      for (let i = 0; i < this.history.length; i++) {
+        const p = this.history[i];
+        const t = i / this.history.length; // 0 = más vieja, 1 = más reciente
+        ctx.globalAlpha = p.alpha * (1 - t * 0.7);
+        const s = this.size * (0.35 + t * 0.65);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, s, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Punto actual: más sólido y grande
+      ctx.globalAlpha = this.alpha;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fill();
