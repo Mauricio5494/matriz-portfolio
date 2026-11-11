@@ -68,9 +68,9 @@
       this.life = 1.0;
 
       if (desdeBorde) {
-        // Milk-chan: punto rojo que sale del borde del círculo hacia afuera.
+        // Milk-chan: píxel rojo que sale del borde del círculo hacia afuera.
         this.char = '';
-        this.size = Math.random() * 3 + 1.5;
+        this.size = Math.random() * 4 + 2;
         this.alpha = Math.random() * 0.5 + 0.4;
         this.vx = Math.cos(angulo) * velocidad;
         this.vy = Math.sin(angulo) * velocidad;
@@ -94,6 +94,8 @@
 
       if (!this.desdeBorde) {
         this.fontSize *= 0.97;
+      } else {
+        this.size *= 0.96; // el píxel se encoge al desvanecerse
       }
     }
 
@@ -103,9 +105,8 @@
       ctx.globalAlpha = this.alpha;
 
       if (this.desdeBorde) {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+        // Milk-chan: píxel (cuadrado) en lugar de círculo
+        ctx.fillRect(this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
       } else {
         ctx.font = this.fontSize + 'px monospace';
         ctx.textBaseline = 'middle';
