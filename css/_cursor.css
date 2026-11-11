@@ -1,0 +1,57 @@
+/* ============================================================
+   CURSOR PERSONALIZADO — WITCH PUSHEEN
+   ============================================================ */
+
+#cursor-custom {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 48px;
+  height: 48px;
+  pointer-events: none;
+  z-index: 5000;
+  transform: translate(-50%, -50%);
+  /* Imagen por defecto: gatito quieto */
+  background-image: url('../img/cursor-pusheen-idle.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.15s ease, width 0.18s ease, height 0.18s ease;
+  mix-blend-mode: difference;
+}
+
+/* Cuando se mueve el mouse: imagen de gatito volando */
+#cursor-custom.moviendose {
+  background-image: url('../img/cursor-pusheen-move.png');
+}
+
+/* Estado activo: sobre elementos interactivos → más grande */
+#cursor-custom.activo {
+  width: 64px;
+  height: 64px;
+}
+
+/* Estela mágica con Canvas — partículas brillantes que dejan el cursor */
+#cursor-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9998;
+  mix-blend-mode: normal;
+}
+
+/* Partículas de clic/impacto mágico (Canvas) */
+#cursor-impact {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9997;
+  mix-blend-mode: normal;
+  display: block;
+}

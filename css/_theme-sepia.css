@@ -1,0 +1,208 @@
+/* ============================================================
+   TEMA SEPIA — Variables y variaciones de componentes
+   Fondo crema, texto marrón suave, acentos en sepia (#7c2a30)
+   ============================================================ */
+
+/* ── Variables del tema Sepia ── */
+body.tema-sepia {
+  background: #fdf6e3 !important;
+  text-shadow: none !important;
+  --bg: #fdf6e3;
+  --panel: #f5e8d0;
+  --text: #583a22;
+  --matrix-red: #b23a48;
+  --matrix-red-dark: #7c2a30;
+  --matrix-amber: #d19a48;
+  --border: #d4c0a8;
+  --particle-color: rgba(178, 58, 72, 0.25);
+  --particle-line: rgba(209, 154, 72, 0.12);
+}
+
+/* Ocultar canvas Matrix y oscurecedor en tema sepia */
+body.tema-sepia #matrix-canvas {
+  display: none !important;
+}
+body.tema-sepia .bg-overlay {
+  background: transparent !important;
+}
+
+/* ── Fondos de tarjetas y paneles ── */
+body.tema-sepia .hero,
+body.tema-sepia .skill-card,
+body.tema-sepia .project-card,
+body.tema-sepia .contacto {
+  background: var(--panel) !important;
+  border-color: var(--border) !important;
+}
+
+/* ── Títulos y headers en marrón/sepia ── */
+body.tema-sepia h2,
+body.tema-sepia .hero h1,
+body.tema-sepia .hero-nombre,
+body.tema-sepia .hero h2,
+body.tema-sepia .hero-subtitulo,
+body.tema-sepia .skill-card h3,
+body.tema-sepia .project-card h3 {
+  color: #7c2a30 !important;
+}
+
+body.tema-sepia .hero p {
+  color: #583a22 !important;
+  opacity: 0.95 !important;
+}
+
+/* ── Nav y selectores ── */
+body.tema-sepia nav a {
+  color: #7c2a30 !important;
+}
+body.tema-sepia nav #idioma-selector,
+body.tema-sepia nav #idioma-selector option {
+  color: #7c2a30 !important;
+  border-color: #7c2a30 !important;
+}
+
+/* ── Badge ── */
+body.tema-sepia .badge {
+  border-color: #7c2a30 !important;
+  color: #7c2a30 !important;
+}
+body.tema-sepia .badge:hover {
+  background: #7c2a30 !important;
+  color: #ffffff !important;
+  transform: scale(1.08) !important;
+  transition: all 0.2s ease !important;
+}
+
+/* ── Enlaces ── */
+body.tema-sepia .hero a {
+  color: #7c2a30 !important;
+}
+body.tema-sepia .hero a:hover {
+  color: #b23a48 !important;
+}
+body.tema-sepia .skill-card li:hover {
+  color: #b23a48 !important;
+}
+body.tema-sepia .project-card .tag {
+  border-color: #bbbbbb !important;
+  color: #7c2a30 !important;
+  background: rgba(124, 42, 48, 0.05) !important;
+}
+body.tema-sepia .project-card .tag:hover {
+  background: rgba(124, 42, 48, 0.12) !important;
+}
+
+/* ── Contacto ── */
+body.tema-sepia .contacto a {
+  color: #7c2a30 !important;
+}
+body.tema-sepia .contacto a:hover {
+  color: #b23a48 !important;
+  border-bottom-color: rgba(178, 58, 72, 0.6) !important;
+}
+
+/* ── Chat ── */
+body.tema-sepia .chat-toggle {
+  border-color: #7c2a30 !important;
+  color: #7c2a30 !important;
+}
+body.tema-sepia .chat-quick-replies .qr {
+  border-color: #7c2a30 !important;
+  color: #7c2a30 !important;
+}
+body.tema-sepia .chat-quick-replies .qr:hover {
+  background: #7c2a30 !important;
+  border-color: #7c2a30 !important;
+  color: #ffffff !important;
+}
+body.tema-sepia .chat-clear {
+  border-color: #7c2a30 !important;
+  color: #7c2a30 !important;
+}
+body.tema-sepia .chat-clear:hover {
+  background: #7c2a30 !important;
+  color: #ffffff !important;
+}
+
+/* ── Cursor en tema Sepia ── */
+body.tema-sepia #cursor-custom {
+  mix-blend-mode: normal !important;
+}
+
+/* ── Nav hover en tema Sepia ── */
+body.tema-sepia nav a:hover {
+  color: #b23a48 !important;
+}
+
+/* ── Chat en tema Sepia ── */
+body.tema-sepia #chat-panel {
+  background: var(--panel) !important;
+}
+body.tema-sepia .chat-header {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--text) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.tema-sepia .chat-messages {
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+body.tema-sepia .message.bot .bubble {
+  background: rgba(0, 0, 0, 0.08) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-sepia .message.user .bubble {
+  background: var(--matrix-amber) !important;
+  color: #000000 !important;
+}
+body.tema-sepia .chat-footer {
+  background: var(--panel) !important;
+  border-top-color: var(--border) !important;
+}
+body.tema-sepia .chat-footer input {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+body.tema-sepia .chat-footer input:focus {
+  border-color: var(--text) !important;
+}
+body.tema-sepia .chat-footer button {
+  background: var(--text) !important;
+  color: #ffffff !important;
+}
+body.tema-sepia .chat-footer button:hover {
+  background: var(--border) !important;
+}
+body.tema-sepia #chat-input::placeholder {
+  color: rgba(0, 0, 0, 0.4) !important;
+}
+body.tema-sepia .chat-quick-replies {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.tema-sepia .chat-quick-replies .qr {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-sepia .chat-quick-replies .qr:hover {
+  background: var(--text) !important;
+  border-color: var(--text) !important;
+  color: #ffffff !important;
+}
+body.tema-sepia .chat-toggle {
+  background: var(--panel) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-sepia .chat-clear {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-sepia .chat-clear:hover {
+  background: var(--border) !important;
+  color: #ffffff !important;
+}
+body.tema-sepia .typing-indicator span {
+  background: var(--text) !important;
+}

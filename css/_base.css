@@ -1,0 +1,150 @@
+/* ============================================================
+   BASE — Reset, cuerpo, layout y navegación
+   ============================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-mono);
+  line-height: 1.7;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* Bloqueamos el cursor nativo; usaremos uno personalizado */
+  cursor: none;
+}
+
+/* Capas de fondo */
+.bg-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -6;
+}
+
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+}
+
+/* Overlay muy sutil, detrás de todo, solo para dar profundidad */
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: -5;
+  pointer-events: none;
+}
+
+/* Navegación */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.75rem 0;
+}
+
+nav a {
+  color: var(--matrix-red);
+  text-decoration: none;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+nav a:hover {
+  color: var(--matrix-amber);
+}
+
+nav #idioma-selector {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+nav #idioma-selector option {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Contenedor principal */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 4rem;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+/* Responsive: navegación en móviles */
+@media (max-width: 640px) {
+  nav ul {
+    gap: 1rem;
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .container {
+    padding: 6rem 1rem 4rem;
+  }
+}
+
+/* Elementos exclusivos del tema Milk-chan — ocultos por defecto */
+.sun-black-hole,
+.city-scape,
+.milk-chan-watermark,
+#milk-hole-canvas {
+  display: none !important;
+}
+
+/* Ajuste en móviles: no hay cursor que siga al dedo */
+@media (hover: none) and (pointer: coarse) {
+  #cursor-custom,
+  #cursor-trail,
+  #cursor-impact {
+    display: none;
+  }
+  html,
+  body {
+    cursor: auto;
+  }
+}

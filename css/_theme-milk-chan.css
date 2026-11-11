@@ -1,0 +1,309 @@
+/* ============================================================
+   TEMA MILK-CHAN — Fondo ciudad nocturna / sol-agujero negro
+   Estética inspirada en "Milk Outside a Bag of Milk" (canon verificado):
+   - Paleta de 3 colores del juego: #0d0d14 (fondo), #ac3232 (rojo amapola), #52263e (gris rosado)
+   - "O" es el Sol que ella percibe como agujero negro / abismo en el cielo
+   - Fondo rojo opresivo, edificios en silueta píxel, Milk-chan acurrucada
+   ============================================================ */
+
+/* ── Variables del tema Milk-chan ── */
+body.tema-milk-chan {
+  background: #0d0d14 !important;
+  text-shadow: none !important;
+  --bg: #0d0d14;
+  --panel: #0a0a0c;
+  --text: #ff6666;
+  --matrix-red: #ac3232;
+  --matrix-red-dark: #1c070c;
+  --matrix-amber: #ebd9bc;
+  --border: #52263e;
+  --accent-glow: rgba(172, 50, 50, 0.3);
+  --particle-color: rgba(172, 50, 50, 0.25);
+  --particle-line: rgba(255, 102, 102, 0.1);
+  --milk-skin: #ebd9bc;   /* piel pálida del juego */
+  --milk-hair: #32355a;   /* pelo castaño oscuro */
+  --milk-window: rgba(172, 50, 50, 0.15);
+}
+
+/* Ocultar canvas Matrix y oscurecedor en tema milk-chan */
+body.tema-milk-chan #matrix-canvas {
+  display: none !important;
+}
+body.tema-milk-chan .bg-overlay {
+  background: transparent !important;
+}
+
+/* Mostrar elementos exclusivos de Milk-chan solo en este tema */
+body.tema-milk-chan .sun-black-hole {
+  display: block !important;
+}
+body.tema-milk-chan .city-scape {
+  display: block !important;
+}
+body.tema-milk-chan .milk-chan-watermark {
+  display: block !important;
+}
+body.tema-milk-chan #milk-hole-canvas {
+  display: block !important;
+}
+
+/* ── Capa de fondo con arte (reemplaza el gradiente estático) ── */
+body.tema-milk-chan .bg-layer {
+  overflow: visible;
+}
+
+/* ── Fondo rojo opresivo degradado ── */
+body.tema-milk-chan .bg-layer::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -4;
+  background: linear-gradient(
+    to bottom,
+    #1c070c 0%,
+    #0d0d14 35%,
+    #0a0a0c 100%
+  );
+}
+
+/* ── Sol / Agujero Negro (el "O" / abismo en el cielo) ── */
+.sun-black-hole {
+  position: fixed;
+  top: 12vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -3;
+  width: 300px;
+  height: 300px;
+  pointer-events: none;
+}
+
+.sun-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 14px solid transparent;
+  animation: sun-ring-spin linear infinite;
+}
+
+.sun-ring.outer {
+  border-top-color: rgba(172, 50, 50, 0.35);
+  border-bottom-color: rgba(172, 50, 50, 0.35);
+  animation-duration: 10s;
+  animation-direction: normal;
+  width: 300px;
+  height: 300px;
+}
+
+.sun-ring.middle {
+  border-top-color: rgba(172, 50, 50, 0.2);
+  border-bottom-color: rgba(172, 50, 50, 0.2);
+  animation-duration: 14s;
+  animation-direction: reverse;
+  width: 210px;
+  height: 210px;
+  top: 45px;
+  left: 45px;
+}
+
+.sun-ring.inner {
+  border-top-color: rgba(172, 50, 50, 0.5);
+  border-bottom-color: rgba(172, 50, 50, 0.5);
+  animation-duration: 7s;
+  animation-direction: normal;
+  width: 140px;
+  height: 140px;
+  top: 80px;
+  left: 80px;
+}
+
+.sun-core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 40%,
+    #000000 0%,
+    #1c070c 45%,
+    rgba(172, 50, 50, 0.12) 100%
+  );
+  box-shadow: 0 0 70px rgba(172, 50, 50, 0.3),
+              0 0 140px rgba(172, 50, 50, 0.15);
+  border: 2px solid rgba(172, 50, 50, 0.25);
+}
+
+@keyframes sun-ring-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── Ciudad en silueta píxel (borde inferior) ── */
+.city-scape {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 32vh;
+  z-index: -2;
+  pointer-events: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  padding: 0 3vw;
+}
+
+.building {
+  position: relative;
+  background: #0a0a0c;
+  width: 9vw;
+  border-top: 2px solid #000000;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  box-shadow: inset -2px -2px 0 #000000;
+}
+
+.building.b1 { height: 20vh; }
+.building.b2 { height: 28vh; }
+.building.b3 { height: 16vh; }
+.building.b4 { height: 24vh; }
+.building.b5 { height: 18vh; }
+.building.b6 { height: 22vh; }
+
+/* Ventanas píxel (estilo box-shadow puro) */
+.window {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background: #1c070c;
+  box-shadow:
+    /* fila 1 */
+    4px 0 0 #52263e, 10px 0 0 #52263e,
+    /* fila 2 */
+    4px 4px 0 #52263e, 10px 4px 0 #52263e,
+    /* fila 3 */
+    4px 8px 0 #52263e, 10px 8px 0 #52263e;
+  opacity: 0.85;
+}
+
+/* Ventanas encendidas (rojo amapola) parpadeantes */
+.window.on {
+  background: #ac3232;
+  box-shadow:
+    4px 0 0 #ac3232, 10px 0 0 #ac3232,
+    4px 4px 0 #ac3232, 10px 4px 0 #ac3232,
+    4px 8px 0 #ac3232, 10px 8px 0 #ac3232;
+  animation: window-flicker 3s infinite alternate;
+}
+
+.window.on.flicker {
+  animation-duration: 2.5s;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes window-flicker {
+  0%, 94%, 100% { opacity: 1; }
+  95% { opacity: 0.35; }
+  96% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .window.on.flicker { animation: none !important; opacity: 1; }
+  .sun-ring { animation: none !important; }
+}
+
+/* ── Milk-chan marca de agua semi-transparente (sigue el scroll) ── */
+.milk-chan-watermark {
+  position: absolute;
+  top: 25vh;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 340px;
+  height: auto;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: -1;
+  filter: grayscale(0.25) contrast(1.1) brightness(1.05);
+  background-image: url('../img/milk-chan.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* ── Fondos de tarjetas y paneles en tema milk-chan ── */
+body.tema-milk-chan .hero,
+body.tema-milk-chan .skill-card,
+body.tema-milk-chan .project-card,
+body.tema-milk-chan .contacto {
+  background: var(--panel) !important;
+  border-color: var(--border) !important;
+}
+
+/* ── Títulos y headers en rojo leche ── */
+body.tema-milk-chan h2,
+body.tema-milk-chan .hero h1,
+body.tema-milk-chan .hero-nombre,
+body.tema-milk-chan .hero h2,
+body.tema-milk-chan .hero-subtitulo,
+body.tema-milk-chan .skill-card h3,
+body.tema-milk-chan .project-card h3 {
+  color: #ac3232 !important;
+}
+
+body.tema-milk-chan .hero p {
+  color: var(--milk-skin) !important;
+  opacity: 0.9 !important;
+}
+
+/* ── Nav ── */
+body.tema-milk-chan nav a {
+  color: var(--text) !important;
+}
+
+/* ── Nav hover ── */
+body.tema-milk-chan nav a:hover {
+  color: #ff6666 !important;
+}
+
+/* ── Cursor en tema Milk-chan ── */
+body.tema-milk-chan #cursor-custom {
+  mix-blend-mode: normal !important;
+}
+
+/* ── Badge ── */
+body.tema-milk-chan .badge {
+  border-color: #ac3232 !important;
+  color: #ac3232 !important;
+}
+body.tema-milk-chan .badge:hover {
+  background: #ac3232 !important;
+  color: #000000 !important;
+}
+
+/* ── Enlaces ── */
+body.tema-milk-chan .skill-card li:hover {
+  color: #ff6666 !important;
+}
+body.tema-milk-chan .project-card .tag {
+  border-color: var(--matrix-red-dark) !important;
+  color: var(--matrix-red) !important;
+}
+body.tema-milk-chan .contacto a {
+  color: #ac3232 !important;
+}
+body.tema-milk-chan .contacto a:hover {
+  color: #ff6666 !important;
+  border-bottom-color: rgba(255, 102, 102, 0.6) !important;
+}
+
+/* ── Canvas para partículas sutiles (polvo/angustia) ── */
+#milk-hole-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  display: none;
+}
+
+body.tema-milk-chan #milk-hole-canvas {
+  display: block;
+}

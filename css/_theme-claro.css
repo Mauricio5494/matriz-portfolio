@@ -1,0 +1,208 @@
+/* ============================================================
+   TEMA CLARO — Variables y variaciones de componentes
+   Fondo blanco suave, texto oscuro, acentos en azul oscuro (#1a237e)
+   ============================================================ */
+
+/* ── Variables del tema Claro ── */
+body.tema-claro {
+  background: #f4f4f4 !important;
+  text-shadow: none !important;
+  --bg: #f4f4f4;
+  --panel: #fafafa;
+  --text: #222222;
+  --matrix-red: #d32f2f;
+  --matrix-red-dark: #8e1e1e;
+  --matrix-amber: #f57c00;
+  --border: #dddddd;
+  --particle-color: rgba(211, 47, 47, 0.2);
+  --particle-line: rgba(245, 124, 0, 0.1);
+}
+
+/* Ocultar canvas Matrix y oscurecedor en tema claro */
+body.tema-claro #matrix-canvas {
+  display: none !important;
+}
+body.tema-claro .bg-overlay {
+  background: transparent !important;
+}
+
+/* ── Fondos de tarjetas y paneles ── */
+body.tema-claro .hero,
+body.tema-claro .skill-card,
+body.tema-claro .project-card,
+body.tema-claro .contacto {
+  background: var(--panel) !important;
+  border-color: var(--border) !important;
+}
+
+/* ── Títulos y headers en azul oscuro ── */
+body.tema-claro h2,
+body.tema-claro .hero h1,
+body.tema-claro .hero-nombre,
+body.tema-claro .hero h2,
+body.tema-claro .hero-subtitulo,
+body.tema-claro .skill-card h3,
+body.tema-claro .project-card h3 {
+  color: #1a237e !important;
+}
+
+body.tema-claro .hero p {
+  color: #222222 !important;
+  opacity: 1 !important;
+}
+
+/* ── Nav y selectores ── */
+body.tema-claro nav a {
+  color: #1a237e !important;
+}
+body.tema-claro nav #idioma-selector,
+body.tema-claro nav #idioma-selector option {
+  color: #1a237e !important;
+  border-color: #1a237e !important;
+}
+
+/* ── Badge ── */
+body.tema-claro .badge {
+  border-color: #1a237e !important;
+  color: #1a237e !important;
+}
+body.tema-claro .badge:hover {
+  background: #1a237e !important;
+  color: #ffffff !important;
+  transform: scale(1.08) !important;
+  transition: all 0.2s ease !important;
+}
+
+/* ── Enlaces ── */
+body.tema-claro .hero a {
+  color: #1a237e !important;
+}
+body.tema-claro .hero a:hover {
+  color: #303f9f !important;
+}
+body.tema-claro .skill-card li:hover {
+  color: #303f9f !important;
+}
+body.tema-claro .project-card .tag {
+  border-color: #bbbbbb !important;
+  color: #1a237e !important;
+  background: rgba(26, 35, 126, 0.05) !important;
+}
+body.tema-claro .project-card .tag:hover {
+  background: rgba(26, 35, 126, 0.12) !important;
+}
+
+/* ── Contacto ── */
+body.tema-claro .contacto a {
+  color: #1a237e !important;
+}
+body.tema-claro .contacto a:hover {
+  color: #303f9f !important;
+  border-bottom-color: rgba(26, 35, 126, 0.6) !important;
+}
+
+/* ── Chat ── */
+body.tema-claro .chat-toggle {
+  border-color: #1a237e !important;
+  color: #1a237e !important;
+}
+body.tema-claro .chat-quick-replies .qr {
+  border-color: #1a237e !important;
+  color: #1a237e !important;
+}
+body.tema-claro .chat-quick-replies .qr:hover {
+  background: #1a237e !important;
+  border-color: #1a237e !important;
+  color: #ffffff !important;
+}
+body.tema-claro .chat-clear {
+  border-color: #1a237e !important;
+  color: #1a237e !important;
+}
+body.tema-claro .chat-clear:hover {
+  background: #1a237e !important;
+  color: #ffffff !important;
+}
+
+/* ── Cursor en tema Claro ── */
+body.tema-claro #cursor-custom {
+  mix-blend-mode: normal !important;
+}
+
+/* ── Nav hover en tema Claro ── */
+body.tema-claro nav a:hover {
+  color: #303f9f !important;
+}
+
+/* ── Chat en tema Claro ── */
+body.tema-claro #chat-panel {
+  background: var(--panel) !important;
+}
+body.tema-claro .chat-header {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--text) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.tema-claro .chat-messages {
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+body.tema-claro .message.bot .bubble {
+  background: rgba(0, 0, 0, 0.08) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-claro .message.user .bubble {
+  background: var(--matrix-amber) !important;
+  color: #000000 !important;
+}
+body.tema-claro .chat-footer {
+  background: var(--panel) !important;
+  border-top-color: var(--border) !important;
+}
+body.tema-claro .chat-footer input {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+body.tema-claro .chat-footer input:focus {
+  border-color: var(--text) !important;
+}
+body.tema-claro .chat-footer button {
+  background: var(--text) !important;
+  color: #ffffff !important;
+}
+body.tema-claro .chat-footer button:hover {
+  background: var(--border) !important;
+}
+body.tema-claro #chat-input::placeholder {
+  color: rgba(0, 0, 0, 0.4) !important;
+}
+body.tema-claro .chat-quick-replies {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.tema-claro .chat-quick-replies .qr {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-claro .chat-quick-replies .qr:hover {
+  background: var(--text) !important;
+  border-color: var(--text) !important;
+  color: #ffffff !important;
+}
+body.tema-claro .chat-toggle {
+  background: var(--panel) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-claro .chat-clear {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-claro .chat-clear:hover {
+  background: var(--border) !important;
+  color: #ffffff !important;
+}
+body.tema-claro .typing-indicator span {
+  background: var(--text) !important;
+}
