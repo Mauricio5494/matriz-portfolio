@@ -1,0 +1,70 @@
+/* ============================================================
+   SCROLL ANIMATIONS — Reveal interactivo al hacer scroll
+   Elementos con clase .reveal se animan al entrar al viewport
+   ============================================================ */
+
+/* Estado inicial: ocultos y desplazados */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Estado activo: visibles */
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Variación: deslizar desde la izquierda */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-left.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Variación: deslizar desde la derecha */
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-right.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Variación: zoom suave */
+.reveal-zoom {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-zoom.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger para elementos en grids (hijos de .reveal-group) */
+.reveal-group > .reveal {
+  transition-delay: var(--reveal-delay, 0s);
+}
+
+/* Reducido movimiento para accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-zoom {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

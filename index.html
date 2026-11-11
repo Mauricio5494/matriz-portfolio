@@ -76,7 +76,7 @@
     <!-- Milk-chan marca de agua semi-transparente (sigue el scroll, detrás del contenido) -->
     <div class="milk-chan-watermark"></div>
 
-    <header class="hero fade-in">
+    <header class="hero reveal fade-in">
       <h1><span data-i18n="hero.titulo">Desarrollador de Software</span><br><span class="hero-nombre">Mauricio Gori</span></h1>
       <h2 class="hero-subtitulo" data-i18n="hero.subtitulo">Desarrollador de Software</h2>
       <h2 data-i18n="hero.enfoque">Enfoque en Python, JavaScript y automatización creativa</h2>
@@ -84,7 +84,7 @@
       <span class="badge" data-i18n="hero.badge">Código abierto &middot; En constante aprendizaje</span>
     </header>
 
-    <section id="sobre-mi" class="fade-in">
+    <section id="sobre-mi" class="reveal fade-in">
       <h2 data-i18n="seccion.sobre-mi">Sobre mí</h2>
       <div class="sobre-mi">
         <p data-i18n="sobre-mi.p1">Soy desarrollador de software con interés en crear soluciones prácticas para problemas concretos. Mi experiencia abarca scripting en Python, desarrollo web con JavaScript/TypeScript, y herramientas de automatización para entornos creativos como Blender.</p>
@@ -92,10 +92,10 @@
       </div>
     </section>
 
-    <section id="habilidades" class="fade-in">
+    <section id="habilidades" class="reveal fade-in">
       <h2 data-i18n="seccion.habilidades">Habilidades</h2>
-      <div class="skills-grid">
-        <div class="skill-card">
+      <div class="skills-grid reveal-group">
+        <div class="skill-card reveal">
           <h3 data-i18n="skills.lenguajes">Lenguajes</h3>
           <ul>
             <li data-i18n="skill.python">Python</li>
@@ -108,7 +108,7 @@
             <li data-i18n="skill.rust">Rust</li>
           </ul>
         </div>
-        <div class="skill-card">
+        <div class="skill-card reveal">
           <h3 data-i18n="skills.frontend">Frontend</h3>
           <ul>
             <li data-i18n="skill.react">React</li>
@@ -121,7 +121,7 @@
             <li data-i18n="skill.localstorage">LocalStorage</li>
           </ul>
         </div>
-        <div class="skill-card">
+        <div class="skill-card reveal">
           <h3 data-i18n="skills.backend">Backend &amp; DevOps</h3>
           <ul>
             <li data-i18n="skill.nodejs">Node.js</li>
@@ -131,7 +131,7 @@
             <li data-i18n="skill.cicd">CI/CD básico</li>
           </ul>
         </div>
-        <div class="skill-card">
+        <div class="skill-card reveal">
           <h3 data-i18n="skills.creativas">Herramientas creativas</h3>
           <ul>
             <li data-i18n="skill.blender">Blender (Python API)</li>
@@ -142,10 +142,10 @@
       </div>
     </section>
 
-    <section id="proyectos" class="fade-in">
+    <section id="proyectos" class="reveal fade-in">
       <h2 data-i18n="seccion.proyectos">Proyectos</h2>
-      <div class="projects-grid">
-        <div class="project-card">
+      <div class="projects-grid reveal-group">
+        <div class="project-card reveal">
           <h3 data-i18n="proyecto1.titulo">Validador de assets para motor de juegos</h3>
           <p data-i18n="proyecto1.desc">Herramienta en Python para validar archivos de motor (.inc, .ext, .mdl) y detectar errores comunes antes de instalar mods en el juego.</p>
           <div class="tags">
@@ -157,7 +157,7 @@
             <a href="https://github.com/Mauricio5494/GEM2Engine_files_validator" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;">Ver código en GitHub →</a>
           </p>
         </div>
-        <div class="project-card">
+        <div class="project-card reveal">
           <h3 data-i18n="proyecto2.titulo">Analizador de game.log para Proton/Wine</h3>
           <p data-i18n="proyecto2.desc">Utilidad que lee logs de juegos ejecutados bajo Proton y traduce errores del motor a pasos de solución para modders.</p>
           <div class="tags">
@@ -169,7 +169,7 @@
             <a href="https://github.com/Mauricio5494/PWLA_Proton-Wine-Log-Analyzer" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;">Ver código en GitHub →</a>
           </p>
         </div>
-        <div class="project-card">
+        <div class="project-card reveal">
           <h3 data-i18n="proyecto3.titulo">Panel de administración Full Stack</h3>
           <p data-i18n="proyecto3.desc">Panel web con autenticación JWT, gestión de usuarios, subida de imágenes y exportación a CSV.</p>
           <div class="tags">
@@ -184,7 +184,7 @@
       </div>
     </section>
 
-    <section id="contacto" class="contacto fade-in">
+    <section id="contacto" class="contacto reveal fade-in">
       <h2 data-i18n="seccion.contacto">Contacto</h2>
       <p data-i18n="contacto.p1">¿Tienes un proyecto en mente? Escríbeme:</p>
       <p><a href="mailto:mauriciogorilluberas@gmail.com" data-i18n="contacto.email">mauriciogorilluberas@gmail.com</a></p>
@@ -226,5 +226,6 @@
   <script src="js/cursor.js?v=2" defer></script>
   <script src="js/chat.js?v=2" defer></script>
 <script src="js/milk-hole.js?v=2" defer></script>
+<script src="js/scroll-anim.js?v=2" defer></script>
 </body>
 </html>
