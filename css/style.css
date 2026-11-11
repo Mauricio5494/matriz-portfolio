@@ -45,12 +45,12 @@ body.tema-sepia {
   --particle-line: rgba(209, 154, 72, 0.12);
 }
 
-/* Tema 4: Vino tinto — degradado negro → rojo vivo */
-body.tema-vino {
+/* Tema 4: Milk-chan — agujero negro / vórtice con paleta rojo oscuro */
+body.tema-milk-chan {
   background: #000008 !important;
   text-shadow: none !important;
   --bg: #000008;
-  --panel: #450C1C;
+  --panel: #0a0a0a;
   --text: #D2042D;
   --matrix-red: #A8192D;
   --matrix-red-dark: #450C1C;
@@ -61,106 +61,137 @@ body.tema-vino {
   --particle-line: rgba(210, 4, 45, 0.1);
 }
 
-/* Ocultar canvas Matrix y oscurecedor en tema vino */
-body.tema-vino #matrix-canvas {
+/* Ocultar canvas Matrix y oscurecedor en tema milk-chan */
+body.tema-milk-chan #matrix-canvas {
   display: none !important;
 }
-body.tema-vino .bg-overlay {
+body.tema-milk-chan .bg-overlay {
   background: transparent !important;
 }
 
-/* Títulos de sección en tema vino */
-body.tema-vino h2 {
+/* ── Fondo animado: agujero negro / vórtice ── */
+.black-hole {
+  position: fixed;
+  inset: 0;
+  z-index: -6;
+  background: radial-gradient(circle, #1a0000 0%, #000000 60%, #000000 100%);
+  overflow: hidden;
+}
+
+.black-hole::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    #70002C 25%,
+    #450C1C 50%,
+    #70002C 75%,
+    transparent 100%
+  );
+  animation: blackhole-spin 12s linear infinite;
+  filter: blur(60px);
+  opacity: 0.55;
+}
+
+@keyframes blackhole-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Títulos de sección en tema milk-chan */
+body.tema-milk-chan h2 {
   color: #D2042D !important;
 }
 
-/* Fondos de tarjetas y secciones en tema vino */
-body.tema-vino .hero,
-body.tema-vino .skill-card,
-body.tema-vino .project-card,
-body.tema-vino .contacto {
+/* Fondos de tarjetas y secciones en tema milk-chan */
+body.tema-milk-chan .hero,
+body.tema-milk-chan .skill-card,
+body.tema-milk-chan .project-card,
+body.tema-milk-chan .contacto {
   background: var(--panel) !important;
 }
 
-/* Enlaces del nav en tema vino */
+/* Enlaces del nav en tema milk-chan */
 body.tema-claro nav a,
 body.tema-sepia nav a,
-body.tema-vino nav a {
+body.tema-milk-chan nav a {
   color: var(--text);
 }
 
-/* ── Chat widget en tema vino ── */
-body.tema-vino #chat-panel {
+/* ── Chat widget en tema milk-chan ── */
+body.tema-milk-chan #chat-panel {
   background: var(--panel) !important;
 }
-body.tema-vino .chat-header {
+body.tema-milk-chan .chat-header {
   background: rgba(0, 0, 0, 0.05) !important;
   color: var(--text) !important;
   border-bottom-color: var(--border) !important;
 }
-body.tema-vino .chat-messages {
+body.tema-milk-chan .chat-messages {
   background: rgba(0, 0, 0, 0.03) !important;
 }
-body.tema-vino .message.bot .bubble {
+body.tema-milk-chan .message.bot .bubble {
   background: rgba(0, 0, 0, 0.08) !important;
   border-color: var(--border) !important;
   color: var(--text) !important;
 }
-body.tema-vino .message.user .bubble {
+body.tema-milk-chan .message.user .bubble {
   background: var(--matrix-amber) !important;
   color: #000000 !important;
 }
-body.tema-vino .chat-footer {
+body.tema-milk-chan .chat-footer {
   background: var(--panel) !important;
   border-top-color: var(--border) !important;
 }
-body.tema-vino .chat-footer input {
+body.tema-milk-chan .chat-footer input {
   background: rgba(0, 0, 0, 0.05) !important;
   color: var(--text) !important;
   border-color: var(--border) !important;
 }
-body.tema-vino .chat-footer input:focus {
+body.tema-milk-chan .chat-footer input:focus {
   border-color: var(--text) !important;
 }
-body.tema-vino .chat-footer button {
+body.tema-milk-chan .chat-footer button {
   background: var(--text) !important;
   color: #ffffff !important;
 }
-body.tema-vino .chat-footer button:hover {
+body.tema-milk-chan .chat-footer button:hover {
   background: var(--border) !important;
 }
-body.tema-vino #chat-input::placeholder {
+body.tema-milk-chan #chat-input::placeholder {
   color: rgba(0, 0, 0, 0.4) !important;
 }
-body.tema-vino .chat-quick-replies {
+body.tema-milk-chan .chat-quick-replies {
   background: rgba(0, 0, 0, 0.05) !important;
   border-bottom-color: var(--border) !important;
 }
-body.tema-vino .chat-quick-replies .qr {
+body.tema-milk-chan .chat-quick-replies .qr {
   border-color: var(--border) !important;
   color: var(--text) !important;
 }
-body.tema-vino .chat-quick-replies .qr:hover {
+body.tema-milk-chan .chat-quick-replies .qr:hover {
   background: var(--text) !important;
   border-color: var(--text) !important;
   color: #ffffff !important;
 }
-body.tema-vino .chat-toggle {
+body.tema-milk-chan .chat-toggle {
   background: var(--panel) !important;
   border-color: var(--border) !important;
   color: var(--text) !important;
 }
-body.tema-vino .chat-toggle:hover {
+body.tema-milk-chan .chat-toggle:hover {
 }
-body.tema-vino .chat-clear {
+body.tema-milk-chan .chat-clear {
   border-color: var(--border) !important;
   color: var(--text) !important;
 }
-body.tema-vino .chat-clear:hover {
+body.tema-milk-chan .chat-clear:hover {
   background: var(--border) !important;
   color: #ffffff !important;
 }
-body.tema-vino .typing-indicator span {
+body.tema-milk-chan .typing-indicator span {
   background: var(--text) !important;
 }
 
