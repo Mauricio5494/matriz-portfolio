@@ -264,9 +264,25 @@ body.tema-milk-chan nav a:hover {
   color: #ff6666 !important;
 }
 
-/* ── Cursor en tema Milk-chan ── */
+/* ── Cursor en tema Milk-chan: círculo negro bordeado de rojo ── */
 body.tema-milk-chan #cursor-custom {
   mix-blend-mode: normal !important;
+  background-image: none !important;
+  background: #000000 !important;
+  border: 2.5px solid var(--matrix-red) !important;
+  border-radius: 50% !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+body.tema-milk-chan #cursor-custom.activo {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+body.tema-milk-chan #cursor-custom.moviendose {
+  background-image: none !important;
+  background: #000000 !important;
 }
 
 /* ── Badge ── */
