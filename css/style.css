@@ -78,12 +78,12 @@ body.tema-claro .electric-border {
 
 @keyframes electric-border-purpura {
   0%, 100% {
-    box-shadow: 0 0 2px #8e44ad, 0 0 4px rgba(142, 68, 173, 0.1);
-    border-color: #8e44ad;
+    box-shadow: 0 0 2px #5e35b1, 0 0 4px rgba(94, 53, 177, 0.1);
+    border-color: #5e35b1;
   }
   50% {
-    box-shadow: 0 0 4px #9b59b6, 0 0 8px rgba(155, 89, 182, 0.15), 0 0 12px rgba(155, 89, 182, 0.05);
-    border-color: #9b59b6;
+    box-shadow: 0 0 4px #7e57c2, 0 0 8px rgba(126, 87, 194, 0.15), 0 0 12px rgba(126, 87, 194, 0.05);
+    border-color: #7e57c2;
   }
 }
 
@@ -187,13 +187,13 @@ body.tema-claro .typing-indicator span {
 /* ── Letras del Hero en tema claro: púrpura con bloom en lugar de naranja ── */
 body.tema-claro .hero h1,
 body.tema-claro .hero-nombre {
-  color: #6a1b9a !important;
-  text-shadow: 0 0 2px #8e44ad, 0 0 4px #9b59b6 !important;
+  color: #5e35b1 !important;
+  text-shadow: 0 0 2px #5e35b1, 0 0 4px #7e57c2 !important;
 }
 body.tema-claro .hero h2,
 body.tema-claro .hero-subtitulo {
-  color: #6a1b9a !important;
-  text-shadow: 0 0 2px #8e44ad !important;
+  color: #5e35b1 !important;
+  text-shadow: 0 0 2px #5e35b1 !important;
 }
 body.tema-claro .hero p {
   color: #222222 !important;
@@ -208,7 +208,6 @@ body.tema-claro .badge {
 body.tema-claro .badge:hover {
   background: transparent !important;
   color: #4a148c !important;
-  text-shadow: 0 0 2px #8e44ad, 0 0 4px #9b59b6 !important;
   transform: scale(1.08) !important;
   transition: all 0.2s ease !important;
 }
