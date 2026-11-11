@@ -638,7 +638,7 @@ footer {
   height: 100vh;
   pointer-events: none;
   z-index: 9998;
-  mix-blend-mode: screen;
+  mix-blend-mode: normal;
 }
 
 /* Partículas de clic/impacto mágico (Canvas) */
@@ -650,7 +650,7 @@ footer {
   height: 100vh;
   pointer-events: none;
   z-index: 9997;
-  mix-blend-mode: screen;
+  mix-blend-mode: normal;
   display: block;
 }
 

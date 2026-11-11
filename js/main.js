@@ -476,12 +476,12 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
   // Colores mágicos de fantasía para el trail y los impactos
   const COLORES_MAGICOS = [
-    '#bf00ff', // morado brujo
-    '#ff00ff', // rosa mágico
-    '#00ffff', // cyan brillante
-    '#ffd700', // dorado
-    '#e0bbff', // lavanda
-    '#ff69b4', // rosa fuerte
+    '#00ff41', // verde matrix (destaca sobre blanco y negro)
+    '#ff0055', // rosa neón intenso
+    '#00ccff', // azul cian profundo
+    '#ffaa00', // ámbar matrix
+    '#cc00ff', // púrpura intenso
+    '#00ffaa', // verde primavera
   ];
 
   // Ajustar tamaño del canvas del trail
@@ -501,8 +501,8 @@ document.getElementById('year').textContent = new Date().getFullYear();
       this.y = y;
       this.vx = (Math.random() - 0.5) * 2;
       this.vy = (Math.random() - 0.5) * 2 - 1; // tiende a subir un poco
-      this.size = Math.random() * 4 + 2;
-      this.alpha = Math.random() * 0.4 + 0.6;
+      this.size = Math.random() * 6 + 3;
+      this.alpha = Math.random() * 0.3 + 0.7;
       this.color = COLORES_MAGICOS[Math.floor(Math.random() * COLORES_MAGICOS.length)];
       this.life = 1.0;
       this.decay = Math.random() * 0.02 + 0.015;
@@ -520,8 +520,6 @@ document.getElementById('year').textContent = new Date().getFullYear();
       ctx.save();
       ctx.globalAlpha = this.alpha;
       ctx.fillStyle = this.color;
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = this.color;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fill();
@@ -538,8 +536,8 @@ document.getElementById('year').textContent = new Date().getFullYear();
       const velocidad = Math.random() * 6 + 2;
       this.vx = Math.cos(angulo) * velocidad;
       this.vy = Math.sin(angulo) * velocidad;
-      this.size = Math.random() * 5 + 2;
-      this.alpha = Math.random() * 0.4 + 0.6;
+      this.size = Math.random() * 7 + 3;
+      this.alpha = Math.random() * 0.3 + 0.7;
       this.color = COLORES_MAGICOS[Math.floor(Math.random() * COLORES_MAGICOS.length)];
       this.life = 1.0;
       this.decay = Math.random() * 0.04 + 0.02;
@@ -559,8 +557,6 @@ document.getElementById('year').textContent = new Date().getFullYear();
       ctx.save();
       ctx.globalAlpha = this.alpha;
       ctx.fillStyle = this.color;
-      ctx.shadowBlur = 12;
-      ctx.shadowColor = this.color;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fill();
@@ -576,7 +572,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
     // Si hay movimiento real: rotar y mostrar imagen de vuelo
     if (dx !== 0 || dy !== 0) {
       const angulo = Math.atan2(dy, dx) * (180 / Math.PI);
-      cursor.style.transform = `translate(-50%, -50%) rotate(${angulo}deg)`;
+      cursor.style.transform = `translate(-50%, -50%) rotate(${angulo + 180}deg)`;
       cursor.classList.add('moviendose');
     }
 
