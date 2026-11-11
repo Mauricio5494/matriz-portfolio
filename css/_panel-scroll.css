@@ -23,7 +23,6 @@ body {
   height: 100vh;
   overflow-y: auto;
   scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   z-index: 1; /* debajo del nav (z-index: 100) */
 }
@@ -32,7 +31,6 @@ body {
 .panel {
   height: 100vh;
   scroll-snap-align: start;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
@@ -61,7 +59,7 @@ body {
 /* Reducido movimiento */
 @media (prefers-reduced-motion: reduce) {
   .panel-scroll {
-    scroll-behavior: auto;
+    scroll-snap-type: y proximity;
   }
   .panel {
     scroll-snap-align: none;
