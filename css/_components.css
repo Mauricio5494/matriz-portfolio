@@ -68,6 +68,27 @@
   color: #000;
 }
 
+/* ── CTA hero ── */
+.cta-hero {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1.5rem;
+  border: 1px solid var(--matrix-amber);
+  color: var(--matrix-amber);
+  background: rgba(255, 170, 0, 0.1);
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.cta-hero:hover {
+  background: var(--matrix-amber);
+  color: #000;
+  border-color: var(--matrix-amber);
+}
+
 /* ── Secciones generales ── */
 section {
   margin-top: 3rem;
@@ -192,6 +213,42 @@ h2 {
   color: var(--matrix-red);
   border-radius: 4px;
   background: rgba(255, 26, 26, 0.05);
+}
+
+/* ── Servicios ── */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.service-card {
+  background: rgba(10, 10, 10, 0.95);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+.service-card:hover {
+  border-color: var(--matrix-amber);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.service-card h3 {
+  margin-top: 0;
+  color: var(--matrix-amber);
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.service-card p {
+  font-size: 0.92rem;
+  opacity: 0.9;
+  color: var(--text);
+  line-height: 1.5;
 }
 
 /* ── Contacto ── */
