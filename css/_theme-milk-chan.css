@@ -280,6 +280,11 @@ body.tema-milk-chan #cursor-custom.activo {
   height: 28px !important;
 }
 
+body.tema-milk-chan #cursor-custom::before,
+body.tema-milk-chan #cursor-custom::after {
+  display: none !important;
+}
+
 body.tema-milk-chan #cursor-custom.moviendose {
   background-image: none !important;
   background: #000000 !important;
