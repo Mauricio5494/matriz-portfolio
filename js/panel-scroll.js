@@ -14,6 +14,15 @@
 
   if (!panels.length || !container) return;
 
+  // Mapear id de sección → índice de panel
+  var panelById = {};
+  panels.forEach(function(panel, idx) {
+    var section = panel.querySelector('section');
+    if (section && section.id) {
+      panelById[section.id] = idx;
+    }
+  });
+
   // currentIndex como única fuente de verdad: el panel ~60% visible
   var currentIndex = 0;
 
@@ -41,6 +50,21 @@
       block: 'start'
     });
   }
+
+  // Navegación por enlaces del nav (anclas # no funcionan nativamente
+  // porque el scroll ocurre dentro de .panel-scroll, no en document)
+  var navLinks = document.querySelectorAll('nav a[href^="#"]');
+  navLinks.forEach(function(link) {
+    link.addEventListener('click', function(event) {
+      var href = link.getAttribute('href');
+      var targetId = href.slice(1); // quitar el #
+      var targetIndex = panelById[targetId];
+      if (targetIndex !== undefined) {
+        event.preventDefault();
+        goTo(targetIndex);
+      }
+    });
+  });
 
   // Navegación con teclado: solo teclas de navegación,
   // sin bloqueo de 800 ms, sin trabar controles de formulario.
