@@ -222,6 +222,26 @@ body.tema-claro .hero a:hover {
   text-shadow: 0 0 8px #8e44ad !important;
 }
 
+/* ── Habilidades en tema claro: azul en lugar de naranja ── */
+body.tema-claro .skill-card h3 {
+  color: #1a237e !important;
+  border-bottom-color: #bbbbbb !important;
+}
+body.tema-claro .skill-card li:hover {
+  color: #303f9f !important;
+}
+body.tema-claro .project-card h3 {
+  color: #1a237e !important;
+}
+body.tema-claro .project-card .tag {
+  border-color: #bbbbbb !important;
+  color: #1a237e !important;
+  background: rgba(26, 35, 126, 0.05) !important;
+}
+body.tema-claro .project-card .tag:hover {
+  background: rgba(26, 35, 126, 0.12) !important;
+}
+
 * {
   box-sizing: border-box;
 }
