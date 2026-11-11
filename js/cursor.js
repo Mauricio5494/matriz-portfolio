@@ -21,23 +21,22 @@
   let particles = [];
   let impactParticles = [];
 
-  // Colores mágicos de fantasía para el trail y los impactos
-  const COLORES_MAGICOS = [
-    '#00ff41', // verde matrix (destaca sobre blanco y negro)
-    '#ff0055', // rosa neón intenso
-    '#00ccff', // azul cian profundo
+  // Colores para el trail y los impactos según el tema.
+  const COLORES_NARANJA = [
     '#ffaa00', // ámbar matrix
-    '#cc00ff', // púrpura intenso
-    '#00ffaa', // verde primavera
+    '#ff8c00', // naranja oscuro
+    '#ff6600', // naranja
+    '#ff4500', // naranja rojo
   ];
 
-  // Color de partícula según el tema activo: rojo leche en Milk-chan,
-  // colores mágicos aleatorios en los demás temas.
+  // Color de partícula según el tema activo:
+  // - rojo leche en Milk-chan
+  // - tonalidades anaranjadas en el tema Matrix (y resto)
   function colorParticula() {
     if (document.body.classList.contains('tema-milk-chan')) {
       return '#ac3232'; // rojo amapola del tema Milk-chan
     }
-    return COLORES_MAGICOS[Math.floor(Math.random() * COLORES_MAGICOS.length)];
+    return COLORES_NARANJA[Math.floor(Math.random() * COLORES_NARANJA.length)];
   }
 
   // Ajustar tamaño del canvas del trail

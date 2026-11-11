@@ -6,29 +6,56 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 48px;
-  height: 48px;
+  width: 24px;
+  height: 24px;
   pointer-events: none;
   z-index: 5000;
   transform: translate(-50%, -50%);
-  /* Imagen por defecto: gatito quieto */
-  background-image: url('../img/cursor-pusheen-idle.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  background-image: none !important;
+  background-color: transparent !important;
   transition: transform 0.15s ease, width 0.18s ease, height 0.18s ease;
   mix-blend-mode: difference;
 }
 
-/* Cuando se mueve el mouse: imagen de gatito volando */
-#cursor-custom.moviendose {
-  background-image: url('../img/cursor-pusheen-move.png');
+/* Borde naranja de la flecha (tema Matrix) */
+#cursor-custom::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 13px solid #ffaa00;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+/* Flecha oscura para el tema Matrix (por defecto) */
+#cursor-custom::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 10px solid #1a1a1a;
+  transform: translate(-50%, -50%);
+  z-index: 1;
 }
 
 /* Estado activo: sobre elementos interactivos → más grande */
 #cursor-custom.activo {
-  width: 64px;
-  height: 64px;
+  width: 32px;
+  height: 32px;
+}
+
+/* En Milk-chan no se dibuja la flecha (usa círculo rojo/negro propio) */
+body.tema-milk-chan #cursor-custom::before {
+  display: none;
 }
 
 /* Estela mágica con Canvas — partículas brillantes que dejan el cursor */
