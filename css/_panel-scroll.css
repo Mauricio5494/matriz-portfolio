@@ -33,12 +33,13 @@ body {
   height: 100vh;
   scroll-snap-align: start;
   background: transparent; /* deja ver el fondo del tema */
-  display: flex;
-  flex-direction: column;
+  overflow: visible;
 }
 
-/* El hero también es un panel */
+/* El hero también es un panel — centrado */
 .panel.hero {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   text-align: center;
 }
