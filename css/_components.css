@@ -215,6 +215,52 @@ h2 {
   background: rgba(255, 26, 26, 0.05);
 }
 
+/* ── Glow Hover para tarjetas de proyectos ── */
+.project-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card:before,
+.project-card:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transition: opacity 500ms ease;
+  pointer-events: none;
+}
+
+.project-card:before {
+  z-index: 1;
+  opacity: 0;
+  background-image:
+    conic-gradient(from 0deg at calc(0% + var(--mouse-x)) calc(0% + var(--mouse-y)), var(--glow-conic-colors)),
+    radial-gradient(var(--glow-core-size) circle at var(--mouse-x) var(--mouse-y), var(--glow-core-color), transparent 75%);
+  background-blend-mode: hue, color-dodge;
+}
+
+.project-card:after {
+  z-index: 2;
+  opacity: 0;
+}
+
+/* Hover activa el halo solo en la tarjeta bajo el cursor */
+.project-card:hover:before {
+  opacity: 0.85;
+}
+
+/* Hover pinta los bordes del color del tema */
+.project-card:hover {
+  border-color: var(--glow-border-color);
+}
+
+/* Asegurar que el contenido quede encima del glow */
+.project-card > * {
+  position: relative;
+  z-index: 3;
+}
+
 /* ── Servicios ── */
 .services-grid {
   display: grid;

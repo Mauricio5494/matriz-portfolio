@@ -195,6 +195,20 @@
                 <a href="https://admin-panel-frontend-production-dce7.up.railway.app" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;" data-i18n="proyecto3.demo">Ver demo en vivo →</a>
               </p>
             </div>
+
+            <!-- Tarjetas placeholder para proyectos futuros -->
+            <div class="project-card reveal">
+              <h3 data-i18n="proyecto4.titulo">Por agregar</h3>
+              <p data-i18n="proyecto4.desc">Próximamente...</p>
+            </div>
+            <div class="project-card reveal">
+              <h3 data-i18n="proyecto5.titulo">Por agregar</h3>
+              <p data-i18n="proyecto5.desc">Próximamente...</p>
+            </div>
+            <div class="project-card reveal">
+              <h3 data-i18n="proyecto6.titulo">Por agregar</h3>
+              <p data-i18n="proyecto6.desc">Próximamente...</p>
+            </div>
           </div>
         </section>
       </div>
@@ -267,5 +281,25 @@
   <script src="js/chat.js?v=2" defer></script>
 <script src="js/milk-hole.js?v=2" defer></script>
 <script src="js/scroll-anim.js?v=2" defer></script>
+<script defer>
+  const grid = document.querySelector(".projects-grid");
+  if (grid) {
+    grid.onpointermove = (e) => {
+      for (const card of document.querySelectorAll(".project-card")) {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        card.style.setProperty("--mouse-x", `${x}px`);
+        card.style.setProperty("--mouse-y", `${y}px`);
+
+        const BOX = card.getBoundingClientRect();
+        const RATIO = { x: x / BOX.width, y: y / BOX.height };
+        card.style.setProperty("--ratio-x", RATIO.x);
+        card.style.setProperty("--ratio-y", RATIO.y);
+      }
+    };
+  }
+</script>
 </body>
 </html>

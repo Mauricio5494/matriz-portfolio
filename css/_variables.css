@@ -24,4 +24,13 @@
   --service-card-text-color: var(--text);
   --service-card-hover-border: var(--matrix-amber);
   --service-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+
+  /* ── Glow Hover para tarjetas de proyectos ── */
+  --glow-bg: rgba(10, 10, 10, 0.95);
+  --glow-card-content: rgba(33, 33, 33, 1);
+  --glow-light-size: 260px;
+  --glow-core-size: 90px;
+  --glow-core-color: rgba(255, 255, 255, 0.2);
+  --glow-border-color: var(--matrix-amber);
+  --glow-conic-colors: #FFBD8C 0%, #FD8585 11%, #FD8585 15%, #F882FF 27%, #F882FF 31%, #8785FE 42%, #8785FE 46%, #9AFCFF 55%, #9AFCFF 59%, #99FD9C 70%, #99FD9C 74%, #FFFD84 87%, #FFFD84 91%, #FFBD8C 100%;
 }

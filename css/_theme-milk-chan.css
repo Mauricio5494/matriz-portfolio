@@ -31,6 +31,12 @@ body.tema-milk-chan {
   --service-card-text-color: var(--text);
   --service-card-hover-border: #ac3232;
   --service-card-hover-shadow: 0 8px 24px rgba(172, 50, 50, 0.15);
+  --glow-bg: rgba(10, 10, 12, 0.95);
+  --glow-card-content: rgba(18, 18, 22, 1);
+  --glow-core-size: 90px;
+  --glow-core-color: rgba(172, 50, 50, 0.25);
+  --glow-border-color: #ac3232;
+  --glow-conic-colors: #ac3232 0%, #ff6666 11%, #ff6666 15%, #ebd9bc 27%, #ebd9bc 31%, #52263e 42%, #52263e 46%, #1c070c 55%, #1c070c 59%, #0d0d14 70%, #0d0d14 74%, #ac3232 87%, #ac3232 91%, #ac3232 100%;
 }
 
 /* Ocultar canvas Matrix y oscurecedor en tema milk-chan */
