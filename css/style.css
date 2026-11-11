@@ -87,78 +87,154 @@ body.tema-sepia .contacto {
   background: #f5e8d0 !important;
 }
 
-/* ── Chat widget en temas claros ── */
+/* ── Chat widget en tema claro ── */
 body.tema-claro #chat-panel {
-  background: #eaeaea !important;
+  background: var(--panel) !important;
 }
 body.tema-claro .chat-header {
   background: rgba(0, 0, 0, 0.05) !important;
-  color: #d32f2f !important;
-  border-bottom-color: #dddddd !important;
+  color: var(--text) !important;
+  border-bottom-color: var(--border) !important;
 }
 body.tema-claro .chat-messages {
   background: rgba(0, 0, 0, 0.03) !important;
 }
 body.tema-claro .message.bot .bubble {
-  background: rgba(211, 47, 47, 0.12) !important;
-  border-color: rgba(211, 47, 47, 0.3) !important;
-  color: #222222 !important;
+  background: rgba(0, 0, 0, 0.08) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
 }
 body.tema-claro .message.user .bubble {
-  background: #f57c00 !important;
+  background: var(--matrix-amber) !important;
   color: #000000 !important;
 }
 body.tema-claro .chat-footer {
-  background: #eaeaea !important;
-  border-top-color: #dddddd !important;
+  background: var(--panel) !important;
+  border-top-color: var(--border) !important;
 }
 body.tema-claro .chat-footer input {
   background: rgba(0, 0, 0, 0.05) !important;
-  color: #222222 !important;
-  border-color: #dddddd !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
 }
 body.tema-claro .chat-footer input:focus {
-  border-color: #f57c00 !important;
+  border-color: var(--text) !important;
 }
 body.tema-claro .chat-footer button {
-  background: #d32f2f !important;
-  color: #000000 !important;
+  background: var(--text) !important;
+  color: #ffffff !important;
 }
 body.tema-claro .chat-footer button:hover {
-  background: #f57c00 !important;
+  background: var(--border) !important;
 }
 body.tema-claro #chat-input::placeholder {
-  color: rgba(34, 34, 34, 0.4) !important;
+  color: rgba(0, 0, 0, 0.4) !important;
 }
 body.tema-claro .chat-quick-replies {
   background: rgba(0, 0, 0, 0.05) !important;
-  border-bottom-color: #dddddd !important;
+  border-bottom-color: var(--border) !important;
 }
 body.tema-claro .chat-quick-replies .qr {
-  border-color: #d32f2f !important;
-  color: #f57c00 !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
 }
 body.tema-claro .chat-quick-replies .qr:hover {
-  background: #d32f2f !important;
-  color: #000000 !important;
+  background: var(--text) !important;
+  border-color: var(--text) !important;
+  color: #ffffff !important;
 }
 body.tema-claro .chat-toggle {
-  background: #fafafa !important;
-  border-color: #d32f2f !important;
-  color: #f57c00 !important;
+  background: var(--panel) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
 }
 body.tema-claro .chat-toggle:hover {
 }
 body.tema-claro .chat-clear {
-  border-color: #8e1e1e !important;
-  color: #d32f2f !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
 }
 body.tema-claro .chat-clear:hover {
-  background: #8e1e1e !important;
+  background: var(--border) !important;
   color: #ffffff !important;
 }
 body.tema-claro .typing-indicator span {
-  background: #f57c00 !important;
+  background: var(--text) !important;
+}
+
+/* ── Chat widget en tema sepia ── */
+body.tema-sepia #chat-panel {
+  background: var(--panel) !important;
+}
+body.tema-sepia .chat-header {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--text) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.tema-sepia .chat-messages {
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+body.tema-sepia .message.bot .bubble {
+  background: rgba(0, 0, 0, 0.08) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-sepia .message.user .bubble {
+  background: var(--matrix-amber) !important;
+  color: #000000 !important;
+}
+body.tema-sepia .chat-footer {
+  background: var(--panel) !important;
+  border-top-color: var(--border) !important;
+}
+body.tema-sepia .chat-footer input {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+body.tema-sepia .chat-footer input:focus {
+  border-color: var(--text) !important;
+}
+body.tema-sepia .chat-footer button {
+  background: var(--text) !important;
+  color: #ffffff !important;
+}
+body.tema-sepia .chat-footer button:hover {
+  background: var(--border) !important;
+}
+body.tema-sepia #chat-input::placeholder {
+  color: rgba(0, 0, 0, 0.4) !important;
+}
+body.tema-sepia .chat-quick-replies {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.tema-sepia .chat-quick-replies .qr {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-sepia .chat-quick-replies .qr:hover {
+  background: var(--text) !important;
+  border-color: var(--text) !important;
+  color: #ffffff !important;
+}
+body.tema-sepia .chat-toggle {
+  background: var(--panel) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-sepia .chat-toggle:hover {
+}
+body.tema-sepia .chat-clear {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-sepia .chat-clear:hover {
+  background: var(--border) !important;
+  color: #ffffff !important;
+}
+body.tema-sepia .typing-indicator span {
+  background: var(--text) !important;
 }
 
 /* ── Letras del Hero en tema claro: púrpura en lugar de naranja ── */
