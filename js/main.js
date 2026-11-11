@@ -120,9 +120,23 @@ document.getElementById('year').textContent = new Date().getFullYear();
     const txt = el.textContent || '';
     if (!txt.trim()) return;
 
-    el.style.textShadow = '0 0 10px #ff1a1a, 0 0 20px #ffaa00, 0 0 35px #ff1a1a';
+    const esClaro = document.body.classList.contains('tema-claro');
+    const esSepia = document.body.classList.contains('tema-sepia');
+
+    if (esClaro) {
+      // Púrpura sobre fondo blanco — bloom elegante y legible
+      el.style.textShadow = '0 0 10px #8e44ad, 0 0 20px #9b59b6, 0 0 35px #8e44ad';
+      el.style.color = '#6a1b9a';
+    } else if (esSepia) {
+      // Púrpura suave sobre sepia
+      el.style.textShadow = '0 0 10px #b23a48, 0 0 20px #d19a48, 0 0 35px #b23a48';
+      el.style.color = '#7c2a30';
+    } else {
+      // Matrix oscuro: rojo/ámbar original
+      el.style.textShadow = '0 0 10px #ff1a1a, 0 0 20px #ffaa00, 0 0 35px #ff1a1a';
+      el.style.color = '#ffaa00';
+    }
     el.style.transition = 'text-shadow 0.15s ease';
-    el.style.color = '#ffaa00';
   }
 
   function quitarNeon(el) {
