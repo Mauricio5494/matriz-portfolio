@@ -62,6 +62,37 @@ body.tema-sepia .bg-overlay {
   background: transparent !important;
 }
 
+/* ── Títulos de sección en temas claros (azul oscuro para contraste) ── */
+body.tema-claro h2 {
+  color: #1a237e !important;
+}
+
+body.tema-sepia h2 {
+  color: #4a148c !important;
+}
+
+/* ── Bloom púrpura en bordes eléctricos para tema claro ── */
+body.tema-claro .electric-border {
+  animation-name: electric-border-purpura;
+}
+
+@keyframes electric-border-purpura {
+  0%, 100% {
+    box-shadow: 0 0 10px #8e44ad, 0 0 20px rgba(142, 68, 173, 0.3);
+    border-color: #8e44ad;
+  }
+  50% {
+    box-shadow: 0 0 20px #9b59b6, 0 0 40px rgba(155, 89, 182, 0.5), 0 0 60px rgba(155, 89, 182, 0.2);
+    border-color: #9b59b6;
+  }
+}
+
+/* ── Cursor sin blend invertido en temas claros ── */
+body.tema-claro #cursor-custom,
+body.tema-sepia #cursor-custom {
+  mix-blend-mode: normal !important;
+}
+
 /* ── Fondos de tarjetas y secciones en temas claros ── */
 body.tema-claro .hero,
 body.tema-claro .skill-card,
