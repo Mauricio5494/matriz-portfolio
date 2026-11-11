@@ -17,10 +17,10 @@
   --bloom-amber: 0 0 14px rgba(255, 170, 0, 0.45);
 }
 
-/* Tema 2: Claro (light) — fondo blanco agradable, texto oscuro suave */
+/* Tema 2: Claro (light) — fondo blanco suave, texto oscuro suave */
 body.tema-claro {
-  background: #ffffff !important;
-  --bg: #ffffff;
+  background: #f4f4f4 !important;
+  --bg: #f4f4f4;
   --panel: #fafafa;
   --text: #222222;
   --matrix-red: #d32f2f;
@@ -67,7 +67,7 @@ body.tema-claro .hero,
 body.tema-claro .skill-card,
 body.tema-claro .project-card,
 body.tema-claro .contacto {
-  background: #fafafa !important;
+  background: #eaeaea !important;
 }
 
 body.tema-sepia .hero,
@@ -79,7 +79,7 @@ body.tema-sepia .contacto {
 
 /* ── Chat widget en temas claros ── */
 body.tema-claro #chat-panel {
-  background: #fafafa !important;
+  background: #eaeaea !important;
 }
 body.tema-claro .chat-header {
   background: rgba(0, 0, 0, 0.05) !important;
@@ -99,7 +99,7 @@ body.tema-claro .message.user .bubble {
   color: #000000 !important;
 }
 body.tema-claro .chat-footer {
-  background: #fafafa !important;
+  background: #eaeaea !important;
   border-top-color: #dddddd !important;
 }
 body.tema-claro .chat-footer input {
