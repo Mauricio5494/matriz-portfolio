@@ -65,18 +65,21 @@
       this.y = y;
       this.desdeBorde = desdeBorde;
       this.color = colorParticula();
-      this.char = desdeBorde ? '' : charMatrix();
-      this.fontSize = Math.random() * 10 + 10;
       this.life = 1.0;
-      this.alpha = Math.random() * 0.6 + 0.4;
 
       if (desdeBorde) {
-        // Milk-chan: dirección radial desde el centro hacia el borde (y más allá).
+        // Milk-chan: punto rojo que sale del borde del círculo hacia afuera.
+        this.char = '';
+        this.size = Math.random() * 3 + 1.5;
+        this.alpha = Math.random() * 0.5 + 0.4;
         this.vx = Math.cos(angulo) * velocidad;
         this.vy = Math.sin(angulo) * velocidad;
         this.decay = Math.random() * 0.06 + 0.03; // se desvanece rápido
       } else {
         // Matrix: carácter que cae ligeramente hacia abajo y se desvanece
+        this.char = charMatrix();
+        this.fontSize = Math.random() * 10 + 10;
+        this.alpha = Math.random() * 0.6 + 0.4;
         this.vx = (Math.random() - 0.5) * 0.5;
         this.vy = Math.random() * 2 + 1;
         this.decay = Math.random() * 0.02 + 0.015;
@@ -88,22 +91,25 @@
       this.y += this.vy;
       this.life -= this.decay;
       this.alpha = this.life;
-      this.fontSize *= 0.97;
+
+      if (!this.desdeBorde) {
+        this.fontSize *= 0.97;
+      }
     }
 
     draw(ctx) {
       ctx.save();
       ctx.fillStyle = this.color;
       ctx.globalAlpha = this.alpha;
-      ctx.font = this.fontSize + 'px monospace';
-      ctx.textBaseline = 'middle';
-      ctx.textAlign = 'center';
 
       if (this.desdeBorde) {
         ctx.beginPath();
-        ctx.arc(this.x, this.y, Math.max(this.fontSize * 0.4, 1), 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
       } else {
+        ctx.font = this.fontSize + 'px monospace';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
         ctx.fillText(this.char, this.x, this.y);
       }
 
