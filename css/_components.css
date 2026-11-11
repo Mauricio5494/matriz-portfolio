@@ -225,6 +225,52 @@ h2 {
   border-bottom-color: rgba(255, 170, 0, 0.6);
 }
 
+/* ── Tilt 3D en tarjetas de proyectos ── */
+.card-tilt {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.card-tilt-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateX(0) rotateY(0);
+  transition: transform 0.1s ease-out;
+  will-change: transform;
+}
+
+.card-glare {
+  position: absolute;
+  inset: -10% -10% -10% -10%;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    500px circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(255, 255, 255, 0.3),
+    transparent 45%
+  );
+  transition: opacity 0.3s ease, transform 0.1s ease;
+}
+
+.project-card {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-tilt-inner {
+    transition: none !important;
+    transform: none !important;
+  }
+  .card-glare {
+    display: none !important;
+  }
+}
+
 /* ── Animación de entrada ── */
 .fade-in {
   animation: fadeIn 0.8s ease-out both;
