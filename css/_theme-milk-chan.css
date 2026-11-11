@@ -211,18 +211,18 @@ body.tema-milk-chan .bg-layer::before {
   .sun-ring { animation: none !important; }
 }
 
-/* ── Milk-chan marca de agua semi-transparente (sigue el scroll) ── */
+/* ── Milk-chan marca de agua semi-transparente (fija sobre el contenido) ── */
 .milk-chan-watermark {
   position: absolute;
-  top: 25vh;
+  top: 50vh;
   left: 50%;
-  transform: translateX(-50%) rotate(-3deg);
-  width: 340px;
-  height: auto;
-  opacity: 0.35;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 420px;
+  height: 420px;
+  opacity: 0.85;
   pointer-events: none;
   z-index: -1;
-  filter: grayscale(0.25) contrast(1.1) brightness(1.05);
+  filter: grayscale(0.2) contrast(1.15) brightness(1.05);
   background-image: url('../img/milk-chan.png');
   background-size: contain;
   background-repeat: no-repeat;

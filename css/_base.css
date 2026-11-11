@@ -114,6 +114,8 @@ nav #idioma-selector option {
   position: relative;
   z-index: 1;
   flex: 1;
+  /* Contexto de apilamiento para que .milk-chan-watermark (z-index: -1)
+     quede dentro de este contenedor y siga el scroll del contenido. */
 }
 
 /* Responsive: navegación en móviles */
