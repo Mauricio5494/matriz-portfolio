@@ -215,7 +215,7 @@ body.tema-milk-chan .bg-layer::before {
 .milk-chan-watermark {
   position: fixed;
   top: 55vh;
-  left: 6vw;
+  left: 2vw;
   transform: rotate(-2deg);
   width: 320px;
   height: 320px;
