@@ -232,3 +232,20 @@ body.tema-claro .chat-clear:hover {
 body.tema-claro .typing-indicator span {
   background: var(--text) !important;
 }
+
+/* ── Tarjetas de servicios en tema Claro ── */
+body.tema-claro .service-card {
+  background: var(--panel) !important;
+  border-color: var(--border) !important;
+}
+body.tema-claro .service-card h3 {
+  color: #1a237e !important;
+}
+body.tema-claro .service-card p {
+  color: var(--text) !important;
+  opacity: 1 !important;
+}
+body.tema-claro .service-card:hover {
+  border-color: #1a237e !important;
+  box-shadow: 0 8px 24px rgba(26, 35, 126, 0.15) !important;
+}
