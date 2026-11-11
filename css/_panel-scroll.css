@@ -4,13 +4,14 @@
    ============================================================ */
 
 html {
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
 }
 
 body {
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
+  overflow-x: hidden;
   display: block;
 }
 
@@ -21,6 +22,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
+  max-height: 100vh;
   overflow-y: auto;
   scroll-snap-type: y mandatory;
   background: transparent; /* deja ver el bg-layer y el fondo del tema */
@@ -31,9 +33,14 @@ body {
 /* Cada sección es un panel que ocupa todo el viewport */
 .panel {
   height: 100vh;
+  min-height: 100vh;
   scroll-snap-align: start;
+  scroll-snap-stop: always;
   background: transparent; /* deja ver el fondo del tema */
   overflow: visible;
+  margin: 0;
+  padding: 0;
+  display: block;
 }
 
 /* El hero también es un panel — centrado */
