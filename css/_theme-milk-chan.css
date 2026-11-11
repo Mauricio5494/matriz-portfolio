@@ -214,14 +214,14 @@ body.tema-milk-chan .bg-layer::before {
 /* ── Milk-chan marca de agua semi-transparente (fija sobre el contenido) ── */
 .milk-chan-watermark {
   position: fixed;
-  top: 50vh;
-  left: 50%;
-  transform: translateX(-50%) rotate(-2deg);
-  width: 420px;
-  height: 420px;
+  top: 55vh;
+  left: 6vw;
+  transform: rotate(-2deg);
+  width: 320px;
+  height: 320px;
   opacity: 0.85;
   pointer-events: none;
-  z-index: 40;
+  z-index: -1;
   filter: grayscale(0.2) contrast(1.15) brightness(1.05);
   background-image: url('../img/milk-chan.png');
   background-size: contain;
