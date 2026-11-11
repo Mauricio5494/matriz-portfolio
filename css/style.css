@@ -20,6 +20,7 @@
 /* Tema 2: Claro (light) — fondo blanco suave, texto oscuro suave */
 body.tema-claro {
   background: #f4f4f4 !important;
+  text-shadow: none !important;
   --bg: #f4f4f4;
   --panel: #fafafa;
   --text: #222222;
@@ -37,6 +38,7 @@ body.tema-claro {
 /* Tema 3: Sepia cálido — fondo crema, texto marrón suave */
 body.tema-sepia {
   background: #fdf6e3 !important;
+  text-shadow: none !important;
   --bg: #fdf6e3;
   --panel: #f5e8d0;
   --text: #583a22;
