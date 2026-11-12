@@ -10,7 +10,7 @@
   border: 1px solid var(--border);
   background: rgba(10, 10, 10, 0.95);
   border-radius: 8px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 2rem;
 }
 
 .hero h1 {
@@ -91,7 +91,7 @@
 
 /* ── Secciones generales ── */
 section {
-  margin-top: 1rem;
+  margin-top: 3rem;
 }
 
 h2 {
@@ -115,7 +115,7 @@ h2 {
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 0.6rem;
+  gap: 1.75rem;
 }
 
 .skill-card {
@@ -170,7 +170,7 @@ h2 {
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 0.8rem;
+  gap: 2rem;
   perspective: 1000px;
 }
 
@@ -178,7 +178,10 @@ h2 {
   position: relative;
   overflow: hidden;
   perspective: 1000px;
-  padding: 0.5rem;
+}
+
+.project-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
 .project-card h3 {
@@ -209,41 +212,11 @@ h2 {
   background: rgba(255, 26, 26, 0.05);
 }
 
-/* ── Efecto Tilt 3D en tarjetas de proyectos ── */
-.card-tilt-inner {
+/* ── Glow Hover para tarjetas de proyectos ── */
+.project-card {
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--panel);
-  padding: 1.5rem;
-  transform-style: preserve-3d;
-  transform-origin: center;
-  will-change: transform;
-  backface-visibility: hidden;
-  transition: transform 0.35s cubic-bezier(0.25, 1, 0.35, 1);
 }
-
-.card-glare {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.35) 45%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  opacity: 0;
-  pointer-events: none;
-  mix-blend-mode: overlay;
-  z-index: 2;
-  will-change: opacity, transform;
-  backface-visibility: hidden;
-  transition: opacity 0.15s ease, transform 0.35s cubic-bezier(0.25, 1, 0.35, 1);
-}
-
-/* ── Glow Hover para tarjetas de proyectos ── */
 
 .project-card:before,
 .project-card:after {
@@ -289,8 +262,8 @@ h2 {
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 0.4rem;
-  margin-top: 1rem;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .service-card {
@@ -350,30 +323,6 @@ h2 {
 .contacto a:hover {
   color: var(--matrix-amber);
   border-bottom-color: rgba(255, 170, 0, 0.6);
-}
-
-/* ── Mejor Proyecto ── */
-.mejor-proyecto {
-  text-align: center;
-  padding: 2.5rem;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-}
-
-.mejor-proyecto-content {
-  display: flex;
-  justify-content: center;
-  gap: 0.8rem;
-}
-
-.mejor-proyecto-card {
-  max-width: 800px;
-  width: 100%;
-}
-
-.mejor-proyecto-card .card-tilt-inner {
-  max-width: 800px;
 }
 
 /* ── Animación de entrada ── */

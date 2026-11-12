@@ -29,14 +29,10 @@ body.tema-sepia .bg-overlay {
 /* ── Fondos de tarjetas y paneles ── */
 body.tema-sepia .hero,
 body.tema-sepia .skill-card,
-body.tema-sepia .contacto,
-body.tema-sepia .card-tilt-inner {
+body.tema-sepia .project-card,
+body.tema-sepia .contacto {
   background: var(--panel) !important;
   border-color: var(--border) !important;
-}
-
-body.tema-sepia .card-glare {
-  mix-blend-mode: soft-light;
 }
 
 /* ── Títulos y headers en marrón/sepia ── */

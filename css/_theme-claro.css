@@ -29,14 +29,10 @@ body.tema-claro .bg-overlay {
 /* ── Fondos de tarjetas y paneles ── */
 body.tema-claro .hero,
 body.tema-claro .skill-card,
-body.tema-claro .contacto,
-body.tema-claro .card-tilt-inner {
+body.tema-claro .project-card,
+body.tema-claro .contacto {
   background: var(--panel) !important;
   border-color: var(--border) !important;
-}
-
-body.tema-claro .card-glare {
-  mix-blend-mode: soft-light;
 }
 
 /* ── Títulos y headers en azul oscuro ── */
