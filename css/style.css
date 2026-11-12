@@ -15,4 +15,5 @@
 @import url('./_theme-claro.css'); /* tema Claro: variables + overrides */
 @import url('./_theme-sepia.css'); /* tema Sepia: variables + overrides */
 @import url('./_theme-milk-chan.css'); /* tema Milk-chan: variables + fondo + overrides */
+@import url('./_theme-azul-oscuro.css'); /* tema Azul Oscuro: variables + overrides */
 @import url('./_scroll-anim.css');     /* animaciones de scroll interactivas */

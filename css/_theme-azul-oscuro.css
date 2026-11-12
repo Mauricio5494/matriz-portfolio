@@ -1,0 +1,263 @@
+/* ============================================================
+   TEMA AZUL OSCURO — Versión oscura del tema Claro
+   Fondo noche azul profundo con acentos en cian/azul eléctrico
+   ============================================================ */
+
+/* ── Variables del tema Azul Oscuro ── */
+body.tema-azul-oscuro {
+  background: #0a0a16 !important;
+  text-shadow: none !important;
+  --bg: #0a0a16;
+  --panel: #121224;
+  --text: #e0e0ff;
+  --matrix-red: #4a90e2;
+  --matrix-red-dark: #2a2a4a;
+  --matrix-amber: #00d2ff;
+  --border: #3a3a6a;
+  --particle-color: rgba(74, 144, 226, 0.2);
+  --particle-line: rgba(0, 210, 255, 0.1);
+
+  /* Variables de componente: tarjetas de servicio */
+  --service-card-bg: var(--panel);
+  --service-card-border: var(--border);
+  --service-card-title-color: #00d2ff;
+  --service-card-text-color: var(--text);
+  --service-card-hover-border: #00d2ff;
+  --service-card-hover-shadow: 0 8px 24px rgba(0, 210, 255, 0.15);
+  --glow-bg: rgba(18, 18, 36, 0.95);
+  --glow-card-content: rgba(20, 20, 40, 1);
+  --glow-core-size: 90px;
+  --glow-core-color: rgba(0, 210, 255, 0.25);
+  --glow-border-color: #00d2ff;
+  --glow-conic-colors: #00d2ff 0%, #4a90e2 11%, #4a90e2 15%, #7b61ff 27%, #7b61ff 31%, #3a3a6a 42%, #3a3a6a 46%, #0a0a16 55%, #0a0a16 59%, #00d2ff 87%, #00d2ff 91%, #00d2ff 100%;
+}
+
+/* Ocultar canvas Matrix y oscurecedor en tema azul oscuro */
+body.tema-azul-oscuro #matrix-canvas {
+  display: none !important;
+}
+body.tema-azul-oscuro .bg-overlay {
+  background: transparent !important;
+}
+
+/* ── Fondos de tarjetas y paneles ── */
+body.tema-azul-oscuro .hero,
+body.tema-azul-oscuro .skill-card,
+body.tema-azul-oscuro .contacto,
+body.tema-azul-oscuro .card-tilt-inner {
+  background: var(--panel) !important;
+  border-color: var(--border) !important;
+}
+
+body.tema-azul-oscuro .card-glare {
+  mix-blend-mode: soft-light;
+}
+
+/* ── Títulos y headers en azul cian ── */
+body.tema-azul-oscuro h2,
+body.tema-azul-oscuro .hero h1,
+body.tema-azul-oscuro .hero-nombre,
+body.tema-azul-oscuro .hero h2,
+body.tema-azul-oscuro .hero-subtitulo,
+body.tema-azul-oscuro .skill-card h3,
+body.tema-azul-oscuro .project-card h3 {
+  color: #00d2ff !important;
+}
+
+body.tema-azul-oscuro .hero p {
+  color: #e0e0ff !important;
+  opacity: 0.95 !important;
+}
+
+/* ── Nav y selectores ── */
+body.tema-azul-oscuro nav a {
+  color: #00d2ff !important;
+}
+body.tema-azul-oscuro nav #idioma-selector,
+body.tema-azul-oscuro nav #idioma-selector option {
+  color: #00d2ff !important;
+  border-color: #00d2ff !important;
+}
+
+/* ── Badge ── */
+body.tema-azul-oscuro .badge {
+  border-color: #00d2ff !important;
+  color: #00d2ff !important;
+}
+body.tema-azul-oscuro .badge:hover {
+  background: #00d2ff !important;
+  color: #000000 !important;
+  transform: scale(1.08) !important;
+  transition: all 0.2s ease !important;
+}
+
+/* ── Enlaces ── */
+body.tema-azul-oscuro .hero a {
+  color: #00d2ff !important;
+}
+body.tema-azul-oscuro .hero a:hover {
+  color: #4a90e2 !important;
+}
+body.tema-azul-oscuro .skill-card li:hover {
+  color: #4a90e2 !important;
+}
+body.tema-azul-oscuro .project-card .tag {
+  border-color: #2a2a4a !important;
+  color: #00d2ff !important;
+  background: rgba(0, 210, 255, 0.05) !important;
+}
+body.tema-azul-oscuro .project-card .tag:hover {
+  background: rgba(0, 210, 255, 0.12) !important;
+}
+
+/* ── Contacto ── */
+body.tema-azul-oscuro .contacto a {
+  color: #00d2ff !important;
+}
+body.tema-azul-oscuro .contacto a:hover {
+  color: #4a90e2 !important;
+  border-bottom-color: rgba(0, 210, 255, 0.6) !important;
+}
+
+/* ── Chat ── */
+body.tema-azul-oscuro .chat-toggle {
+  border-color: #00d2ff !important;
+  color: #00d2ff !important;
+}
+body.tema-azul-oscuro .chat-quick-replies .qr {
+  border-color: #00d2ff !important;
+  color: #00d2ff !important;
+}
+body.tema-azul-oscuro .chat-quick-replies .qr:hover {
+  background: #00d2ff !important;
+  border-color: #00d2ff !important;
+  color: #ffffff !important;
+}
+body.tema-azul-oscuro .chat-clear {
+  border-color: #00d2ff !important;
+  color: #00d2ff !important;
+}
+body.tema-azul-oscuro .chat-clear:hover {
+  background: #00d2ff !important;
+  color: #ffffff !important;
+}
+
+/* ── Cursor en tema Azul Oscuro ── */
+body.tema-azul-oscuro #cursor-custom {
+  mix-blend-mode: normal !important;
+  background-image: none !important;
+  background: #000000 !important;
+  border: 2.5px solid #00d2ff !important;
+  border-radius: 50% !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+body.tema-azul-oscuro #cursor-custom.activo {
+  width: 28px !important;
+  height: 28px !important;
+}
+body.tema-azul-oscuro #cursor-custom::before,
+body.tema-azul-oscuro #cursor-custom::after {
+  display: none !important;
+}
+body.tema-azul-oscuro #cursor-custom.moviendose {
+  background-image: none !important;
+  background: #000000 !important;
+}
+
+/* ── Nav hover en tema Azul Oscuro ── */
+body.tema-azul-oscuro nav a:hover {
+  color: #4a90e2 !important;
+}
+
+/* ── Chat en tema Azul Oscuro ── */
+body.tema-azul-oscuro #chat-panel {
+  background: var(--panel) !important;
+}
+body.tema-azul-oscuro .chat-header {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--text) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.tema-azul-oscuro .chat-messages {
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+body.tema-azul-oscuro .message.bot .bubble {
+  background: rgba(0, 0, 0, 0.08) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-azul-oscuro .message.user .bubble {
+  background: #00d2ff !important;
+  color: #000000 !important;
+}
+body.tema-azul-oscuro .chat-footer {
+  background: var(--panel) !important;
+  border-top-color: var(--border) !important;
+}
+body.tema-azul-oscuro .chat-footer input {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+body.tema-azul-oscuro .chat-footer input:focus {
+  border-color: var(--text) !important;
+}
+body.tema-azul-oscuro .chat-footer button {
+  background: var(--text) !important;
+  color: #ffffff !important;
+}
+body.tema-azul-oscuro .chat-footer button:hover {
+  background: var(--border) !important;
+}
+body.tema-azul-oscuro #chat-input::placeholder {
+  color: rgba(224, 224, 255, 0.4) !important;
+}
+body.tema-azul-oscuro .chat-quick-replies {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.tema-azul-oscuro .chat-quick-replies .qr {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-azul-oscuro .chat-quick-replies .qr:hover {
+  background: var(--text) !important;
+  border-color: var(--text) !important;
+  color: #ffffff !important;
+}
+body.tema-azul-oscuro .chat-toggle {
+  background: var(--panel) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-azul-oscuro .chat-clear {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-azul-oscuro .chat-clear:hover {
+  background: #00d2ff !important;
+  color: #ffffff !important;
+}
+body.tema-azul-oscuro .typing-indicator span {
+  background: var(--text) !important;
+}
+
+body.tema-azul-oscuro {
+  --glow-bg: rgba(18, 18, 36, 0.95);
+  --glow-card-content: rgba(20, 20, 40, 1);
+  --glow-core-size: 90px;
+  --glow-core-color: rgba(0, 210, 255, 0.25);
+  --glow-border-color: #00d2ff;
+  --glow-conic-colors: #00d2ff 0%, #4a90e2 11%, #4a90e2 15%, #7b61ff 27%, #7b61ff 31%, #3a3a6a 42%, #3a3a6a 46%, #0a0a16 55%, #0a0a16 59%, #00d2ff 87%, #00d2ff 91%, #00d2ff 100%;
+}
+
+/* ── Variables de componente: tarjetas de servicio en tema Azul Oscuro ── */
+body.tema-azul-oscuro {
+  --service-card-bg: var(--panel);
+  --service-card-border: var(--border);
+  --service-card-title-color: #00d2ff;
+  --service-card-text-color: var(--text);
+  --service-card-hover-border: #00d2ff;
+  --service-card-hover-shadow: 0 8px 24px rgba(0, 210, 255, 0.15);
+}
