@@ -19,9 +19,11 @@
     var glare = card.querySelector('.card-glare');
 
     if (inner) {
+      inner.style.transition = 'none';
       inner.style.transform = 'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
     }
     if (glare) {
+      glare.style.transition = 'none';
       glare.style.transform = 'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
       glare.style.opacity = glareOpacity;
     }
@@ -29,7 +31,17 @@
 
   // Resetea una tarjeta a su estado inicial (sin quedarse atrapada girada)
   function resetCard(card) {
-    applyTilt(card, 0, 0, 0);
+    var inner = card.querySelector('.card-tilt-inner');
+    var glare = card.querySelector('.card-glare');
+    if (inner) {
+      inner.style.transition = '';
+      inner.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    }
+    if (glare) {
+      glare.style.transition = '';
+      glare.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      glare.style.opacity = '0';
+    }
   }
 
   // Calcula y aplica el tilt según la posición del cursor dentro de la tarjeta
