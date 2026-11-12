@@ -66,7 +66,60 @@ body.tema-milk-chan .bg-layer {
   overflow: visible;
 }
 
-/* ── Fondo rojo opresivo degradado ── */
+/* ── Fuente Press Start 2P para tema Milk-chan ── */
+body.tema-milk-chan {
+  font-family: "Press Start 2P", system-ui !important;
+  font-size: 0.5rem !important;
+}
+
+/* Texto base heredado (gana a _components.css) */
+body.tema-milk-chan p,
+body.tema-milk-chan li,
+body.tema-milk-chan a,
+body.tema-milk-chan nav a,
+body.tema-milk-chan .badge,
+body.tema-milk-chan .tag,
+body.tema-milk-chan footer,
+body.tema-milk-chan .skill-card p,
+body.tema-milk-chan .project-card p,
+body.tema-milk-chan .service-card p,
+body.tema-milk-chan .contacto p,
+body.tema-milk-chan .sobre-mi p,
+body.tema-milk-chan .hero p {
+  font-size: 0.5rem !important;
+}
+
+/* Formularios heredan del body */
+body.tema-milk-chan input,
+body.tema-milk-chan select,
+body.tema-milk-chan button,
+body.tema-milk-chan textarea {
+  font: inherit !important;
+}
+
+/* Jerarquía de encabezados (tema Milk-chan) — más grandes que el texto base */
+body.tema-milk-chan h1 {
+  font-size: 0.85rem !important;
+}
+body.tema-milk-chan .hero h1 {
+  font-size: 1rem !important;
+}
+body.tema-milk-chan .hero-nombre {
+  font-size: 0.75rem !important;
+}
+body.tema-milk-chan h2 {
+  font-size: 0.72rem !important;
+}
+body.tema-milk-chan h3 {
+  font-size: 0.6rem !important;
+}
+
+/* Clase opcional para usar en elementos específicos */
+.press-start-2p-regular {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
 body.tema-milk-chan .bg-layer::before {
   content: "";
   position: fixed;
@@ -246,8 +299,11 @@ body.tema-milk-chan .bg-layer::before {
 /* ── Fondos de tarjetas y paneles en tema milk-chan ── */
 body.tema-milk-chan .hero,
 body.tema-milk-chan .skill-card,
-body.tema-milk-chan .project-card,
 body.tema-milk-chan .contacto {
+  background: var(--panel) !important;
+  border-color: var(--border) !important;
+}
+body.tema-milk-chan .card-tilt-inner {
   background: var(--panel) !important;
   border-color: var(--border) !important;
 }
