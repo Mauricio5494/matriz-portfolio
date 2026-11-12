@@ -134,6 +134,7 @@ body.tema-claro #cursor-custom {
   background-position: center !important;
   width: 48px !important;
   height: 48px !important;
+  transform: translate(calc(-40% + 5px), calc(-50% + 25px)) rotate(25deg) !important;
 }
 
 body.tema-claro #cursor-custom::before,
@@ -148,6 +149,7 @@ body.tema-claro #cursor-custom.moviendose {
 body.tema-claro #cursor-custom.activo {
   width: 64px !important;
   height: 64px !important;
+  transform: translate(calc(-40% + 5px), calc(-50% + 27px)) rotate(25deg) !important;
 }
 
 body.tema-claro #cursor-custom::before,
