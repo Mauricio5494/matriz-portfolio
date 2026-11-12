@@ -359,6 +359,16 @@
       }
     });
 
+    // Actualizar data-text del h2 de Mejor Proyecto para que el glitch muestre el idioma actual
+    const mejorProyectoH2 = document.querySelector('#mejor-proyecto h2[data-i18n]');
+    if (mejorProyectoH2) {
+      const clave = mejorProyectoH2.getAttribute('data-i18n');
+      const texto = t[clave];
+      if (texto !== undefined) {
+        mejorProyectoH2.setAttribute('data-text', texto);
+      }
+    }
+
     if (selector) selector.value = idioma;
     localStorage.setItem('idioma', idioma);
     idiomaActual = idioma;
