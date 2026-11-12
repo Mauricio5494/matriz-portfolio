@@ -28,7 +28,8 @@
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-top: 13px solid #ffaa00;
-  transform: translate(-50%, -50%) rotate(15deg);
+  /* Ajuste: punta de la flecha como punto caliente del cursor */
+  transform: translate(calc(-40% + 2px), calc(-50% + 7px)) rotate(25deg);
   z-index: -1;
 }
 
@@ -43,7 +44,8 @@
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-top: 10px solid #1a1a1a;
-  transform: translate(-50%, -50%) rotate(15deg);
+  /* Ajuste: punta de la flecha como punto caliente del cursor */
+  transform: translate(calc(-40% + 2px), calc(-50% + 5px)) rotate(25deg);
   z-index: 1;
 }
 
@@ -56,6 +58,17 @@
 /* En Milk-chan no se dibuja la flecha (usa círculo rojo/negro propio) */
 body.tema-milk-chan #cursor-custom::before {
   display: none;
+}
+
+/* Flecha azul para el tema Azul Oscuro (como Matrix pero con sus colores) */
+body.tema-azul-oscuro #cursor-custom::before {
+  border-top-color: #00d2ff !important;
+  display: block !important;
+}
+
+body.tema-azul-oscuro #cursor-custom::after {
+  border-top-color: #4a90e2 !important;
+  display: block !important;
 }
 
 /* Estela mágica con Canvas — partículas brillantes que dejan el cursor */

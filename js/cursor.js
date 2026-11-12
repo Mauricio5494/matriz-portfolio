@@ -161,7 +161,7 @@
     cursor.style.left = x + 'px';
     cursor.style.top = y + 'px';
 
-    const esClaroOSepia = document.body.classList.contains('tema-claro') || document.body.classList.contains('tema-sepia');
+    const esClaroOSepia = document.body.classList.contains('tema-claro') || document.body.classList.contains('tema-sepia') || document.body.classList.contains('tema-azul-oscuro');
 
     if (esClaroOSepia) {
       // Cambiar imagen del gatito: movimiento vs quieto, sin rotación procedural

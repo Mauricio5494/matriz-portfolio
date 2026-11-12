@@ -142,27 +142,38 @@ body.tema-azul-oscuro .chat-clear:hover {
   color: #ffffff !important;
 }
 
-/* ── Cursor en tema Azul Oscuro ── */
+/* ── Cursor en tema Azul Oscuro: flecha azul sin trail ── */
 body.tema-azul-oscuro #cursor-custom {
   mix-blend-mode: normal !important;
   background-image: none !important;
-  background: #000000 !important;
-  border: 2.5px solid #00d2ff !important;
-  border-radius: 50% !important;
-  width: 20px !important;
-  height: 20px !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  width: 24px !important;
+  height: 24px !important;
 }
 body.tema-azul-oscuro #cursor-custom.activo {
-  width: 28px !important;
-  height: 28px !important;
+  width: 32px !important;
+  height: 32px !important;
 }
 body.tema-azul-oscuro #cursor-custom::before,
 body.tema-azul-oscuro #cursor-custom::after {
-  display: none !important;
+  display: block !important;
+}
+body.tema-azul-oscuro #cursor-custom::before {
+  transform: translate(calc(-40% + 2px), calc(-50% + 5px)) rotate(25deg) !important;
+}
+body.tema-azul-oscuro #cursor-custom::after {
+  transform: translate(calc(-40% + 2px), calc(-50% + 7px)) rotate(25deg) !important;
 }
 body.tema-azul-oscuro #cursor-custom.moviendose {
   background-image: none !important;
-  background: #000000 !important;
+  background: transparent !important;
+}
+
+/* Ocultar trail de partículas en tema Azul Oscuro */
+body.tema-azul-oscuro #cursor-trail {
+  display: none !important;
 }
 
 /* ── Nav hover en tema Azul Oscuro ── */

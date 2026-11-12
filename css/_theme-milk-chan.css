@@ -69,7 +69,7 @@ body.tema-milk-chan .bg-layer {
 /* ── Fuente Press Start 2P para tema Milk-chan ── */
 body.tema-milk-chan {
   font-family: "Press Start 2P", system-ui !important;
-  font-size: 0.5rem !important;
+  font-size: 0.6rem !important;
 }
 
 /* Texto base heredado (gana a _components.css) */
@@ -86,7 +86,7 @@ body.tema-milk-chan .service-card p,
 body.tema-milk-chan .contacto p,
 body.tema-milk-chan .sobre-mi p,
 body.tema-milk-chan .hero p {
-  font-size: 0.5rem !important;
+  font-size: 0.6rem !important;
 }
 
 /* Formularios heredan del body */
@@ -99,19 +99,19 @@ body.tema-milk-chan textarea {
 
 /* Jerarquía de encabezados (tema Milk-chan) — más grandes que el texto base */
 body.tema-milk-chan h1 {
-  font-size: 0.85rem !important;
+  font-size: 0.95rem !important;
 }
 body.tema-milk-chan .hero h1 {
-  font-size: 1rem !important;
+  font-size: 1.1rem !important;
 }
 body.tema-milk-chan .hero-nombre {
-  font-size: 0.75rem !important;
+  font-size: 0.85rem !important;
 }
 body.tema-milk-chan h2 {
-  font-size: 0.72rem !important;
+  font-size: 0.8rem !important;
 }
 body.tema-milk-chan h3 {
-  font-size: 0.6rem !important;
+  font-size: 0.65rem !important;
 }
 
 /* Clase opcional para usar en elementos específicos */
@@ -397,4 +397,131 @@ body.tema-milk-chan .contacto a:hover {
 
 body.tema-milk-chan #milk-hole-canvas {
   display: block;
+}
+
+/* ── Efecto Glitch en "Mejor Proyecto" (solo tema Milk-chan) ── */
+body.tema-milk-chan #mejor-proyecto h2 {
+  position: relative;
+  display: inline-block;
+  font-family: "Press Start 2P", system-ui !important;
+  color: #ff6666 !important;
+  --f-size: 15;
+  --f-unit: 1vmin;
+}
+
+body.tema-milk-chan #mejor-proyecto h2::before,
+body.tema-milk-chan #mejor-proyecto h2::after {
+  --top: 0;
+  --left: 0;
+  --v-height: 30%;
+
+  --n-tenth: calc(var(--f-size) * .1 * var(--top));
+  --t-cut: calc(var(--n-tenth) / var(--f-size) * 100%);
+  --b-cut: calc(var(--t-cut) + var(--v-height));
+
+  content: attr(data-text);
+  position: absolute;
+  width: 100%;
+  left: 0;
+  text-align: center;
+  transform: translateX(calc(var(--left) * 100%));
+  filter: drop-shadow(0 0 transparent);
+
+  text-shadow: calc(var(--left) * -3em) 0 .02em #ac3232,
+               calc(var(--left) * -6em) 0 .02em #ff6666;
+
+  background-color: #0d0d14;
+  clip-path: polygon(0% var(--t-cut), 100% var(--t-cut), 100% var(--b-cut), 0% var(--b-cut));
+}
+
+body.tema-milk-chan #mejor-proyecto h2::before {
+  animation: glitch-b 1.7s infinite alternate-reverse;
+}
+body.tema-milk-chan #mejor-proyecto h2::after {
+  animation: glitch-a 3.1s infinite alternate;
+}
+
+@keyframes glitch-a {
+  10%,30%,50%,70%,90% {
+    --top: 0;
+    --left: 0;
+  }
+  0% {
+   --v-height: 15%;
+  }
+  20% {
+    --left: .005;
+  }
+  40% {
+    --left: .01;
+    --v-height: 20%;
+    --top: 3;
+  }
+  60% {
+    --left: .03;
+    --v-height: 25%;
+    --top: 6;
+  }
+  80% {
+    --left: .07;
+    --v-height: 5%;
+    --top: 8;
+  }
+  100% {
+    --left: .083;
+    --v-height: 30%;
+    --top: 1;
+  }
+}
+
+@keyframes glitch-b {
+    10%,30%,50%,70%,90% {
+    --top: 0;
+    --left: 0;
+  }
+  0% {
+   --v-height: 15%;
+   --top: 10;
+  }
+  20% {
+    --left: -.005;
+  }
+  40% {
+    --left: -.01;
+    --v-height: 17%;
+    --top: 3;
+  }
+  60% {
+    --left: -.03;
+    --v-height: 35%;
+    --top: 6;
+  }
+  80% {
+    --left: -.07;
+    --v-height: 5%;
+    --top: 8;
+  }
+  100% {
+    --left: -.083;
+    --v-height: 30%;
+    --top: 1;
+  }
+}
+
+/* ── Reborde negro en la letra Milk-chan ── */
+body.tema-milk-chan h1,
+body.tema-milk-chan h2,
+body.tema-milk-chan h3,
+body.tema-milk-chan .hero-nombre,
+body.tema-milk-chan p,
+body.tema-milk-chan li,
+body.tema-milk-chan a,
+body.tema-milk-chan .badge,
+body.tema-milk-chan .tag,
+body.tema-milk-chan nav a,
+body.tema-milk-chan .skill-card h3,
+body.tema-milk-chan .project-card h3,
+body.tema-milk-chan .service-card h3 {
+  -webkit-text-stroke: 0.3px #000000 !important;
+  text-stroke: 0.3px #000000 !important;
 }
