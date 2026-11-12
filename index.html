@@ -1,503 +1,332 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Matrix Portfolio — Mauricio Gori</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portafolio — Desarrollo de Software</title>
+  <link rel="stylesheet" href="css/style.css?v=8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
 
-  :root {
-    --bg: #050505;
-    --panel: #0a0a0a;
-    --text: #c9c9c9;
-    --matrix-red: #ff1a1a;
-    --matrix-red-dark: #660000;
-    --matrix-amber: #ffaa00;
-    --border: #330000;
-    --accent-glow: rgba(255, 26, 26, 0.35);
-    --font-mono: 'Courier Prime', Courier, monospace;
-    --particle-color: rgba(255, 26, 26, 0.35);
-    --particle-line: rgba(255, 170, 0, 0.15);
-    --bloom: 0 0 14px rgba(255, 26, 26, 0.45);
-    --bloom-amber: 0 0 14px rgba(255, 170, 0, 0.45);
-  }
+  <!-- Cursor personalizado estilo Matrix (flecha) -->
+  <div id="cursor-custom"></div>
+  <canvas id="cursor-trail"></canvas>
+  <canvas id="cursor-impact"></canvas>
 
-  * {
-    box-sizing: border-box;
-  }
+  <div class="bg-layer">
+    <div class="bg-overlay"></div>
+    <canvas id="milk-hole-canvas"></canvas>
+    <!-- Sol / Agujero Negro (el "O" que ella ve) -->
+    <div class="sun-black-hole">
+      <div class="sun-ring outer"></div>
+      <div class="sun-ring middle"></div>
+      <div class="sun-ring inner"></div>
+      <div class="sun-core"></div>
+    </div>
+    <!-- Ciudad en silueta (borde inferior) -->
+    <div class="city-scape">
+      <div class="building b1">
+        <div class="window w1"></div><div class="window w2"></div><div class="window w3"></div><div class="window w4"></div><div class="window w5"></div>
+      </div>
+      <div class="building b2">
+        <div class="window w1"></div><div class="window w2"></div><div class="window w3"></div><div class="window w4"></div><div class="window w5"></div><div class="window w6"></div>
+      </div>
+      <div class="building b3">
+        <div class="window w1"></div><div class="window w2"></div><div class="window w3"></div><div class="window w4"></div>
+      </div>
+      <div class="building b4">
+        <div class="window w1"></div><div class="window w2"></div><div class="window w3"></div><div class="window w4"></div><div class="window w5"></div><div class="window w6"></div><div class="window w7"></div>
+      </div>
+      <div class="building b5">
+        <div class="window w1"></div><div class="window w2"></div><div class="window w3"></div><div class="window w4"></div><div class="window w5"></div>
+      </div>
+      <div class="building b6">
+        <div class="window w1"></div><div class="window w2"></div><div class="window w3"></div><div class="window w4"></div><div class="window w5"></div><div class="window w6"></div>
+      </div>
+    </div>
+  </div>
 
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    color: var(--text);
-    font-family: var(--font-mono);
-    line-height: 1.7;
-    overflow-x: hidden;
-    height: 100%;
-    /* Bloom sutil en todas las letras de la página */
-    text-shadow: var(--bloom);
-  }
+  <nav>
+    <ul>
+      <li><a href="#sobre-mi" data-i18n="nav.sobre-mi">Sobre mí</a></li>
+      <li><a href="#habilidades" data-i18n="nav.habilidades">Habilidades</a></li>
+      <li><a href="#proyectos" data-i18n="nav.proyectos">Proyectos</a></li>
+      <li><a href="#contacto" data-i18n="nav.contacto">Contacto</a></li>
+      <li class="idioma-selector">
+        <select id="idioma-selector">
+          <option value="es">Español</option>
+          <option value="en">English</option>
+          <option value="ru">Русский</option>
+          <option value="hi">हिन्दी</option>
+        </select>
+      </li>
+      <li class="tema-selector">
+        <label for="tema-selector" style="font-size:0.75rem; color:var(--matrix-amber); opacity:0.8;">Tema</label>
+        <select id="tema-selector">
+          <option value="matrix">Matrix (oscuro)</option>
+          <option value="claro">Claro</option>
+          <option value="sepia">Sepia cálido</option>
+          <option value="milk-chan">Milk-chan</option>
+        </select>
+      </li>
+    </ul>
+  </nav>
 
-  /* Capas de fondo */
-  .bg-layer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    z-index: -6;
-  }
+    <div>
+      <div class="container">
+        <!-- Milk-chan marca de agua semi-transparente (sigue el scroll, detrás del contenido) -->
+        <div class="milk-chan-watermark"></div>
 
-  #particle-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-  }
+        <header class="hero reveal fade-in">
+          <h1><span data-i18n="hero.titulo">Desarrollador de Software</span><br><span class="hero-nombre">Mauricio Gori</span></h1>
+          <h2 data-i18n="hero.enfoque">Enfoque en Python, JavaScript y automatización creativa</h2>
+          <p data-i18n="hero.descripcion">Construyendo herramientas que resuelven problemas reales. Enfocado en pilas tecnológicas demandadas por el mercado actual.</p>
+          <span class="badge" data-i18n="hero.badge">Código abierto &middot; En constante aprendizaje</span>
+          <a href="#proyectos" class="cta-hero">Ver mis proyectos →</a>
+        </header>
+      </div>
+    </div>
 
-  /* Overlay muy sutil, detrás de todo, solo para dar profundidad */
-  .bg-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.15);
-    z-index: -5;
-    pointer-events: none;
-  }
+    <div>
+      <div class="container">
+        <section id="sobre-mi" class="reveal fade-in">
+          <h2 data-i18n="seccion.sobre-mi">Sobre mí</h2>
+          <div class="sobre-mi">
+            <p data-i18n="sobre-mi.p1">Soy desarrollador de software con interés en crear soluciones prácticas para problemas concretos. Mi experiencia abarca scripting en Python, desarrollo web con JavaScript/TypeScript, y herramientas de automatización para entornos creativos como Blender.</p>
+            <p data-i18n="sobre-mi.p2">Me especializo en escribir código limpio, mantener repositorios organizados en Git y entregar prototipos funcionales que puedan evolucionar hacia productos reales.</p>
+            <p><a href="https://www.freelancer.com/u/DarkSFTDogma" target="_blank" rel="noopener" data-i18n="sobre-mi.freelance">Ver mi trabajo en Freelance (incluye proyecto de Blender) →</a></p>
+          </div>
+        </section>
+      </div>
+    </div>
 
-  /* Navegación */
-  nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 100;
-    backdrop-filter: blur(8px);
-    background: rgba(5, 5, 5, 0.9);
-    border-bottom: 1px solid var(--border);
-  }
+    <div>
+      <div class="container">
+        <section id="habilidades" class="reveal fade-in">
+          <h2 data-i18n="seccion.habilidades">Habilidades</h2>
+          <div class="skills-grid reveal-group">
+            <div class="skill-card reveal">
+              <h3 data-i18n="skills.lenguajes">Lenguajes</h3>
+              <ul>
+                <li data-i18n="skill.python">Python</li>
+                <li data-i18n="skill.javascript">JavaScript</li>
+                <li data-i18n="skill.typescript">TypeScript</li>
+                <li data-i18n="skill.sql">SQL</li>
+                <li data-i18n="skill.cpp">C++</li>
+                <li data-i18n="skill.c">C</li>
+                <li data-i18n="skill.csharp">C#</li>
+                <li data-i18n="skill.rust">Rust</li>
+              </ul>
+            </div>
+            <div class="skill-card reveal">
+              <h3 data-i18n="skills.frontend">Frontend</h3>
+              <ul>
+                <li data-i18n="skill.react">React</li>
+                <li data-i18n="skill.htmlcss">HTML5 / CSS3</li>
+                <li data-i18n="skill.tailwind">Tailwind CSS</li>
+                <li data-i18n="skill.githubpages">GitHub Pages</li>
+                <li data-i18n="skill.brainjs">Brain.js</li>
+                <li data-i18n="skill.canvas">Canvas 2D</li>
+                <li data-i18n="skill.fetch">Fetch API</li>
+                <li data-i18n="skill.localstorage">LocalStorage</li>
+              </ul>
+            </div>
+            <div class="skill-card reveal">
+              <h3 data-i18n="skills.backend">Backend &amp; DevOps</h3>
+              <ul>
+                <li data-i18n="skill.nodejs">Node.js</li>
+                <li data-i18n="skill.express">Express.js</li>
+                <li data-i18n="skill.docker">Docker</li>
+                <li data-i18n="skill.git">Git</li>
+                <li data-i18n="skill.cicd">CI/CD básico</li>
+              </ul>
+            </div>
+            <div class="skill-card reveal">
+              <h3 data-i18n="skills.creativas">Herramientas creativas</h3>
+              <ul>
+                <li data-i18n="skill.blender">Blender (Python API)</li>
+                <li data-i18n="skill.pipelines">Automatización de pipelines</li>
+                <li data-i18n="skill.logs">Análisis de logs</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
 
-  nav ul {
-    display: flex;
-    justify-content: center;
-    gap: 0.8rem;
-    list-style: none;
-    margin: 0;
-    padding: 0.75rem 0;
-  }
+    <div>
+      <div class="container">
+        <section id="proyectos" class="reveal fade-in">
+          <h2 data-i18n="seccion.proyectos">Proyectos</h2>
+          <div class="projects-grid reveal-group">
+            <div class="project-card reveal">
+              <div class="card-tilt-inner">
+              <h3 data-i18n="proyecto1.titulo">Validador de assets para motor de juegos</h3>
+              <p data-i18n="proyecto1.desc">Herramienta en Python para validar archivos de motor (.inc, .ext, .mdl) y detectar errores comunes antes de instalar mods en el juego.</p>
+              <div class="tags">
+                <span class="tag" data-i18n="tag.python">Python</span>
+                <span class="tag" data-i18n="tag.cli">CLI</span>
+                <span class="tag" data-i18n="tag.modding">Modding</span>
+              </div>
+              <p style="margin-top: 0.75rem;">
+                <a href="https://github.com/Mauricio5494/GEM2Engine_files_validator" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;">Ver código en GitHub →</a>
+              </p>
+              </div>
+              <div class="card-glare"></div>
+            </div>
+            <div class="project-card reveal">
+              <div class="card-tilt-inner">
+              <h3 data-i18n="proyecto2.titulo">Analizador de game.log para Proton/Wine</h3>
+              <p data-i18n="proyecto2.desc">Utilidad que lee logs de juegos ejecutados bajo Proton y traduce errores del motor a pasos de solución para modders.</p>
+              <div class="tags">
+                <span class="tag" data-i18n="tag.python">Python</span>
+                <span class="tag" data-i18n="tag.linux">Linux</span>
+                <span class="tag" data-i18n="tag.proton">Proton</span>
+              </div>
+              <p style="margin-top: 0.75rem;">
+                <a href="https://github.com/Mauricio5494/PWLA_Proton-Wine-Log-Analyzer" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;">Ver código en GitHub →</a>
+              </p>
+              </div>
+              <div class="card-glare"></div>
+            </div>
+            <div class="project-card reveal">
+              <div class="card-tilt-inner">
+              <h3 data-i18n="proyecto3.titulo">Panel de administración Full Stack</h3>
+              <p data-i18n="proyecto3.desc">Panel web con autenticación JWT, gestión de usuarios, subida de imágenes y exportación a CSV.</p>
+              <div class="tags">
+                <span class="tag" data-i18n="tag.react">React</span>
+                <span class="tag" data-i18n="tag.nodejs">Node.js</span>
+                <span class="tag" data-i18n="tag.typescript">TypeScript</span>
+              </div>
+              <p style="margin-top: 0.75rem;">
+                <a href="https://admin-panel-frontend-production-dce7.up.railway.app" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;" data-i18n="proyecto3.demo">Ver demo en vivo →</a>
+              </p>
+              </div>
+              <div class="card-glare"></div>
+            </div>
 
-  nav a {
-    color: var(--matrix-red);
-    text-decoration: none;
-    font-weight: bold;
-    letter-spacing: 1px;
-    font-size: 0.95rem;
-    white-space: nowrap;
-    transition: color 0.2s, text-shadow 0.2s;
-  }
+            <!-- Tarjetas placeholder para proyectos futuros -->
+            <div class="project-card reveal">
+              <div class="card-tilt-inner">
+              <h3 data-i18n="proyecto4.titulo">Por agregar</h3>
+              <p data-i18n="proyecto4.desc">Próximamente...</p>
+              </div>
+              <div class="card-glare"></div>
+            </div>
+            <div class="project-card reveal">
+              <div class="card-tilt-inner">
+              <h3 data-i18n="proyecto5.titulo">Por agregar</h3>
+              <p data-i18n="proyecto5.desc">Próximamente...</p>
+              </div>
+              <div class="card-glare"></div>
+            </div>
+            <div class="project-card reveal">
+              <div class="card-tilt-inner">
+              <h3 data-i18n="proyecto6.titulo">Por agregar</h3>
+              <p data-i18n="proyecto6.desc">Próximamente...</p>
+              </div>
+              <div class="card-glare"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
 
-  nav a:hover {
-    color: var(--matrix-amber);
-    text-shadow: 0 0 10px var(--accent-glow);
-  }
+    <div>
+      <div class="container">
+        <section id="mejor-proyecto" class="mejor-proyecto reveal fade-in">
+          <h2 data-i18n="seccion.mejor-proyecto">Mejor Proyecto</h2>
+          <div class="mejor-proyecto-content">
+            <div class="mejor-proyecto-card">
+              <div class="card-tilt-inner">
+                <h3 data-i18n="proyecto1.titulo">Validador de assets para motor de juegos</h3>
+                <p data-i18n="mejor-proyecto.desc">Herramienta completa en Python diseñada para validar archivos de motor de juegos (.inc, .ext, .mdl) antes de instalarlos. Detecta errores comunes en includes SDL, rutas mal formadas, CRLF incorrecto en archivos .inc, y problemas de jerarquía de huesos en modelos 3D. Ideal para modders que quieren evitar CTD (crash to desktop) y asegurar la compatibilidad de sus assets con el motor GEM2.</p>
+                <div class="tags">
+                  <span class="tag" data-i18n="tag.python">Python</span>
+                  <span class="tag" data-i18n="tag.cli">CLI</span>
+                  <span class="tag" data-i18n="tag.modding">Modding</span>
+                </div>
+                <p style="margin-top: 0.75rem;">
+                  <a href="https://github.com/Mauricio5494/GEM2Engine_files_validator" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;">Ver código en GitHub →</a>
+                </p>
+              </div>
+              <div class="card-glare"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
 
-  nav #idioma-selector {
-    background: rgba(0, 0, 0, 0.6);
-    color: var(--matrix-amber);
-    border: 1px solid var(--border);
-    padding: 0.25rem 0.5rem;
-    font-size: 0.85rem;
-    border-radius: 4px;
-    font-family: var(--font-mono);
-    cursor: pointer;
-    white-space: nowrap;
-  }
+    <div>
+      <div class="container">
+        <section id="servicios" class="servicios reveal fade-in">
+          <h2 data-i18n="seccion.servicios">¿En qué te puedo ayudar?</h2>
+          <div class="services-grid">
+            <div class="service-card">
+              <h3 data-i18n="servicio.presupuesto.titulo">Presupuesto a medida</h3>
+              <p data-i18n="servicio.presupuesto.desc">Cuéntame tu proyecto y te armo un presupuesto ajustado a tu alcance y plazo.</p>
+            </div>
+            <div class="service-card">
+              <h3 data-i18n="servicio.automatizacion.titulo">Automatización</h3>
+              <p data-i18n="servicio.automatizacion.desc">Scripts en Python, pipelines para Blender y herramientas que te ahorran tiempo. <a href="https://github.com/Mauricio5494/GEM2Engine_files_validator" target="_blank" rel="noopener">Ver validador de assets →</a></p>
+            </div>
+            <div class="service-card">
+              <h3 data-i18n="servicio.auditoria.titulo">Auditoría de código</h3>
+              <p data-i18n="servicio.auditoria.desc">Reviso tu código en Python, JavaScript, TypeScript, React, Node.js y más. Detecto errores, cuellos de botella y oportunidades de mejora antes de que lleguen a producción.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
 
-  nav #idioma-selector option {
-    background: var(--bg);
-    color: var(--text);
-  }
+    <div>
+      <div class="container">
+        <section id="contacto" class="contacto reveal fade-in">
+          <h2 data-i18n="seccion.contacto">Contacto</h2>
+          <p data-i18n="contacto.p1">¿Tienes un proyecto en mente? Escríbeme:</p>
+          <p><a href="mailto:mauriciogorilluberas@gmail.com" data-i18n="contacto.email">mauriciogorilluberas@gmail.com</a></p>
+          <p><a href="https://github.com/Mauricio5494" target="_blank" rel="noopener" data-i18n="contacto.github">GitHub</a></p>
+        </section>
+      </div>
+      <footer data-i18n="footer.copyright">
+        &copy; <span id="year"></span> Mauricio &middot; Construido con código abierto
+      </footer>
+    </div>
 
-  /* Contenedor principal */
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 3.5rem 1.5rem 4rem;
-    position: relative;
-    z-index: 1;
-  }
+  <!-- Chat IA demo -->
+  <div id="chat-widget">
+    <button id="chat-toggle" class="chat-toggle" aria-label="Abrir asistente IA">🤖</button>
+    <div id="chat-panel">
+      <div class="chat-header">Chatbot simple</div>
+      <div id="chat-messages" class="chat-messages">
+        <div class="message bot"><div class="bubble">¡Hola! Soy el asistente virtual de Mauricio. Pregúntame sobre sus proyectos, habilidades o cómo contactarlo.</div></div>
+      </div>
+      <div class="chat-quick-replies" id="chat-quick-replies">
+        <button class="qr" data-q-key="chat.qr.quien_es" data-i18n="chat.qr.quien_es">¿Quién es Mauricio?</button>
+        <button class="qr" data-q-key="chat.qr.proyectos" data-i18n="chat.qr.proyectos">¿Qué proyectos tiene?</button>
+        <button class="qr" data-q-key="chat.qr.habilidades" data-i18n="chat.qr.habilidades">¿Qué habilidades tiene?</button>
+        <button class="qr" data-q-key="chat.qr.contacto" data-i18n="chat.qr.contacto">¿Cómo contacto a Mauricio?</button>
+        <button class="qr" data-q-key="chat.qr.idiomas" data-i18n="chat.qr.idiomas">¿Qué idiomas tiene el sitio?</button>
+        <button class="qr-toggle" id="qr-toggle" aria-label="Mostrar/ocultar sugerencias">✕</button>
+      </div>
+      <div class="chat-footer">
+        <input type="text" id="chat-input" placeholder="Escribe un mensaje..." autocomplete="off">
+        <button id="chat-send">Enviar</button>
+        <button class="chat-clear">Borrar chat</button>
+      </div>
+    </div>
+  </div>
 
-  /* Hero */
-  .hero {
-    text-align: center;
-    padding: 1.5rem 1rem;
-    border: 1px solid var(--border);
-    background: rgba(10, 10, 10, 0.95);
-    border-radius: 8px;
-    box-shadow: 0 0 25px rgba(255, 26, 26, 0.06);
-    margin-bottom: 0.5rem;
-  }
-
-  .hero h1 {
-    font-size: 2.4rem;
-    margin: 0.5rem 0;
-    color: var(--matrix-amber);
-    text-shadow: 0 0 12px var(--accent-glow);
-    letter-spacing: 1px;
-  }
-
-  .hero h2 {
-    font-size: 1.15rem;
-    color: var(--matrix-red);
-    margin: 0.5rem 0;
-    font-weight: normal;
-  }
-
-  .hero-nombre {
-    display: block;
-    font-size: 1.6rem;
-    margin-top: 0.5rem;
-    color: var(--matrix-amber);
-    letter-spacing: 1px;
-  }
-
-  .hero-subtitulo {
-    font-size: calc(2.4rem - 2px);
-    color: var(--matrix-red);
-    margin-top: 0.5rem;
-    font-weight: normal;
-    opacity: 0.9;
-  }
-
-  .hero p {
-    color: var(--text);
-    max-width: 620px;
-    margin: 1rem auto;
-    opacity: 0.9;
-    font-size: 1rem;
-  }
-
-  .badge {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 0.5rem 1.25rem;
-    border: 1px solid var(--matrix-red);
-    color: var(--matrix-red);
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .badge:hover {
-    background: var(--matrix-red);
-    color: #000;
-  }
-
-  /* Secciones */
-  section {
-    margin-top: 1rem;
-  }
-
-  h2 {
-    font-size: 1.6rem;
-    color: var(--matrix-amber);
-    border-bottom: 2px solid var(--border);
-    padding-bottom: 0.6rem;
-    margin-bottom: 1.75rem;
-    letter-spacing: 0.5px;
-  }
-
-  /* Sobre mí */
-  .sobre-mi p {
-    text-align: justify;
-    opacity: 0.95;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  /* Habilidades */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: 0.6rem;
-  }
-
-  .skill-card {
-    background: rgba(10, 10, 10, 0.95);
-    border: 1px solid var(--border);
-    padding: 1.5rem;
-    border-radius: 8px;
-    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-  }
-
-  .skill-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(255, 26, 26, 0.1);
-    border-color: var(--matrix-red);
-  }
-
-  .skill-card h3 {
-    margin-top: 0;
-    color: var(--matrix-red);
-    font-size: 1.05rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .skill-card ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .skill-card li {
-    padding: 0.45rem 0;
-    border-bottom: 1px solid rgba(255, 26, 26, 0.08);
-    color: var(--text);
-    font-size: 0.92rem;
-    transition: padding-left 0.2s;
-  }
-
-  .skill-card li:last-child { border-bottom: none; }
-
-  .skill-card li:hover { padding-left: 0.5rem; color: var(--matrix-amber); }
-
-  /* Proyectos */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 0.8rem;
-    perspective: 1000px;
-  }
-
-  .project-card {
-    position: relative;
-    overflow: hidden;
-    perspective: 1000px;
-    padding: 0.5rem;
-  }
-
-  .project-card:hover {
-    box-shadow: 0 8px 24px rgba(255, 26, 26, 0.1);
-  }
-
-  .project-card h3 {
-    margin-top: 0;
-    color: var(--matrix-amber);
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .project-card p {
-    font-size: 0.92rem;
-    opacity: 0.9;
-    margin: 0.75rem 0 1.25rem;
-  }
-
-  .project-card .tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .project-card .tag {
-    font-size: 0.72rem;
-    padding: 0.2rem 0.55rem;
-    border: 1px solid var(--matrix-red-dark);
-    color: var(--matrix-red);
-    border-radius: 4px;
-    background: rgba(255, 26, 26, 0.05);
-  }
-
-  /* ── Efecto Tilt 3D en tarjetas de proyectos ── */
-  .card-tilt-inner {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--panel);
-    padding: 1.5rem;
-    transform-style: preserve-3d;
-    transform-origin: center;
-    will-change: transform;
-    backface-visibility: hidden;
-    transition: transform 0.35s cubic-bezier(0.25, 1, 0.35, 1);
-  }
-
-  .card-glare {
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.35) 45%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    opacity: 0;
-    pointer-events: none;
-    mix-blend-mode: overlay;
-    z-index: 2;
-    will-change: opacity, transform;
-    backface-visibility: hidden;
-    transition: opacity 0.15s ease, transform 0.35s cubic-bezier(0.25, 1, 0.35, 1);
-  }
-
-  /* Contacto */
-  .contacto {
-    text-align: center;
-    padding: 2.5rem;
-    background: rgba(10, 10, 10, 0.95);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-  }
-
-  .contacto h2 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-  }
-
-  .contacto p {
-    margin: 0.6rem 0;
-    opacity: 0.95;
-  }
-
-  .contacto a {
-    color: var(--matrix-red);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(255, 26, 26, 0.3);
-    transition: color 0.2s, border-color 0.2s;
-  }
-
-  .contacto a:hover {
-    color: var(--matrix-amber);
-    border-bottom-color: rgba(255, 170, 0, 0.6);
-  }
-
-  /* Mejor Proyecto */
-  .mejor-proyecto {
-    text-align: center;
-    padding: 2.5rem;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-  }
-
-  .mejor-proyecto-content {
-    display: flex;
-    justify-content: center;
-    gap: 0.8rem;
-  }
-
-  .mejor-proyecto-card {
-    max-width: 800px;
-    width: 100%;
-  }
-
-  .mejor-proyecto-card .card-tilt-inner {
-    max-width: 800px;
-  }
-
-  /* Fuente Press Start 2P para tema Milk-chan — tamaño base para todo el texto */
-  body.tema-milk-chan {
-    font-family: "Press Start 2P", system-ui !important;
-    font-size: 0.5rem !important;
-  }
-
-  /* Texto base heredado (gana a _components.css) */
-  body.tema-milk-chan p,
-  body.tema-milk-chan li,
-  body.tema-milk-chan a,
-  body.tema-milk-chan nav a,
-  body.tema-milk-chan .badge,
-  body.tema-milk-chan .tag,
-  body.tema-milk-chan footer,
-  body.tema-milk-chan .skill-card p,
-  body.tema-milk-chan .project-card p,
-  body.tema-milk-chan .service-card p,
-  body.tema-milk-chan .contacto p,
-  body.tema-milk-chan .sobre-mi p,
-  body.tema-milk-chan .hero p {
-    font-size: 0.5rem !important;
-  }
-
-  /* Formularios heredan del body */
-  body.tema-milk-chan input,
-  body.tema-milk-chan select,
-  body.tema-milk-chan button,
-  body.tema-milk-chan textarea {
-    font: inherit !important;
-  }
-
-  /* Jerarquía de encabezados (tema Milk-chan) — más grandes que el texto base */
-  body.tema-milk-chan h1 {
-    font-size: 0.85rem !important;
-  }
-  body.tema-milk-chan .hero h1 {
-    font-size: 1rem !important;
-  }
-  body.tema-milk-chan .hero-nombre {
-    font-size: 0.75rem !important;
-  }
-  body.tema-milk-chan h2 {
-    font-size: 0.72rem !important;
-  }
-  body.tema-milk-chan h3 {
-    font-size: 0.6rem !important;
-  }
-
-  .press-start-2p-regular {
-    font-family: "Press Start 2P", system-ui;
-    font-weight: 400;
-    font-style: normal;
-  }
-
-  /* Animación de entrada */
-  .fade-in {
-    animation: fadeIn 0.8s ease-out both;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  footer {
-    text-align: center;
-    padding: 2.5rem;
-    font-size: 0.78rem;
-    opacity: 0.55;
-    border-top: 1px solid var(--border);
-    letter-spacing: 0.5px;
-  }
-
-  /* Responsive */
-  @media (max-width: 640px) {
-    .hero h1 { font-size: 1.8rem; }
-    nav ul { gap: 1rem; font-size: 0.8rem; flex-wrap: wrap; }
-    .container { padding: 6rem 1rem 4rem; }
-    h2 { font-size: 1.4rem; }
-  }
-  /* Fuente Press Start 2P para tema Milk-chan */
-  body.tema-milk-chan {
-    font-family: "Press Start 2P", system-ui;
-  }
-
-  .press-start-2p-regular {
-    font-family: "Press Start 2P", system-ui;
-    font-weight: 400;
-    font-style: normal;
-  }
-
-</style>
+  <script src="js/themes.js?v=2" defer></script>
+  <script src="js/matrix.js?v=2" defer></script>
+  <script src="js/i18n.js?v=2" defer></script>
+  <script src="js/cursor.js?v=2" defer></script>
+  <script src="js/chat.js?v=2" defer></script>
+<script src="js/milk-hole.js?v=2" defer></script>
+<script src="js/scroll-anim.js?v=2" defer></script>
+<script src="js/cards-tilt.js?v=6" defer></script>
+</body>
+</html>
