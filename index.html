@@ -1,10 +1,513 @@
 <!doctype html>
 <html lang="es">
 <head>
+<<<<<<< HEAD
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portafolio — Desarrollo de Software</title>
   <link rel="stylesheet" href="css/style.css">
+=======
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrix Portfolio — Mauricio Gori</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
+
+  :root {
+    --bg: #050505;
+    --panel: #0a0a0a;
+    --text: #c9c9c9;
+    --matrix-red: #ff1a1a;
+    --matrix-red-dark: #660000;
+    --matrix-amber: #ffaa00;
+    --border: #330000;
+    --accent-glow: rgba(255, 26, 26, 0.35);
+    --font-mono: 'Courier Prime', Courier, monospace;
+    --particle-color: rgba(255, 26, 26, 0.35);
+    --particle-line: rgba(255, 170, 0, 0.15);
+    --bloom: 0 0 14px rgba(255, 26, 26, 0.45);
+    --bloom-amber: 0 0 14px rgba(255, 170, 0, 0.45);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font-mono);
+    line-height: 1.7;
+    overflow-x: hidden;
+    height: 100%;
+    /* Bloom sutil en todas las letras de la página */
+    text-shadow: var(--bloom);
+  }
+
+  /* Capas de fondo */
+  .bg-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -6;
+  }
+
+  #particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+  }
+
+  /* Overlay muy sutil, detrás de todo, solo para dar profundidad */
+  .bg-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: -5;
+    pointer-events: none;
+  }
+
+  /* Navegación */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+    background: rgba(5, 5, 5, 0.9);
+    border-bottom: 1px solid var(--border);
+  }
+
+  nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    list-style: none;
+    margin: 0;
+    padding: 0.75rem 0;
+  }
+
+  nav a {
+    color: var(--matrix-red);
+    text-decoration: none;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    transition: color 0.2s, text-shadow 0.2s;
+  }
+
+  nav a:hover {
+    color: var(--matrix-amber);
+    text-shadow: 0 0 10px var(--accent-glow);
+  }
+
+  nav #idioma-selector {
+    background: rgba(0, 0, 0, 0.6);
+    color: var(--matrix-amber);
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  nav #idioma-selector option {
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  /* Contenedor principal */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    border: 1px solid var(--border);
+    background: rgba(10, 10, 10, 0.95);
+    border-radius: 8px;
+    box-shadow: 0 0 25px rgba(255, 26, 26, 0.06);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
+    margin: 0.5rem 0;
+    color: var(--matrix-amber);
+    text-shadow: 0 0 12px var(--accent-glow);
+    letter-spacing: 1px;
+  }
+
+  .hero h2 {
+    font-size: 1.15rem;
+    color: var(--matrix-red);
+    margin: 0.5rem 0;
+    font-weight: normal;
+  }
+
+  .hero-nombre {
+    display: block;
+    font-size: 1.6rem;
+    margin-top: 0.5rem;
+    color: var(--matrix-amber);
+    letter-spacing: 1px;
+  }
+
+  .hero-subtitulo {
+    font-size: calc(2.4rem - 2px);
+    color: var(--matrix-red);
+    margin-top: 0.5rem;
+    font-weight: normal;
+    opacity: 0.9;
+  }
+
+  .hero p {
+    color: var(--text);
+    max-width: 620px;
+    margin: 1rem auto;
+    opacity: 0.9;
+    font-size: 1rem;
+  }
+
+  .badge {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1.25rem;
+    border: 1px solid var(--matrix-red);
+    color: var(--matrix-red);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .badge:hover {
+    background: var(--matrix-red);
+    color: #000;
+  }
+
+  /* Secciones */
+  section {
+    margin-top: 1rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    color: var(--matrix-amber);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.6rem;
+    margin-bottom: 1.75rem;
+    letter-spacing: 0.5px;
+  }
+
+  /* Sobre mí */
+  .sobre-mi p {
+    text-align: justify;
+    opacity: 0.95;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Habilidades */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .skill-card {
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  }
+
+  .skill-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(255, 26, 26, 0.1);
+    border-color: var(--matrix-red);
+  }
+
+  .skill-card h3 {
+    margin-top: 0;
+    color: var(--matrix-red);
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .skill-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .skill-card li {
+    padding: 0.45rem 0;
+    border-bottom: 1px solid rgba(255, 26, 26, 0.08);
+    color: var(--text);
+    font-size: 0.92rem;
+    transition: padding-left 0.2s;
+  }
+
+  .skill-card li:last-child { border-bottom: none; }
+
+  .skill-card li:hover { padding-left: 0.5rem; color: var(--matrix-amber); }
+
+  /* Proyectos */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.8rem;
+    perspective: 1000px;
+  }
+
+  .project-card {
+    position: relative;
+    overflow: hidden;
+    perspective: 1000px;
+    padding: 0.5rem;
+  }
+
+  .project-card:hover {
+    box-shadow: 0 8px 24px rgba(255, 26, 26, 0.1);
+  }
+
+  .project-card h3 {
+    margin-top: 0;
+    color: var(--matrix-amber);
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .project-card p {
+    font-size: 0.92rem;
+    opacity: 0.9;
+    margin: 0.75rem 0 1.25rem;
+  }
+
+  .project-card .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .project-card .tag {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.55rem;
+    border: 1px solid var(--matrix-red-dark);
+    color: var(--matrix-red);
+    border-radius: 4px;
+    background: rgba(255, 26, 26, 0.05);
+  }
+
+  /* ── Efecto Tilt 3D en tarjetas de proyectos ── */
+  .card-tilt-inner {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--panel);
+    padding: 1.5rem;
+    transform-style: preserve-3d;
+    transform-origin: center;
+    will-change: transform;
+    backface-visibility: hidden;
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.35, 1);
+  }
+
+  .card-glare {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.35) 45%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    z-index: 2;
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+    transition: opacity 0.15s ease, transform 0.35s cubic-bezier(0.25, 1, 0.35, 1);
+  }
+
+  /* Contacto */
+  .contacto {
+    text-align: center;
+    padding: 2.5rem;
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .contacto h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  .contacto p {
+    margin: 0.6rem 0;
+    opacity: 0.95;
+  }
+
+  .contacto a {
+    color: var(--matrix-red);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 26, 26, 0.3);
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .contacto a:hover {
+    color: var(--matrix-amber);
+    border-bottom-color: rgba(255, 170, 0, 0.6);
+  }
+
+  /* Mejor Proyecto */
+  .mejor-proyecto {
+    text-align: center;
+    padding: 2.5rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .mejor-proyecto-content {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+
+  .mejor-proyecto-card {
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .mejor-proyecto-card .card-tilt-inner {
+    max-width: 800px;
+  }
+
+  /* Fuente Press Start 2P para tema Milk-chan — tamaño base para todo el texto */
+  body.tema-milk-chan {
+    font-family: "Press Start 2P", system-ui !important;
+    font-size: 0.5rem !important;
+  }
+
+  /* Texto base heredado (gana a _components.css) */
+  body.tema-milk-chan p,
+  body.tema-milk-chan li,
+  body.tema-milk-chan a,
+  body.tema-milk-chan nav a,
+  body.tema-milk-chan .badge,
+  body.tema-milk-chan .tag,
+  body.tema-milk-chan footer,
+  body.tema-milk-chan .skill-card p,
+  body.tema-milk-chan .project-card p,
+  body.tema-milk-chan .service-card p,
+  body.tema-milk-chan .contacto p,
+  body.tema-milk-chan .sobre-mi p,
+  body.tema-milk-chan .hero p {
+    font-size: 0.5rem !important;
+  }
+
+  /* Formularios heredan del body */
+  body.tema-milk-chan input,
+  body.tema-milk-chan select,
+  body.tema-milk-chan button,
+  body.tema-milk-chan textarea {
+    font: inherit !important;
+  }
+
+  /* Jerarquía de encabezados (tema Milk-chan) — más grandes que el texto base */
+  body.tema-milk-chan h1 {
+    font-size: 0.85rem !important;
+  }
+  body.tema-milk-chan .hero h1 {
+    font-size: 1rem !important;
+  }
+  body.tema-milk-chan .hero-nombre {
+    font-size: 0.75rem !important;
+  }
+  body.tema-milk-chan h2 {
+    font-size: 0.72rem !important;
+  }
+  body.tema-milk-chan h3 {
+    font-size: 0.6rem !important;
+  }
+
+  .press-start-2p-regular {
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  /* Animación de entrada */
+  .fade-in {
+    animation: fadeIn 0.8s ease-out both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  footer {
+    text-align: center;
+    padding: 2.5rem;
+    font-size: 0.78rem;
+    opacity: 0.55;
+    border-top: 1px solid var(--border);
+    letter-spacing: 0.5px;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.8rem; }
+    nav ul { gap: 1rem; font-size: 0.8rem; flex-wrap: wrap; }
+    .container { padding: 6rem 1rem 4rem; }
+    h2 { font-size: 1.4rem; }
+  }
+  /* Fuente Press Start 2P para tema Milk-chan */
+  body.tema-milk-chan {
+    font-family: "Press Start 2P", system-ui;
+  }
+
+  .press-start-2p-regular {
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+</style>
+>>>>>>> 51d4f3d (feat: ajuste tipografía Milk-chan y reducción de gaps)
 </head>
 <body>
 
@@ -46,6 +549,7 @@
     </div>
   </div>
 
+<<<<<<< HEAD
   <nav>
     <ul>
       <li><a href="#sobre-mi" data-i18n="nav.sobre-mi">Sobre mí</a></li>
@@ -84,6 +588,70 @@
           <span class="badge" data-i18n="hero.badge">Código abierto &middot; En constante aprendizaje</span>
           <a href="#proyectos" class="cta-hero">Ver mis proyectos →</a>
         </header>
+=======
+  <section id="proyectos" class="fade-in">
+    <h2 data-i18n="seccion.proyectos">Proyectos</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="card-tilt-inner">
+          <h3 data-i18n="proyecto1.titulo">Validador de assets para motor de juegos</h3>
+          <p data-i18n="proyecto1.desc">Herramienta en Python para validar archivos de motor (.inc, .ext, .mdl) y detectar errores comunes antes de instalar mods en el juego.</p>
+          <div class="tags">
+            <span class="tag" data-i18n="tag.python">Python</span>
+            <span class="tag" data-i18n="tag.cli">CLI</span>
+            <span class="tag" data-i18n="tag.modding">Modding</span>
+          </div>
+        </div>
+        <div class="card-glare"></div>
+      </div>
+      <div class="project-card">
+        <div class="card-tilt-inner">
+          <h3 data-i18n="proyecto2.titulo">Analizador de game.log para Proton/Wine</h3>
+          <p data-i18n="proyecto2.desc">Utilidad que lee logs de juegos ejecutados bajo Proton y traduce errores del motor a pasos de solución para modders.</p>
+          <div class="tags">
+            <span class="tag" data-i18n="tag.python">Python</span>
+            <span class="tag" data-i18n="tag.linux">Linux</span>
+            <span class="tag" data-i18n="tag.proton">Proton</span>
+          </div>
+        </div>
+        <div class="card-glare"></div>
+      </div>
+      <div class="project-card">
+        <div class="card-tilt-inner">
+          <h3 data-i18n="proyecto3.titulo">Panel de administración Full Stack</h3>
+          <p data-i18n="proyecto3.desc">Panel web con autenticación JWT, gestión de usuarios, subida de imágenes y exportación a CSV.</p>
+          <div class="tags">
+            <span class="tag" data-i18n="tag.react">React</span>
+            <span class="tag" data-i18n="tag.nodejs">Node.js</span>
+            <span class="tag" data-i18n="tag.typescript">TypeScript</span>
+          </div>
+          <p style="margin-top: 0.75rem;">
+            <a href="https://admin-panel-frontend-production-dce7.up.railway.app" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;" data-i18n="proyecto3.demo">Ver demo en vivo →</a>
+          </p>
+        </div>
+        <div class="card-glare"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mejor-proyecto" class="mejor-proyecto fade-in">
+    <h2 data-i18n="seccion.mejor-proyecto">Mejor Proyecto</h2>
+    <div class="mejor-proyecto-content">
+      <div class="mejor-proyecto-card">
+        <div class="card-tilt-inner">
+          <h3 data-i18n="proyecto1.titulo">Validador de assets para motor de juegos</h3>
+          <p data-i18n="mejor-proyecto.desc">Herramienta completa en Python diseñada para validar archivos de motor de juegos (.inc, .ext, .mdl) antes de instalarlos. Detecta errores comunes en includes SDL, rutas mal formadas, CRLF incorrecto en archivos .inc, y problemas de jerarquía de huesos en modelos 3D. Ideal para modders que quieren evitar CTD (crash to desktop) y asegurar la compatibilidad de sus assets con el motor GEM2.</p>
+          <div class="tags">
+            <span class="tag" data-i18n="tag.python">Python</span>
+            <span class="tag" data-i18n="tag.cli">CLI</span>
+            <span class="tag" data-i18n="tag.modding">Modding</span>
+          </div>
+          <p style="margin-top: 0.75rem;">
+            <a href="https://github.com/Mauricio5494/GEM2Engine_files_validator" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;">Ver código en GitHub →</a>
+          </p>
+        </div>
+        <div class="card-glare"></div>
+>>>>>>> 51d4f3d (feat: ajuste tipografía Milk-chan y reducción de gaps)
       </div>
     </div>
 
@@ -301,5 +869,86 @@
     };
   }
 </script>
+<<<<<<< HEAD
+=======
+
+<script>
+  /* ============================================================
+     CARDS TILT — Efecto 3D al pasar el mouse sobre tarjetas
+     ============================================================ */
+  (function() {
+    var grid = document.querySelector('.projects-grid');
+    if (!grid) return;
+
+    var MAX_TILT = 10; // grados máximo de inclinación
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Aplica la rotación 3D al interior y al brillo juntos, para que se muevan al unísono
+    function applyTilt(card, rotateX, rotateY, glareOpacity) {
+      var inner = card.querySelector('.card-tilt-inner');
+      var glare = card.querySelector('.card-glare');
+      var t = 'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+
+      if (inner) {
+        inner.style.transition = 'none';
+        inner.style.transform = t;
+      }
+      if (glare) {
+        glare.style.transition = 'none';
+        glare.style.transform = t;
+        glare.style.opacity = glareOpacity;
+      }
+    }
+
+    // Resetea una tarjeta a su estado inicial (vuelve suave vía transición CSS)
+    function resetCard(card) {
+      var inner = card.querySelector('.card-tilt-inner');
+      var glare = card.querySelector('.card-glare');
+      if (inner) {
+        inner.style.transition = '';
+        inner.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      }
+      if (glare) {
+        glare.style.transition = '';
+        glare.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        glare.style.opacity = '0';
+      }
+    }
+
+    // Calcula y aplica el tilt según la posición del cursor dentro de la tarjeta
+    function updateCard(card, clientX, clientY) {
+      if (reduced) {
+        resetCard(card);
+        return;
+      }
+      var rect = card.getBoundingClientRect();
+      var cx = rect.left + rect.width / 2;
+      var cy = rect.top + rect.height / 2;
+      var dx = (clientX - cx) / (rect.width / 2);  // -1 .. 1
+      var dy = (clientY - cy) / (rect.height / 2); // -1 .. 1
+
+      var rotateX = dy * -MAX_TILT;
+      var rotateY = dx * MAX_TILT;
+
+      applyTilt(card, rotateX, rotateY, 0.45);
+    }
+
+    // Eventos del grid: sigue el cursor sobre la tarjeta bajo el puntero
+    grid.addEventListener('mousemove', function(event) {
+      var card = event.target.closest('.project-card');
+      if (!card) return;
+      updateCard(card, event.clientX, event.clientY);
+    });
+
+    // Eventos individuales por tarjeta: reset inmediato al salir de cada una
+    document.querySelectorAll('.project-card').forEach(function(card) {
+      card.addEventListener('mouseleave', function() {
+        resetCard(card);
+      });
+    });
+  })();
+</script>
+
+>>>>>>> 51d4f3d (feat: ajuste tipografía Milk-chan y reducción de gaps)
 </body>
 </html>

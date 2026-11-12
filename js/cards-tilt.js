@@ -11,61 +11,56 @@
   if (!grid) return;
 
   var MAX_TILT = 10; // grados máximo de inclinación
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function updateCard(card, x, y) {
+  // Aplica la rotación 3D al interior y al brillo juntos, para que se muevan al unísono
+  function applyTilt(card, rotateX, rotateY, glareOpacity) {
+    var inner = card.querySelector('.card-tilt-inner');
+    var glare = card.querySelector('.card-glare');
+
+    if (inner) {
+      inner.style.transform = 'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+    }
+    if (glare) {
+      glare.style.transform = 'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+      glare.style.opacity = glareOpacity;
+    }
+  }
+
+  // Resetea una tarjeta a su estado inicial (sin quedarse atrapada girada)
+  function resetCard(card) {
+    applyTilt(card, 0, 0, 0);
+  }
+
+  // Calcula y aplica el tilt según la posición del cursor dentro de la tarjeta
+  function updateCard(card, clientX, clientY) {
+    if (reduced) {
+      resetCard(card);
+      return;
+    }
     var rect = card.getBoundingClientRect();
     var cx = rect.left + rect.width / 2;
     var cy = rect.top + rect.height / 2;
-    var dx = (x - cx) / (rect.width / 2);  // -1 .. 1
-    var dy = (y - cy) / (rect.height / 2); // -1 .. 1
+    var dx = (clientX - cx) / (rect.width / 2);  // -1 .. 1
+    var dy = (clientY - cy) / (rect.height / 2); // -1 .. 1
 
     var rotateX = dy * -MAX_TILT;
     var rotateY = dx * MAX_TILT;
 
-    var inner = card.querySelector('.card-tilt-inner');
-    var glare = card.querySelector('.card-glare');
-
-    if (inner) {
-      inner.style.transform =
-        'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
-    }
-    if (glare) {
-      glare.style.opacity = '0.5';
-      glare.style.setProperty('--gx', (dx * 50 + 50) + '%');
-      glare.style.setProperty('--gy', (dy * 50 + 50) + '%');
-    }
+    applyTilt(card, rotateX, rotateY, 0.45);
   }
 
-  function resetCard(card) {
-    var inner = card.querySelector('.card-tilt-inner');
-    var glare = card.querySelector('.card-glare');
-    if (inner) {
-      inner.style.transform = 'rotateX(0) rotateY(0)';
-    }
-    if (glare) {
-      glare.style.opacity = '0';
-    }
-  }
-
+  // Eventos del grid: sigue el cursor sobre la tarjeta bajo el puntero
   grid.addEventListener('mousemove', function(event) {
     var card = event.target.closest('.project-card');
     if (!card) return;
     updateCard(card, event.clientX, event.clientY);
   });
 
-  grid.addEventListener('mouseleave', function(event) {
-    var card = event.target.closest('.project-card');
-    if (card) {
+  // Eventos individuales por tarjeta: reset inmediato al salir de cada una
+  document.querySelectorAll('.project-card').forEach(function(card) {
+    card.addEventListener('mouseleave', function() {
       resetCard(card);
-    }
-  });
-
-  grid.addEventListener('mouseenter', function(event) {
-    var card = event.target.closest('.project-card');
-    if (!card) return;
-    var glare = card.querySelector('.card-glare');
-    if (glare) {
-      glare.style.opacity = '0.35';
-    }
+    });
   });
 })();

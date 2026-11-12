@@ -170,20 +170,17 @@ h2 {
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.75rem;
+  gap: 2rem;
+  perspective: 1000px;
 }
 
 .project-card {
-  background: rgba(10, 10, 10, 0.95);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.5rem;
-  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  position: relative;
+  overflow: hidden;
+  perspective: 1000px;
 }
 
 .project-card:hover {
-  border-color: var(--matrix-red);
-  transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
