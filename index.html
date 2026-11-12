@@ -4,7 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portafolio — Desarrollo de Software</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -160,6 +163,7 @@
           <h2 data-i18n="seccion.proyectos">Proyectos</h2>
           <div class="projects-grid reveal-group">
             <div class="project-card reveal">
+              <div class="card-tilt-inner">
               <h3 data-i18n="proyecto1.titulo">Validador de assets para motor de juegos</h3>
               <p data-i18n="proyecto1.desc">Herramienta en Python para validar archivos de motor (.inc, .ext, .mdl) y detectar errores comunes antes de instalar mods en el juego.</p>
               <div class="tags">
@@ -170,8 +174,11 @@
               <p style="margin-top: 0.75rem;">
                 <a href="https://github.com/Mauricio5494/GEM2Engine_files_validator" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;">Ver código en GitHub →</a>
               </p>
+              </div>
+              <div class="card-glare"></div>
             </div>
             <div class="project-card reveal">
+              <div class="card-tilt-inner">
               <h3 data-i18n="proyecto2.titulo">Analizador de game.log para Proton/Wine</h3>
               <p data-i18n="proyecto2.desc">Utilidad que lee logs de juegos ejecutados bajo Proton y traduce errores del motor a pasos de solución para modders.</p>
               <div class="tags">
@@ -182,8 +189,11 @@
               <p style="margin-top: 0.75rem;">
                 <a href="https://github.com/Mauricio5494/PWLA_Proton-Wine-Log-Analyzer" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;">Ver código en GitHub →</a>
               </p>
+              </div>
+              <div class="card-glare"></div>
             </div>
             <div class="project-card reveal">
+              <div class="card-tilt-inner">
               <h3 data-i18n="proyecto3.titulo">Panel de administración Full Stack</h3>
               <p data-i18n="proyecto3.desc">Panel web con autenticación JWT, gestión de usuarios, subida de imágenes y exportación a CSV.</p>
               <div class="tags">
@@ -194,20 +204,56 @@
               <p style="margin-top: 0.75rem;">
                 <a href="https://admin-panel-frontend-production-dce7.up.railway.app" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;" data-i18n="proyecto3.demo">Ver demo en vivo →</a>
               </p>
+              </div>
+              <div class="card-glare"></div>
             </div>
 
             <!-- Tarjetas placeholder para proyectos futuros -->
             <div class="project-card reveal">
+              <div class="card-tilt-inner">
               <h3 data-i18n="proyecto4.titulo">Por agregar</h3>
               <p data-i18n="proyecto4.desc">Próximamente...</p>
+              </div>
+              <div class="card-glare"></div>
             </div>
             <div class="project-card reveal">
+              <div class="card-tilt-inner">
               <h3 data-i18n="proyecto5.titulo">Por agregar</h3>
               <p data-i18n="proyecto5.desc">Próximamente...</p>
+              </div>
+              <div class="card-glare"></div>
             </div>
             <div class="project-card reveal">
+              <div class="card-tilt-inner">
               <h3 data-i18n="proyecto6.titulo">Por agregar</h3>
               <p data-i18n="proyecto6.desc">Próximamente...</p>
+              </div>
+              <div class="card-glare"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div>
+      <div class="container">
+        <section id="mejor-proyecto" class="mejor-proyecto reveal fade-in">
+          <h2 data-i18n="seccion.mejor-proyecto">Mejor Proyecto</h2>
+          <div class="mejor-proyecto-content">
+            <div class="mejor-proyecto-card">
+              <div class="card-tilt-inner">
+                <h3 data-i18n="proyecto1.titulo">Validador de assets para motor de juegos</h3>
+                <p data-i18n="mejor-proyecto.desc">Herramienta completa en Python diseñada para validar archivos de motor de juegos (.inc, .ext, .mdl) antes de instalarlos. Detecta errores comunes en includes SDL, rutas mal formadas, CRLF incorrecto en archivos .inc, y problemas de jerarquía de huesos en modelos 3D. Ideal para modders que quieren evitar CTD (crash to desktop) y asegurar la compatibilidad de sus assets con el motor GEM2.</p>
+                <div class="tags">
+                  <span class="tag" data-i18n="tag.python">Python</span>
+                  <span class="tag" data-i18n="tag.cli">CLI</span>
+                  <span class="tag" data-i18n="tag.modding">Modding</span>
+                </div>
+                <p style="margin-top: 0.75rem;">
+                  <a href="https://github.com/Mauricio5494/GEM2Engine_files_validator" target="_blank" rel="noopener" style="color: var(--matrix-amber); text-decoration: underline; font-weight: bold;">Ver código en GitHub →</a>
+                </p>
+              </div>
+              <div class="card-glare"></div>
             </div>
           </div>
         </section>
@@ -281,25 +327,6 @@
   <script src="js/chat.js?v=2" defer></script>
 <script src="js/milk-hole.js?v=2" defer></script>
 <script src="js/scroll-anim.js?v=2" defer></script>
-<script defer>
-  const grid = document.querySelector(".projects-grid");
-  if (grid) {
-    grid.onpointermove = (e) => {
-      for (const card of document.querySelectorAll(".project-card")) {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        card.style.setProperty("--mouse-x", `${x}px`);
-        card.style.setProperty("--mouse-y", `${y}px`);
-
-        const BOX = card.getBoundingClientRect();
-        const RATIO = { x: x / BOX.width, y: y / BOX.height };
-        card.style.setProperty("--ratio-x", RATIO.x);
-        card.style.setProperty("--ratio-y", RATIO.y);
-      }
-    };
-  }
-</script>
+<script src="js/cards-tilt.js?v=6" defer></script>
 </body>
 </html>
