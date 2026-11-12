@@ -237,15 +237,6 @@ body.tema-sepia .typing-indicator span {
   background: var(--text) !important;
 }
 
-body.tema-sepia {
-  --glow-bg: rgba(245, 232, 208, 0.95);
-  --glow-card-content: rgba(225, 210, 190, 1);
-  --glow-core-size: 90px;
-  --glow-core-color: rgba(212, 175, 55, 0.25);
-  --glow-border-color: #d4af37;
-  --glow-conic-colors: #d4af37 0%, #e6b85c 11%, #e6b85c 15%, #f4d03f 27%, #f4d03f 31%, #b8962e 42%, #b8962e 46%, #d4c0a8 55%, #d4c0a8 59%, #e3d5c1 70%, #e3d5c1 74%, #f4d03f 87%, #f4d03f 91%, #d4af37 100%;
-}
-
 /* ── Variables de componente: tarjetas de servicio en tema Sepia ── */
 body.tema-sepia {
   --service-card-bg: var(--panel);
