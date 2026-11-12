@@ -17,19 +17,20 @@
   function applyTilt(card, rotateX, rotateY, glareOpacity) {
     var inner = card.querySelector('.card-tilt-inner');
     var glare = card.querySelector('.card-glare');
+    var t = 'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
 
     if (inner) {
       inner.style.transition = 'none';
-      inner.style.transform = 'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+      inner.style.transform = t;
     }
     if (glare) {
       glare.style.transition = 'none';
-      glare.style.transform = 'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+      glare.style.transform = t;
       glare.style.opacity = glareOpacity;
     }
   }
 
-  // Resetea una tarjeta a su estado inicial (sin quedarse atrapada girada)
+  // Resetea una tarjeta a su estado inicial (vuelve suave vía transición CSS)
   function resetCard(card) {
     var inner = card.querySelector('.card-tilt-inner');
     var glare = card.querySelector('.card-glare');
