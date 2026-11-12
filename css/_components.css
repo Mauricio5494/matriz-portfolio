@@ -91,7 +91,7 @@
 
 /* ── Secciones generales ── */
 section {
-  margin-top: 3rem;
+  margin-top: 1rem;
 }
 
 h2 {
@@ -170,7 +170,7 @@ h2 {
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  gap: 0.8rem;
   perspective: 1000px;
 }
 
@@ -178,10 +178,7 @@ h2 {
   position: relative;
   overflow: hidden;
   perspective: 1000px;
-}
-
-.project-card:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  padding: 0.5rem;
 }
 
 .project-card h3 {
@@ -212,12 +209,88 @@ h2 {
   background: rgba(255, 26, 26, 0.05);
 }
 
+/* ── Efecto Tilt 3D en tarjetas de proyectos ── */
+.card-tilt-inner {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  padding: 1.5rem;
+  transform-style: preserve-3d;
+  transform-origin: center;
+  will-change: transform;
+  backface-visibility: hidden;
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.35, 1);
+}
+
+.card-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.35) 45%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  z-index: 2;
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  transition: opacity 0.15s ease, transform 0.35s cubic-bezier(0.25, 1, 0.35, 1);
+}
+
+/* ── Glow Hover para tarjetas de proyectos ── */
+
+.project-card:before,
+.project-card:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transition: opacity 500ms ease;
+  pointer-events: none;
+}
+
+.project-card:before {
+  z-index: 1;
+  opacity: 0;
+  background-image:
+    conic-gradient(from 0deg at calc(0% + var(--mouse-x)) calc(0% + var(--mouse-y)), var(--glow-conic-colors)),
+    radial-gradient(var(--glow-core-size) circle at var(--mouse-x) var(--mouse-y), var(--glow-core-color), transparent 75%);
+  background-blend-mode: hue, color-dodge;
+}
+
+.project-card:after {
+  z-index: 2;
+  opacity: 0;
+}
+
+/* Hover activa el halo solo en la tarjeta bajo el cursor */
+.project-card:hover:before {
+  opacity: 0.85;
+}
+
+/* Hover pinta los bordes del color del tema */
+.project-card:hover {
+  border-color: var(--glow-border-color);
+}
+
+/* Asegurar que el contenido quede encima del glow */
+.project-card > * {
+  position: relative;
+  z-index: 3;
+}
+
 /* ── Servicios ── */
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+  gap: 0.4rem;
+  margin-top: 1rem;
 }
 
 .service-card {
