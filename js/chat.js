@@ -16,8 +16,34 @@
 
   toggle.addEventListener('click', () => {
     abierto = !abierto;
-    panel.classList.toggle('open', abierto);
-    if (abierto) input.focus();
+    if (abierto) {
+      // Calcular transform-origin del panel relativo a su borde superior-izquierdo,
+      // para que el morphing nazca del centro del botón 🤖
+      const btnRect = toggle.getBoundingClientRect();
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const isMobile = vw < 641;
+
+      // Posición del panel en el viewport (position: fixed)
+      let panelLeft, panelTop;
+      if (isMobile) {
+        panelLeft = 15; // right: 15px + width calc(100vw - 30px) -> empieza en 15px
+      } else {
+        panelLeft = vw - 340; // right: 0, width: 340px
+      }
+      panelTop = vh - 70 - 460; // bottom: 70px, height: 460px
+
+      const btnCenterX = btnRect.left + btnRect.width / 2;
+      const btnCenterY = btnRect.top + btnRect.height / 2;
+
+      panel.style.setProperty('--chat-origin-x', (btnCenterX - panelLeft) + 'px');
+      panel.style.setProperty('--chat-origin-y', (btnCenterY - panelTop) + 'px');
+
+      panel.classList.add('open');
+      input.focus();
+    } else {
+      panel.classList.remove('open');
+    }
   });
 
   // Cerrar al hacer clic fuera
@@ -483,22 +509,25 @@
     if (/[ऀ-ॿ]/.test(t)) return 'hi';           // devanagari → hindi
     const tl = t.toLowerCase();
     // Transliteración latina de ruso (teclado fonético) — solo palabras distintivas del cirílico
-    const ruLatWords = ['privet','zdravstvuy','kak dela','spasibo','do svidaniya','poka','kto takoy','proekty','nachki','kontakt','yazyk','yazyki','perevod','russkij','hindij'];
+    const ruLatWords = ['privet','zdravstvuy','kak dela','spasibo','do svidaniya','poka','kto takoy','nachki','yazyk','yazyki','perevod','russkij','kak','ty','vy','rabotaet','rabotaesh','chto','delaesh','tsena','ceny','bюdžet'];
     for (const p of ruLatWords) if (tl.includes(p)) return 'ru';
     // Transliteración latina de hindi (Hinglish) — solo palabras distintivas del devanagari
-    const hiLatWords = ['namaste','namaskar','kaise ho','dhanyavad','phir milenge','alvida','koun hai','likhein','bhasha','bhashayen','anuvad','hindij'];
+    const hiLatWords = ['namaste','namaskar','kaise ho','dhanyavad','phir milenge','alvida','koun hai','likhein','bhasha','bhashayen','anuvad','kaise','kya','hai','ho','kaam','karta','karti','keemat'];
     for (const p of hiLatWords) if (tl.includes(p)) return 'hi';
     // Español primero (evita falsos positivos: 'contacto' contiene 'contact' como subcadena)
     const esWords = ['hola','buenas','gracias','proyecto','proyectos','habilidad','habilidades','contacto','¿quién','quien','sobre','python','javascript','idioma','idiomas','español','cambiar','puedes','cómo','cuál','¿qué'];
     for (const p of esWords) if (tl.includes(p)) return 'es';
     // Inglés después, con límites de palabra para palabras sueltas
-    const enWords = ['hello','hi ',' hey','how are','what is','who is','can you','projects','skills','contact','thank','goodbye','bye','can i','how can'];
+    const enWords = ['hello','hi ',' hey','how are','what is','who is','can you','projects','skills','contact','thank','goodbye','bye','can i','how can','how do','how does','work','bot','assistant','virtual','price','prices','about','tell me'];
     for (const p of enWords) {
       if (p.includes(' ')) {
         if (tl.includes(p)) return 'en';
       } else if (new RegExp('\\b' + p + '\\b', 'i').test(tl)) return 'en';
     }
-    return 'es'; // por defecto español
+    // Fallback: usar el idioma de la página para evitar respuestas en idiomas inesperados
+    const htmlLang = document.documentElement.lang || 'es';
+    const mapaLang = { es: 'es', en: 'en', ru: 'ru', hi: 'hi' };
+    return mapaLang[htmlLang] || 'es';
   }
 
   // Respuestas demo multidioma por intent
@@ -759,14 +788,26 @@
     if (qr) qr.classList.add('collapsed');
   }
 
-  // Quick replies: al hacer clic, inserta la pregunta, envía y colapsa sugerencias
+  // Quick replies: al hacer clic, inserta la pregunta, envía y colapsa sugerencias.
+  // Usamos respuestaDemo directamente (sin backend) para evitar que el servidor
+  // externo devuelva la respuesta en un idioma inesperado.
   document.querySelectorAll('.qr').forEach(btn => {
     btn.addEventListener('click', () => {
       const q = btn.textContent.trim();
       if (!q) return;
       input.value = q;
       colapsarQuickReplies();
-      enviar();
+      agregarMensaje(q, 'user');
+      input.value = '';
+      const typingDiv = mostrarEscribiendo();
+      setTimeout(() => {
+        try {
+          const respuesta = respuestaDemo(q);
+          escribir(respuesta, 'bot');
+        } finally {
+          ocultarEscribiendo(typingDiv);
+        }
+      }, 400);
     });
   });
 
