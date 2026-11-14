@@ -1,0 +1,266 @@
+/* ============================================================
+   TEMA FEMBOY UwU OwO — Kawaii pastel rosa / lavanda
+   Paleta base: fondo #DEFFFC · paneles #E2E4F6 · header/footer #E7C8DD · letras #DBAFC1
+   ============================================================ */
+
+/* ── Variables del tema Femboy ── */
+body.tema-femboy {
+  background: #DEFFFC !important;
+  text-shadow: none !important;
+  --bg: #DEFFFC;
+  --panel: #E2E4F6;
+  --text: #8B6E82;
+  --matrix-red: #C084A8;
+  --matrix-red-dark: #A66A8C;
+  --matrix-amber: #F0C6E0;
+  --border: #E7C8DD;
+  --particle-color: rgba(192, 132, 168, 0.35);
+  --particle-line: rgba(240, 198, 224, 0.15);
+
+  /* Tarjetas de servicio */
+  --service-card-bg: var(--panel);
+  --service-card-border: var(--border);
+  --service-card-title-color: var(--matrix-red);
+  --service-card-text-color: var(--text);
+  --service-card-hover-border: var(--matrix-red);
+  --service-card-hover-shadow: 0 8px 24px rgba(192, 132, 168, 0.15);
+  --glow-bg: rgba(226, 228, 246, 0.95);
+  --glow-card-content: rgba(222, 255, 252, 1);
+  --glow-core-size: 90px;
+  --glow-core-color: rgba(192, 132, 168, 0.25);
+  --glow-border-color: #C084A8;
+  --glow-conic-colors: #C084A8 0%, #F0C6E0 11%, #F0C6E0 15%, #E7C8DD 27%, #E7C8DD 31%, #DBAFC1 42%, #DBAFC1 46%, #E2E4F6 55%, #E2E4F6 59%, #DEFFFC 70%, #DEFFFC 74%, #C084A8 87%, #C084A8 91%, #C084A8 100%;
+}
+
+/* Ocultar canvas Matrix y oscurecedor */
+body.tema-femboy #matrix-canvas { display: none !important; }
+body.tema-femboy .bg-overlay { background: transparent !important; }
+
+/* Fondos de tarjetas y paneles (sin bordes visibles en tema femboy) */
+body.tema-femboy .hero,
+body.tema-femboy .skill-card,
+body.tema-femboy .contacto {
+  background: var(--panel) !important;
+  border-color: var(--border) !important;
+}
+
+/* Tarjetas de Proyectos: .project-card transparente y sin padding para eliminar
+   cualquier "cuadrado de fondo". Solo .card-tilt-inner se ve como tarjeta. */
+body.tema-femboy .project-card {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+body.tema-femboy .card-tilt-inner {
+  border: 1px solid var(--panel) !important;
+  outline: none !important;
+  background: var(--panel) !important;
+  box-shadow: 0 2px 8px rgba(192, 132, 168, 0.12) !important;
+  padding: 1rem !important;
+}
+body.tema-femboy .project-card h3 {
+  font-size: 1rem !important;
+  margin-bottom: 0.5rem !important;
+}
+body.tema-femboy .project-card p {
+  font-size: 0.85rem !important;
+  margin: 0.5rem 0 0.75rem !important;
+}
+body.tema-femboy .project-card .tag {
+  font-size: 0.65rem !important;
+  padding: 0.15rem 0.45rem !important;
+}
+
+/* Títulos y headers en rosa */
+body.tema-femboy h2,
+body.tema-femboy .hero h1,
+body.tema-femboy .hero-nombre,
+body.tema-femboy .hero h2,
+body.tema-femboy .hero-subtitulo,
+body.tema-femboy .skill-card h3,
+body.tema-femboy .project-card h3 {
+  color: var(--matrix-red) !important;
+}
+body.tema-femboy .hero p { color: var(--text) !important; opacity: 0.95 !important; }
+
+/* Nav y selectores */
+body.tema-femboy nav a { color: var(--matrix-red) !important; }
+body.tema-femboy nav #idioma-selector,
+body.tema-femboy nav #idioma-selector option {
+  color: var(--matrix-red) !important;
+  border-color: var(--matrix-red) !important;
+}
+
+/* Badge */
+body.tema-femboy .badge {
+  border-color: var(--matrix-red) !important;
+  color: var(--matrix-red) !important;
+}
+body.tema-femboy .badge:hover {
+  background: var(--matrix-red) !important;
+  color: #ffffff !important;
+  transform: scale(1.08) !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Enlaces */
+body.tema-femboy .hero a { color: var(--matrix-red) !important; }
+body.tema-femboy .hero a:hover { color: var(--matrix-red-dark) !important; }
+body.tema-femboy .skill-card li:hover { color: var(--matrix-red-dark) !important; }
+body.tema-femboy .project-card .tag {
+  border-color: var(--border) !important;
+  color: var(--matrix-red) !important;
+  background: rgba(192, 132, 168, 0.05) !important;
+}
+body.tema-femboy .project-card .tag:hover {
+  background: rgba(192, 132, 168, 0.12) !important;
+}
+
+/* Contacto */
+body.tema-femboy .contacto a { color: var(--matrix-red) !important; }
+body.tema-femboy .contacto a:hover {
+  color: var(--matrix-red-dark) !important;
+  border-bottom-color: rgba(192, 132, 168, 0.6) !important;
+}
+
+/* Chat */
+body.tema-femboy .chat-toggle {
+  border-color: var(--matrix-red) !important;
+  color: var(--matrix-red) !important;
+}
+body.tema-femboy .chat-quick-replies .qr {
+  border-color: var(--matrix-red) !important;
+  color: var(--matrix-red) !important;
+}
+body.tema-femboy .chat-quick-replies .qr:hover {
+  background: var(--matrix-red) !important;
+  border-color: var(--matrix-red) !important;
+  color: #ffffff !important;
+}
+body.tema-femboy .chat-clear {
+  border-color: var(--matrix-red) !important;
+  color: var(--matrix-red) !important;
+}
+body.tema-femboy .chat-clear:hover {
+  background: var(--matrix-red) !important;
+  color: #ffffff !important;
+}
+
+/* ============================================================
+   CURSOR BOYKISSER — Tema Femboy UwU OwO
+   - Usa la imagen original 128×128 escalada a 35×35 (sin píxeles perdidos)
+   - Hotspot en la oreja izquierda del personaje
+   - Anula flechas CSS de otros temas (Matrix, Azul Oscuro, etc.)
+   ============================================================ */
+
+/* Ocultar flechas CSS de otros temas que se dibujan sobre el Boykisser */
+body.tema-femboy #cursor-custom::before,
+body.tema-femboy #cursor-custom::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Div del cursor: imagen de fondo, sin transform del base, tamaño 35×35 */
+body.tema-femboy #cursor-custom {
+  position: fixed !important;
+  width: 35px !important;
+  height: 35px !important;
+  background-image: url('../img/cursor-femboy.png') !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  pointer-events: none !important;
+  z-index: 999999 !important;
+  transform: none !important;
+  mix-blend-mode: normal !important;
+  transition: none !important;
+  /* Offset para que la oreja izquierda quede justo bajo el mouse */
+  margin-left: -5px !important;
+  margin-top: -5px !important;
+}
+
+/* Ocultar trails y canvas de impacto en tema femboy */
+body.tema-femboy #cursor-trail,
+body.tema-femboy #cursor-impact {
+  display: none !important;
+}
+
+/* Sin cursor nativo de CSS en tema femboy (usa el div personalizado) */
+body.tema-femboy {
+  cursor: none !important;
+}
+
+/* Nav hover */
+body.tema-femboy nav a:hover { color: var(--matrix-red-dark) !important; }
+
+/* Chat panel (overrides detallados) */
+body.tema-femboy #chat-panel { background: var(--panel) !important; }
+body.tema-femboy .chat-header {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--text) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.tema-femboy .chat-messages { background: rgba(0, 0, 0, 0.03) !important; }
+body.tema-femboy .message.bot .bubble {
+  background: rgba(0, 0, 0, 0.08) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-femboy .message.user .bubble {
+  background: var(--matrix-amber) !important;
+  color: #ffffff !important;
+}
+body.tema-femboy .chat-footer { background: var(--panel) !important; border-top-color: var(--border) !important; }
+body.tema-femboy .chat-footer input {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+body.tema-femboy .chat-footer input:focus { border-color: var(--text) !important; }
+body.tema-femboy .chat-footer button { background: var(--text) !important; color: #ffffff !important; }
+body.tema-femboy .chat-footer button:hover { background: var(--border) !important; }
+body.tema-femboy #chat-input::placeholder { color: rgba(219, 175, 193, 0.6) !important; }
+body.tema-femboy .chat-quick-replies {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.tema-femboy .chat-quick-replies .qr {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-femboy .chat-quick-replies .qr:hover {
+  background: var(--text) !important;
+  border-color: var(--text) !important;
+  color: #ffffff !important;
+}
+body.tema-femboy .chat-toggle {
+  background: var(--panel) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-femboy .chat-clear {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-femboy .chat-clear:hover { background: var(--matrix-red) !important; color: #ffffff !important; }
+body.tema-femboy .typing-indicator span { background: var(--text) !important; }
+
+/* Repetición de glow y service-card para consistencia con otros temas */
+body.tema-femboy {
+  --glow-bg: rgba(226, 228, 246, 0.95);
+  --glow-card-content: rgba(222, 255, 252, 1);
+  --glow-core-size: 90px;
+  --glow-core-color: rgba(192, 132, 168, 0.25);
+  --glow-border-color: #C084A8;
+  --glow-conic-colors: #C084A8 0%, #F0C6E0 11%, #F0C6E0 15%, #E7C8DD 27%, #E7C8DD 31%, #DBAFC1 42%, #DBAFC1 46%, #E2E4F6 55%, #E2E4F6 59%, #DEFFFC 70%, #DEFFFC 74%, #C084A8 87%, #C084A8 91%, #C084A8 100%;
+}
+body.tema-femboy {
+  --service-card-bg: var(--panel);
+  --service-card-border: var(--border);
+  --service-card-title-color: #C084A8;
+  --service-card-text-color: var(--text);
+  --service-card-hover-border: #C084A8;
+  --service-card-hover-shadow: 0 8px 24px rgba(192, 132, 168, 0.15);
+}
