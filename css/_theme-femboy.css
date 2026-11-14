@@ -148,6 +148,16 @@ body.tema-femboy .chat-clear:hover {
   color: #ffffff !important;
 }
 
+/* ── Idiomas UwU: solo visibles en tema Femboy ── */
+#idioma-selector option[value="eswu"],
+#idioma-selector option[value="uwuen"] {
+  display: none !important;
+}
+body.tema-femboy #idioma-selector option[value="eswu"],
+body.tema-femboy #idioma-selector option[value="uwuen"] {
+  display: block !important;
+}
+
 /* ============================================================
    CURSOR BOYKISSER — Tema Femboy UwU OwO
    - Usa la imagen original 128×128 escalada a 35×35 (sin píxeles perdidos)
@@ -204,9 +214,9 @@ body.tema-femboy .chat-header {
 }
 body.tema-femboy .chat-messages { background: rgba(0, 0, 0, 0.03) !important; }
 body.tema-femboy .message.bot .bubble {
-  background: rgba(0, 0, 0, 0.08) !important;
+  background: #ffffff !important;
   border-color: var(--border) !important;
-  color: var(--text) !important;
+  color: #000000 !important;
 }
 body.tema-femboy .message.user .bubble {
   background: var(--matrix-amber) !important;
