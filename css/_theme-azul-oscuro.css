@@ -70,9 +70,6 @@ body.tema-azul-oscuro .hero p {
 }
 
 /* ── Nav y selectores ── */
-body.tema-azul-oscuro nav a {
-  color: #00d2ff !important;
-}
 body.tema-azul-oscuro nav #idioma-selector,
 body.tema-azul-oscuro nav #idioma-selector option {
   color: #00d2ff !important;
@@ -176,11 +173,6 @@ body.tema-azul-oscuro #cursor-trail {
   display: none !important;
 }
 
-/* ── Nav hover en tema Azul Oscuro ── */
-body.tema-azul-oscuro nav a:hover {
-  color: #4a90e2 !important;
-}
-
 /* ── Chat en tema Azul Oscuro ── */
 body.tema-azul-oscuro #chat-panel {
   background: var(--panel) !important;
@@ -271,4 +263,29 @@ body.tema-azul-oscuro {
   --service-card-text-color: var(--text);
   --service-card-hover-border: #00d2ff;
   --service-card-hover-shadow: 0 8px 24px rgba(0, 210, 255, 0.15);
+}
+
+/* ── Nav estilo jhey en tema Azul Oscuro ── */
+body.tema-azul-oscuro .nav {
+  border-bottom-color: var(--bg) !important;
+  backdrop-filter: none !important;
+}
+
+body.tema-azul-oscuro .nav__avatar {
+  border-color: #00d2ff !important;
+}
+
+body.tema-azul-oscuro .nav__avatar:hover {
+  border-color: #4a90e2 !important;
+}
+
+body.tema-azul-oscuro .nav__controls select {
+  background: var(--bg) !important;
+  color: #00d2ff !important;
+  border-color: #00d2ff !important;
+}
+
+body.tema-azul-oscuro .nav__controls select option {
+  background: var(--bg) !important;
+  color: #00d2ff !important;
 }
