@@ -91,6 +91,10 @@
 }
 
 /* ── Secciones generales ── */
+html {
+  scroll-behavior: smooth;
+}
+
 section {
   margin-top: 1rem;
 }
@@ -366,6 +370,30 @@ h2 {
 .contacto a:hover {
   color: var(--matrix-amber);
   border-bottom-color: rgba(255, 170, 0, 0.6);
+}
+
+/* ── QR de Telegram en contacto ── */
+.contacto__qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+
+.contacto__qr img {
+  width: 180px;
+  height: 180px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  padding: 0.5rem;
+}
+
+.contacto__qr-lema {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
 }
 
 /* ── Mejor Proyecto ── */
