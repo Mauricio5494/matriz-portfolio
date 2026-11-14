@@ -29,10 +29,37 @@ body.tema-claro .bg-overlay {
 /* ── Fondos de tarjetas y paneles ── */
 body.tema-claro .hero,
 body.tema-claro .skill-card,
-body.tema-claro .project-card,
 body.tema-claro .contacto {
   background: var(--panel) !important;
   border-color: var(--border) !important;
+}
+
+/* Tarjetas de Proyectos: eliminar cuadrado de fondo, solo .card-tilt-inner se ve */
+body.tema-claro .project-card {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+body.tema-claro .card-tilt-inner {
+  border: 1px solid var(--panel) !important;
+  outline: none !important;
+  background: var(--panel) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+  padding: 1rem !important;
+}
+body.tema-claro .project-card h3 {
+  font-size: 1rem !important;
+  margin-bottom: 0.5rem !important;
+}
+body.tema-claro .project-card p {
+  font-size: 0.85rem !important;
+  margin: 0.5rem 0 0.75rem !important;
+}
+body.tema-claro .project-card .tag {
+  font-size: 0.65rem !important;
+  padding: 0.15rem 0.45rem !important;
 }
 
 /* ── Títulos y headers en azul oscuro ── */
