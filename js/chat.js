@@ -13,6 +13,7 @@
 
   let abierto = false;
   let enviando = false; // evita envíos concurrentes y respuestas fuera de orden
+let accionPostRespuesta = null; // { tipo: 'scroll', target: 'id-seccion' } | null
 
   toggle.addEventListener('click', () => {
     abierto = !abierto;
@@ -184,6 +185,46 @@
 
   function escribir(texto, quien, delay = 0) {
     setTimeout(() => agregarMensaje(texto, quien), delay);
+  }
+
+  // Scroll suave garantizado (requestAnimationFrame) — funciona incluso cuando
+  // el navegador ignora behavior: 'smooth' en scrollIntoView/scrollTo.
+  function scrollSuaveA(elemento, duracion = 600) {
+    const startY = window.pageYOffset;
+    const targetY = elemento.getBoundingClientRect().top + window.pageYOffset - 100;
+    const diff = targetY - startY;
+    const start = performance.now();
+
+    // Easing procedural: acelera al inicio y frena al final (cubic, más pronunciado que quad)
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function step(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duracion, 1);
+      window.scrollTo(0, startY + diff * easeInOutCubic(progress));
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  // Ejecuta acciones que deben ocurrir tras mostrar la respuesta del bot
+  function ejecutarAccionPostRespuesta() {
+    if (accionPostRespuesta && accionPostRespuesta.tipo === 'scroll') {
+      const seccion = document.getElementById(accionPostRespuesta.target);
+      if (seccion) {
+        // Pequeño delay para que el mensaje del bot se renderice antes del scroll,
+        // así la animación suave se aprecia correctamente
+        setTimeout(() => {
+          scrollSuaveA(seccion, 3000);
+        }, 80);
+      }
+    }
+    accionPostRespuesta = null;
   }
 
   function mostrarEscribiendo() {
@@ -544,7 +585,9 @@
       experiencia: ['Su experiencia abarca scripting en Python, desarrollo web con JavaScript/TypeScript, automatización de pipelines, análisis de game.log para Proton/Wine y herramientas de modding.'],
       proyectos: ['Tiene tres proyectos principales: (1) Validador de assets para motor de juegos en Python — valida archivos .inc, .ext, .mdl antes de instalar mods. (2) Analizador de game.log para Proton/Wine — traduce errores del motor a pasos de solución. (3) Panel de administración Full Stack — con autenticación JWT, gestión de usuarios, subida de imágenes y exportación a CSV.'],
       habilidades: ['Sus habilidades incluyen: Python, JavaScript, TypeScript, React, HTML5/CSS3, Tailwind CSS, Node.js, Docker, Git, CI/CD básico, SQL, análisis de logs y Blender (Python API).'],
-      contacto: ['Podés escribirle a mauriciogorilluberas@gmail.com o visitar su GitHub en github.com/Mauricio5494.'],
+      contacto: ['Podés escribirle a mauriciogorilluberas@gmail.com, visitar su GitHub en github.com/Mauricio5494, o escanear el QR de Telegram en la sección Contacto.'],
+      servicios: ['Puedo ayudarte con herramientas de automatización, validadores de assets en general, análisis de logs y proyectos full-stack con HTML, JS y CSS3. Revisa la sección Servicios para ver qué ofrecemos.'],
+      'mejor-proyecto': ['Su proyecto más destacado es el Validador de Assets para el motor de juegos GEM2 / Call to Arms — una herramienta en Python que valida archivos .inc, .ext y .mdl antes de instalar mods. Lo puedes ver en la sección Mejor Proyecto.'],
       idiomas: ['El portfolio está disponible en español, inglés, ruso e hindi. Podés cambiar el idioma desde el selector en el menú de navegación.'],
       como_funcionas: ['Soy un asistente virtual de demostración. Funciono así: (1) Detecto palabras clave en tu mensaje y las comparo contra una lista de intents (saludos, proyectos, habilidades, contacto, precios, idiomas, horario, derechos). (2) Si coincide un intent, respondo con una frase predefinida en el idioma que hayas elegido. (3) Si no coincide nada, uso una respuesta genérica. (4) Podés enseñarme nuevas respuestas con el comando "enséñame: pregunta -> respuesta" o desde el panel "Enseñarle al bot"; esas parejas quedan guardadas en IndexedDB, una base de datos local de tu navegador, así solo vos las ves y nadie más. No uso servidores externos para guardar lo que me enseñás.'],
       generico: [
@@ -572,7 +615,9 @@
       experiencia: ['His experience covers Python scripting, web development with JavaScript/TypeScript, automated pipelines, game.log analysis for Proton/Wine and game modding tools.'],
       proyectos: ['He has three main projects: (1) Game engine asset validator in Python — validates .inc, .ext, .mdl files before installing mods. (2) game.log analyzer for Proton/Wine — translates engine errors into troubleshooting steps. (3) Full Stack admin panel — with JWT authentication, user management, image upload and CSV export.'],
       habilidades: ['His skills include: Python, JavaScript, TypeScript, React, HTML5/CSS3, Tailwind CSS, Node.js, Docker, Git, basic CI/CD, SQL, log analysis and Blender (Python API).'],
-      contacto: ['You can write to him at mauriciogorilluberas@gmail.com or visit his GitHub at github.com/Mauricio5494.'],
+      contacto: ['You can write to him at mauriciogorilluberas@gmail.com, visit his GitHub at github.com/Mauricio5494, or scan the Telegram QR code in the Contact section.'],
+      servicios: ['I can help with automation tools, game engine asset validators, game.log analysis, full-stack admin panels and more. Check the Services section to see what we offer.'],
+      'mejor-proyecto': ['His standout project is the Game Engine Asset Validator for GEM2 / Call to Arms — a Python tool that validates .inc, .ext and .mdl files before installing mods. See it in the Best Project section.'],
       idiomas: ['This portfolio is available in Spanish, English, Russian and Hindi. You can change the language from the selector in the navigation menu.'],
       como_funcionas: ['I am a virtual assistant demo. I work like this: (1) I detect keywords in your message and match them against a list of intents (greetings, projects, skills, contact, prices, languages, schedule, rights). (2) If an intent matches, I reply with a predefined sentence in your chosen language. (3) If nothing matches, I use a generic fallback. (4) You can teach me new answers using the command "teach me: question -> answer" or the "Teach the bot" panel; those pairs are stored in IndexedDB, a local database in your browser, so only you see them and no one else. I do not use external servers to save what you teach me.'],
       generico: [
@@ -600,7 +645,9 @@
       experiencia: ['Его опыт включает скрипты на Python, веб-разработку на JavaScript/TypeScript, автоматизацию конвейеров, анализ game.log для Proton/Wine и инструменты моддинга.'],
       proyectos: ['У него три основных проекта: (1) Валидатор ассетов для игрового движка на Python. (2) Анализатор game.log для Proton/Wine. (3) Полноценная панель администрирования на React и Node.js.'],
       habilidades: ['Его навыки включают: Python, JavaScript, TypeScript, React, HTML5/CSS3, Tailwind CSS, Node.js, Docker, Git, базовый CI/CD, SQL, анализ логов и Blender (Python API).'],
-      contacto: ['Свяжитесь с ним по mauriciogorilluberas@gmail.com или посетите его GitHub github.com/Mauricio5494.'],
+      contacto: ['Свяжитесь с ним по mauriciogorilluberas@gmail.com, посетите его GitHub github.com/Mauricio5494 или отсканируйте QR-код Telegram в разделе Контакты.'],
+      servicios: ['Я могу помочь с инструментами автоматизации, валидаторами ассетов для игровых движков, анализом game.log, полноценными панелями администрирования и многим другим. Ознакомьтесь с разделом Сервисы.'],
+      'mejor-proyecto': ['Его лучший проект — Валидатор ассетов для игрового движка GEM2 / Call to Arms — инструмент на Python, который валидирует файлы .inc, .ext и .mdl перед установкой модов. Смотрите в разделе Лучший Проект.'],
       idiomas: ['Это портфолио доступно на четырех языках: испанский, английский, русский и хинди. Вы можете сменить язык через селектор в меню навигации.'],
       como_funcionas: ['Я виртуальный ассистент для демо. Я работаю так: (1) Я определяю ключевые слова в вашем сообщении и сравниваю их со списком интентов (приветствия, проекты, навыки, контакты, цены, языки, расписание, права). (2) Если совпадает интент, я отвечаю заранее определенной фразой на выбранном языке. (3) Если ничего не совпадает, я использую общий ответ по умолчанию. (4) Вы можете научить меня новым ответам через команду "научи меня: вопрос -> ответ" или панель "Научить бота"; эти пары сохраняются в IndexedDB — локальной базе данных вашего браузера, поэтому только вы их видите и никто другой. Я не использую внешние серверы для сохранения того, что вы мне научили.'],
       generico: [
@@ -628,7 +675,9 @@
       experiencia: ['उनका अनुभव पायथन स्क्रिप्टिंग, जावास्क्रिप्ट/टाइपस्क्रिप्ट के साथ वेब विकास, स्वचालित पाइपलाइन्स, प्रोटॉन/वाइन के लिए गेम.लॉग विश्लेषण और मोडिंग टूल्स को कवर करता है।'],
       proyectos: ['उनके तीन मुख्य प्रोजेक्ट्स हैं: (1) गेम इंजन के लिए एसेट वैलिडेटर पायथन में। (2) प्रोटॉन/वाइन के लिए गेम.लॉग विश्लेषक। (3) फुल स्टैक एडमिन पैनल रिएक्ट और नोड.जेएस में।'],
       habilidades: ['उनके स्किल्स में शामिल हैं: पायथन, जावास्क्रिप्ट, टाइपस्क्रिप्ट, रिएक्ट, HTML5/CSS3, टेलविंड CSS, नोड.जेएस, डॉकर, गिट, बेसिक CI/CD, SQL, लॉग विश्लेषण और ब्लेंडर (पायथन API)।'],
-      contacto: ['उनसे mauriciogorilluberas@gmail.com पर संपर्क करें या उनका गिटहब github.com/Mauricio5494 पर जाएँ।'],
+      contacto: ['उनसे mauriciogorilluberas@gmail.com पर संपर्क करें, उनका गिटहब github.com/Mauricio5494 पर जाएँ, या संपर्क अनुभाग में टेलीग्राम QR कोड स्कैन करें।'],
+      servicios: ['मैं ऑटोमेशन टूल्स, गेम इंजन एसेट वैलिडेटर, गेम.लॉग विश्लेषण, फुल स्टैक एडमिन पैनल और बहुत कुछ में आपकी मदद कर सकता हूँ। सेवा सेक्शन देखें।'],
+      'mejor-proyecto': ['उनका मुख्य प्रोजेक्ट गेम इंजन के लिए एसेट वैलिडेटर है GEM2 / Call to Arms — एक पायथन टूल जो मॉड इंस्टॉल करने से पहले .inc, .ext और .mdl फाइलों को वैलिडेट करता है। सर्वश्रेष्ठ परियोजना सेक्शन में देखें।'],
       idiomas: ['यह पोर्टफोलियो चार भाषाओं में उपलब्ध है: स्पेनिश, अंग्रेजी, रूसी और हिंदी। आप नेविगेशन मेनू में भाषा सेलेक्टर से भाषा बदल सकते हैं।'],
       como_funcionas: ['मैं एक डेमो वर्चुअल असिस्टेंट हूँ। मैं इस तरह काम करता हूँ: (1) मैं आपके संदेश में कीवर्ड्स का पता लगाता हूँ और उन्हें इंटेंट्स की सूची से मिलाता हूँ (अभिवादन, प्रोजेक्ट्स, स्किल्स, संपर्क, कीमत, भाषाएं, शेड्यूल, अधिकार)। (2) अगर कोई इंटेंट मेल खाता है, तो मैं आपकी चुनी हुई भाषा में पूर्वनिर्धारित वाक्य का जवाब देता हूँ। (3) अगर कुछ भी मेल नहीं खाता, तो मैं सामान्य जवाब का उपयोग करता हूँ। (4) आप मुझे "सिखाओ: प्रश्न -> उत्तर" कमांड या "बॉट को सिखाएं" पैनल से नए उत्तर सिखा सकते हैं; ये जोड़े IndexedDB में संग्रहीत होते हैं, जो आपके ब्राउज़र का स्थानीय डेटाबेस है, इसलिए केवल आप उन्हें देखते हैं और कोई और नहीं। मैं आपके द्वारा सिखाई गई बातों को सेव करने के लिए बाहरी सर्वर का उपयोग नहीं करता।'],
       generico: [
@@ -682,9 +731,11 @@
         { patrones: [/^(gracias|muchas+gracias|te+lo+agradezco|se+lo+agradezco|thanks|thank+you|gracias+por+todo)\b/i], intent: 'agradecimiento' },
         { patrones: [/qui[eé]n\s+es|sobre\s+mí|sobre\s+mauricio|perfil|qui[eé]n\s+es\s+mauricio/i], intent: 'sobre_mi' },
         { patrones: [/experiencia|trayectoria|historia|background/i], intent: 'experiencia' },
+        { patrones: [/mejor proyecto|proyecto principal|destacado|featured/i], intent: 'mejor-proyecto' },
         { patrones: [/proyecto|proyectos/i], intent: 'proyectos' },
         { patrones: [/habilidad|skill|tecnolog[ií]a|tecnolog[ií]as|stack|qu[eé]\s+sabe/i], intent: 'habilidades' },
         { patrones: [/contacto|email|correo|escribir|mail|escr[ií]beme/i], intent: 'contacto' },
+        { patrones: [/servicio|servicios|en qué te puedo ayudar|qué ofrecen|ayudar|ayúdame|ayudame|cómo podría|qué puedes hacer/i], intent: 'servicios' },
         { patrones: [/idioma|idiomas|en\s+qué\s+idiomas|idiomas\s+disponibles|qué\s+lenguas|lenguas|traducci[oó]n|traducir|español|ingl[ée]s|ruso|hindi|multidioma/i], intent: 'idiomas' },
         { patrones: [/cómo funcionas|cómo funciona el bot|como funciona el bot|bot funciona|cómo\s+eres|cómo\s+trabajas/i], intent: 'como_funcionas' },
         { patrones: [/precio|precios|cu[aá]nto\s+costa|cu[aá]nto\s+cobra|tarifa|presupuesto|costo/i], intent: 'precios' },
@@ -698,9 +749,11 @@
         { patrones: [/^(thank you|thanks|thank you very much)\b/i], intent: 'agradecimiento' },
         { patrones: [/who is|about mauricio|profile|tell me about/i], intent: 'sobre_mi' },
         { patrones: [/experience|background|career/i], intent: 'experiencia' },
+        { patrones: [/best project|main project|featured|highlight/i], intent: 'mejor-proyecto' },
         { patrones: [/project|projects/i], intent: 'proyectos' },
         { patrones: [/skill|skills|technology|technologies|stack|what does he know/i], intent: 'habilidades' },
         { patrones: [/contact|email|write to|mail|reach/i], intent: 'contacto' },
+        { patrones: [/service|services|what do you offer|help me|how can he|what can he do/i], intent: 'servicios' },
         { patrones: [/language|languages|what languages|translate/i], intent: 'idiomas' },
         { patrones: [/how do you work|how does the bot work|how does it work|what are you|how do you function/i], intent: 'como_funcionas' },
         { patrones: [/price|prices|how much|cost|tariff|budget/i], intent: 'precios' },
@@ -714,9 +767,11 @@
         { patrones: [/^(спасибо|благодарю)\b/i], intent: 'agradecimiento' },
         { patrones: [/кто такой|о Маурисио|профиль|расскажи о/i], intent: 'sobre_mi' },
         { patrones: [/опыт|предыстория|карьера/i], intent: 'experiencia' },
+        { patrones: [/лучший проект|главный проект|избранный/i], intent: 'mejor-proyecto' },
         { patrones: [/проект|проекты/i], intent: 'proyectos' },
         { patrones: [/навык|навыки|технология|технологии|стек/i], intent: 'habilidades' },
         { patrones: [/контакт|почте|написать|связаться/i], intent: 'contacto' },
+        { patrones: [/сервис|сервисы|что предлагаешь|помощь|помоги|чем можешь/i], intent: 'servicios' },
         { patrones: [/язык|языки|какие языки|перевод/i], intent: 'idiomas' },
         { patrones: [/как ты работаешь|как работает бот|как это работает|кто ты|как ты функционируешь/i], intent: 'como_funcionas' },
         { patrones: [/цена|цены|сколько стоит|бюджет|тариф/i], intent: 'precios' },
@@ -730,9 +785,11 @@
         { patrones: [/^(धन्यवाद|शुक्रिया)\b/i], intent: 'agradecimiento' },
         { patrones: [/मॉरिसियो कौन है|मॉरिसियो के बारे में|प्रोफाइल/i], intent: 'sobre_mi' },
         { patrones: [/अनुभव|पृष्ठभूमि|करियर/i], intent: 'experiencia' },
+        { patrones: [/सर्वश्रेष्ठ परियोजना|मुख्य परियोजना/i], intent: 'mejor-proyecto' },
         { patrones: [/प्रोजेक्ट|प्रोजेक्ट्स/i], intent: 'proyectos' },
         { patrones: [/स्किल|स्किल्स|तकनीक|तकनीकें/i], intent: 'habilidades' },
         { patrones: [/संपर्क|ईमेल|लिखें|मेल/i], intent: 'contacto' },
+        { patrones: [/सेवा|सेवाएं|क्या ऑफर करते|मदद|मदद करो|क्या कर सकते/i], intent: 'servicios' },
         { patrones: [/भाषा|भाषाएं|कौन सी भाषा|अनुवाद/i], intent: 'idiomas' },
         { patrones: [/बॉट कैसे काम करता है|बॉट कैसे काम करता|तुम कैसे काम करते हो|तुम कौन हो/i], intent: 'como_funcionas' },
         { patrones: [/कीमत|कीमतें|कितना खर्च|बजट|शुल्क/i], intent: 'precios' },
@@ -749,7 +806,23 @@
           const claveIntent = grupo.intent;
           const respuestas = tabla[claveIntent] || tabla.generico;
           const respuestaIntent = respuestas[Math.floor(Math.random() * respuestas.length)];
-          return esUwuTexto ? uwuifyLocal(respuestaIntent) : respuestaIntent;
+          const textoFinal = esUwuTexto ? uwuifyLocal(respuestaIntent) : respuestaIntent;
+
+          // Mapear intents a secciones para scroll suave
+          const SECCIONES_POR_INTENT = {
+            sobre_mi: 'sobre-mi',
+            habilidades: 'habilidades',
+            proyectos: 'proyectos',
+            servicios: 'servicios',
+            contacto: 'contacto',
+            'mejor-proyecto': 'mejor-proyecto',
+          };
+          const seccionId = SECCIONES_POR_INTENT[claveIntent];
+          if (seccionId) {
+            accionPostRespuesta = { tipo: 'scroll', target: seccionId };
+          }
+
+          return textoFinal;
         }
       }
     }
@@ -772,6 +845,7 @@
       try {
         const respuesta = await respuestaIA(texto);
         escribir(respuesta, 'bot');
+        ejecutarAccionPostRespuesta();
       } finally {
         ocultarEscribiendo(typingDiv);
         enviando = false;
@@ -804,6 +878,7 @@
         try {
           const respuesta = respuestaDemo(q);
           escribir(respuesta, 'bot');
+          ejecutarAccionPostRespuesta();
         } finally {
           ocultarEscribiendo(typingDiv);
         }
@@ -938,6 +1013,20 @@
       } catch (err) {
         console.error('Error al guardar enseñanza:', err);
         mostrarMensajeEnseñar('No se pudo guardar en el almacenamiento local.', false);
+      }
+    });
+  }
+
+  // Botón CTA del hero: scroll suave a #proyectos (igual que el chatbot)
+  const btnCtaHero = document.querySelector('.cta-hero');
+  if (btnCtaHero) {
+    btnCtaHero.addEventListener('click', (e) => {
+      e.preventDefault();
+      const seccion = document.getElementById('proyectos');
+      if (seccion) {
+        setTimeout(() => {
+          scrollSuaveA(seccion, 3000);
+        }, 80);
       }
     });
   }
