@@ -277,6 +277,187 @@
   color: #fff;
 }
 
+/* ── Panel: Enseñarle al bot ── */
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-enseñar-toggle {
+  background: transparent;
+  border: 1px solid var(--matrix-red);
+  color: var(--matrix-amber);
+  border-radius: 4px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+}
+
+.chat-enseñar-toggle:hover {
+  background: var(--matrix-red);
+  color: #000;
+}
+
+.chat-enseñar {
+  border-top: 1px solid var(--border);
+  background: var(--panel);
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+.chat-enseñar.open {
+  display: flex;
+}
+
+.chat-enseñar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--matrix-amber);
+}
+
+.chat-enseñar-cerrar {
+  background: transparent;
+  border: 1px solid var(--matrix-red-dark);
+  color: var(--matrix-red);
+  border-radius: 4px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+}
+
+.chat-enseñar-cerrar:hover {
+  background: var(--matrix-red-dark);
+  color: #fff;
+}
+
+.chat-enseñar-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.chat-enseñar-form input {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.chat-enseñar-form input:focus {
+  border-color: var(--matrix-amber);
+  outline: 2px solid var(--matrix-amber);
+  outline-offset: 2px;
+}
+
+.chat-enseñar-form button {
+  background: var(--matrix-red);
+  color: #000;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: bold;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.chat-enseñar-form button:hover {
+  background: var(--matrix-amber);
+}
+
+.chat-enseñar-mensaje {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  min-height: 1.2rem;
+}
+
+.chat-enseñar-mensaje.exito { color: var(--matrix-amber); }
+.chat-enseñar-mensaje.error { color: var(--matrix-red-dark); }
+
+/* ── Overrides tema Femboy: panel Enseñarle al bot ── */
+body.tema-femboy .chat-enseñar-toggle {
+  border-color: var(--matrix-red-dark) !important;
+  color: var(--matrix-red-dark) !important;
+}
+body.tema-femboy .chat-enseñar-toggle:hover {
+  background: var(--matrix-red-dark) !important;
+  color: #ffffff !important;
+}
+body.tema-femboy .chat-enseñar {
+  border-top-color: var(--border) !important;
+  background: var(--panel) !important;
+}
+body.tema-femboy .chat-enseñar-header span,
+body.tema-femboy .chat-enseñar-header {
+  color: var(--text) !important;
+}
+body.tema-femboy .chat-enseñar-cerrar {
+  border-color: var(--matrix-red-dark) !important;
+  color: var(--matrix-red-dark) !important;
+}
+body.tema-femboy .chat-enseñar-cerrar:hover {
+  background: var(--matrix-red-dark) !important;
+  color: #ffffff !important;
+}
+body.tema-femboy .chat-enseñar-form input {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+body.tema-femboy .chat-enseñar-form input:focus {
+  border-color: var(--text) !important;
+}
+body.tema-femboy .chat-enseñar-form button {
+  background: var(--matrix-red-dark) !important;
+  color: #ffffff !important;
+}
+body.tema-femboy .chat-enseñar-form button:hover {
+  background: var(--matrix-red) !important;
+}
+body.tema-femboy .chat-enseñar-mensaje.exito { color: var(--matrix-amber) !important; }
+body.tema-femboy .chat-enseñar-mensaje.error { color: var(--matrix-red-dark) !important; }
+
+/* ── Botón de borrar enseñanza (🗑️) ── */
+.chat-borrar-enseñanza {
+  background: transparent;
+  border: 1px solid var(--matrix-red-dark);
+  color: var(--matrix-red-dark);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  margin-left: 0.5rem;
+  align-self: flex-start;
+}
+
+.chat-borrar-enseñanza:hover {
+  background: var(--matrix-red-dark);
+  color: #fff;
+}
+
+/* Overrides tema Femboy para el botón de borrar */
+body.tema-femboy .chat-borrar-enseñanza {
+  border-color: var(--matrix-red-dark) !important;
+  color: var(--matrix-red-dark) !important;
+}
+body.tema-femboy .chat-borrar-enseñanza:hover {
+  background: var(--matrix-red-dark) !important;
+  color: #ffffff !important;
+}
+
 @media (max-width: 640px) {
   #chat-panel {
     width: calc(100vw - 30px);
