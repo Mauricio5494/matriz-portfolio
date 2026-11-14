@@ -274,3 +274,21 @@ body.tema-femboy {
   --service-card-hover-border: #C084A8;
   --service-card-hover-shadow: 0 8px 24px rgba(192, 132, 168, 0.15);
 }
+
+/* ── Shark plushie marca de agua para tema Femboy (abajo a la izquierda, sigue el scroll) ── */
+body.tema-femboy .femboy-watermark {
+  display: block !important;
+  position: fixed;
+  bottom: 2vh;
+  left: 0vw;
+  width: 320px;
+  height: 320px;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: -1;
+  background-image: url('../img/shark-plushie.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: saturate(1.1) brightness(1.05);
+}
