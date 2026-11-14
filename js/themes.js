@@ -48,5 +48,9 @@
 
   selector.addEventListener('change', function (e) {
     aplicarTema(e.target.value);
+    // Hard refresh únicamente al cambiar al tema Femboy UwU OwO
+    if (e.target.value === 'femboy') {
+      location.reload();
+    }
   });
 })();
