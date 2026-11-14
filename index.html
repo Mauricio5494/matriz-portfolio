@@ -49,34 +49,47 @@
     </div>
   </div>
 
-  <nav>
-    <ul>
-      <li><a href="#sobre-mi" data-i18n="nav.sobre-mi">Sobre mí</a></li>
-      <li><a href="#habilidades" data-i18n="nav.habilidades">Habilidades</a></li>
-      <li><a href="#proyectos" data-i18n="nav.proyectos">Proyectos</a></li>
-      <li><a href="#contacto" data-i18n="nav.contacto">Contacto</a></li>
-      <li class="idioma-selector">
-        <select id="idioma-selector">
-          <option value="es">Español</option>
-          <option value="en">English</option>
-          <option value="ru">Русский</option>
-          <option value="hi">हिन्दी</option>
-          <option value="eswu">Espuwuñol</option>
-          <option value="uwuen">UwUnglish</option>
-        </select>
-      </li>
-      <li class="tema-selector">
-        <label for="tema-selector" style="font-size:0.75rem; color:var(--matrix-amber); opacity:0.8;">Tema</label>
-        <select id="tema-selector">
-          <option value="matrix">Matrix (oscuro)</option>
-          <option value="milk-chan">Milk-chan</option>
-          <option value="claro">Claro</option>
-          <option value="sepia">Sepia cálido</option>
-          <option value="azul-oscuro">Azul oscuro (azulado)</option>
-          <option value="femboy">Femboy UwU OwO</option>
-        </select>
-      </li>
-    </ul>
+  <nav class="nav">
+    <div class="nav__content">
+      <!-- Avatar circular estilo WhatsApp PFP -->
+      <a href="#" class="nav__avatar" aria-label="Mauricio Gori">
+        <img src="img/avatar.jpg" alt="Foto de perfil de Mauricio Gori">
+      </a>
+
+      <!-- Enlaces del nav (hermanos directos, como en el código de jhey) -->
+      <div class="nav__links">
+        <a href="#sobre-mi" class="link"><span class="link__text" data-i18n="nav.sobre-mi">Sobre mí</span></a>
+        <a href="#habilidades" class="link"><span class="link__text" data-i18n="nav.habilidades">Habilidades</span></a>
+        <a href="#proyectos" class="link"><span class="link__text" data-i18n="nav.proyectos">Proyectos</span></a>
+        <a href="#contacto" class="link"><span class="link__text" data-i18n="nav.contacto">Contacto</span></a>
+      </div>
+
+      <div class="nav__controls">
+        <ul class="nav__selects">
+          <li class="idioma-selector">
+            <select id="idioma-selector">
+              <option value="es">Español</option>
+              <option value="en">English</option>
+              <option value="ru">Русский</option>
+              <option value="hi">हिन्दी</option>
+              <option value="eswu">Espuwuñol</option>
+              <option value="uwuen">UwUnglish</option>
+            </select>
+          </li>
+          <li class="tema-selector">
+            <label for="tema-selector" style="font-size:0.75rem; color:var(--matrix-amber); opacity:0.8;">Tema</label>
+            <select id="tema-selector">
+              <option value="matrix">Matrix (oscuro)</option>
+              <option value="milk-chan">Milk-chan</option>
+              <option value="claro">Claro</option>
+              <option value="sepia">Sepia cálido</option>
+              <option value="azul-oscuro">Azul oscuro (azulado)</option>
+              <option value="femboy">Femboy UwU OwO</option>
+            </select>
+          </li>
+        </ul>
+      </div>
+    </div>
   </nav>
 
     <div>
@@ -115,44 +128,44 @@
             <div class="skill-card reveal">
               <h3 data-i18n="skills.lenguajes">Lenguajes</h3>
               <ul>
-                <li data-i18n="skill.python">Python</li>
-                <li data-i18n="skill.javascript">JavaScript</li>
-                <li data-i18n="skill.typescript">TypeScript</li>
-                <li data-i18n="skill.sql">SQL</li>
-                <li data-i18n="skill.cpp">C++</li>
-                <li data-i18n="skill.c">C</li>
-                <li data-i18n="skill.csharp">C#</li>
-                <li data-i18n="skill.rust">Rust</li>
+                <li><a href="https://docs.python.org/" target="_blank" rel="noopener noreferrer" data-i18n="skill.python">Python</a></li>
+                <li><a href="https://developer.mozilla.org/es/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" data-i18n="skill.javascript">JavaScript</a></li>
+                <li><a href="https://www.typescriptlang.org/docs/" target="_blank" rel="noopener noreferrer" data-i18n="skill.typescript">TypeScript</a></li>
+                <li><a href="https://www.w3schools.com/sql/" target="_blank" rel="noopener noreferrer" data-i18n="skill.sql">SQL</a></li>
+                <li><a href="https://en.cppreference.com/w/" target="_blank" rel="noopener noreferrer" data-i18n="skill.cpp">C++</a></li>
+                <li><a href="https://en.cppreference.com/w/c" target="_blank" rel="noopener noreferrer" data-i18n="skill.c">C</a></li>
+                <li><a href="https://learn.microsoft.com/es-es/dotnet/csharp/" target="_blank" rel="noopener noreferrer" data-i18n="skill.csharp">C#</a></li>
+                <li><a href="https://www.rust-lang.org/learn" target="_blank" rel="noopener noreferrer" data-i18n="skill.rust">Rust</a></li>
               </ul>
             </div>
             <div class="skill-card reveal">
               <h3 data-i18n="skills.frontend">Frontend</h3>
               <ul>
-                <li data-i18n="skill.react">React</li>
-                <li data-i18n="skill.htmlcss">HTML5 / CSS3</li>
-                <li data-i18n="skill.tailwind">Tailwind CSS</li>
-                <li data-i18n="skill.githubpages">GitHub Pages</li>
-                <li data-i18n="skill.brainjs">Brain.js</li>
-                <li data-i18n="skill.canvas">Canvas 2D</li>
-                <li data-i18n="skill.fetch">Fetch API</li>
-                <li data-i18n="skill.localstorage">LocalStorage</li>
+                <li><a href="https://react.dev/" target="_blank" rel="noopener noreferrer" data-i18n="skill.react">React</a></li>
+                <li><a href="https://developer.mozilla.org/es/" target="_blank" rel="noopener noreferrer" data-i18n="skill.htmlcss">HTML5 / CSS3</a></li>
+                <li><a href="https://tailwindcss.com/docs" target="_blank" rel="noopener noreferrer" data-i18n="skill.tailwind">Tailwind CSS</a></li>
+                <li><a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer" data-i18n="skill.githubpages">GitHub Pages</a></li>
+                <li><a href="https://brain.js.org/" target="_blank" rel="noopener noreferrer" data-i18n="skill.brainjs">Brain.js</a></li>
+                <li><a href="https://developer.mozilla.org/es/docs/Web/API/Canvas_API" target="_blank" rel="noopener noreferrer" data-i18n="skill.canvas">Canvas 2D</a></li>
+                <li><a href="https://developer.mozilla.org/es/docs/Web/API/Fetch_API" target="_blank" rel="noopener noreferrer" data-i18n="skill.fetch">Fetch API</a></li>
+                <li><a href="https://developer.mozilla.org/es/docs/Web/API/Window/localStorage" target="_blank" rel="noopener noreferrer" data-i18n="skill.localstorage">LocalStorage</a></li>
               </ul>
             </div>
             <div class="skill-card reveal">
               <h3 data-i18n="skills.backend">Backend &amp; DevOps</h3>
               <ul>
-                <li data-i18n="skill.nodejs">Node.js</li>
-                <li data-i18n="skill.express">Express.js</li>
-                <li data-i18n="skill.docker">Docker</li>
-                <li data-i18n="skill.git">Git</li>
-                <li data-i18n="skill.cicd">CI/CD básico</li>
+                <li><a href="https://nodejs.org/es/docs/" target="_blank" rel="noopener noreferrer" data-i18n="skill.nodejs">Node.js</a></li>
+                <li><a href="https://expressjs.com/es/" target="_blank" rel="noopener noreferrer" data-i18n="skill.express">Express.js</a></li>
+                <li><a href="https://docs.docker.com/" target="_blank" rel="noopener noreferrer" data-i18n="skill.docker">Docker</a></li>
+                <li><a href="https://git-scm.com/doc" target="_blank" rel="noopener noreferrer" data-i18n="skill.git">Git</a></li>
+                <li><a href="https://docs.github.com/es/actions" target="_blank" rel="noopener noreferrer" data-i18n="skill.cicd">CI/CD básico</a></li>
               </ul>
             </div>
             <div class="skill-card reveal">
               <h3 data-i18n="skills.creativas">Herramientas creativas</h3>
               <ul>
-                <li data-i18n="skill.blender">Blender (Python API)</li>
-                <li data-i18n="skill.pipelines">Automatización de pipelines</li>
+                <li><a href="https://docs.blender.org/api/current/" target="_blank" rel="noopener noreferrer" data-i18n="skill.blender">Blender (Python API)</a></li>
+                <li><a href="https://docs.github.com/es/actions" target="_blank" rel="noopener noreferrer" data-i18n="skill.pipelines">Automatización de pipelines</a></li>
                 <li data-i18n="skill.logs">Análisis de logs</li>
               </ul>
             </div>
