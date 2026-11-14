@@ -189,9 +189,9 @@ let accionPostRespuesta = null; // { tipo: 'scroll', target: 'id-seccion' } | nu
 
   // Scroll suave garantizado (requestAnimationFrame) — funciona incluso cuando
   // el navegador ignora behavior: 'smooth' en scrollIntoView/scrollTo.
-  function scrollSuaveA(elemento, duracion = 600) {
+  function scrollSuaveA(elemento, duracion = 600, yForzada = null) {
     const startY = window.pageYOffset;
-    const targetY = elemento.getBoundingClientRect().top + window.pageYOffset - 100;
+    const targetY = yForzada !== null ? yForzada : elemento.getBoundingClientRect().top + window.pageYOffset - 100;
     const diff = targetY - startY;
     const start = performance.now();
 
@@ -1028,6 +1028,34 @@ let accionPostRespuesta = null; // { tipo: 'scroll', target: 'id-seccion' } | nu
           scrollSuaveA(seccion, 3000);
         }, 80);
       }
+    });
+  }
+
+  // Enlaces del nav: scroll suave a cada sección (Sobre mí, Habilidades, Proyectos, Contacto)
+  document.querySelectorAll('.nav__links .link').forEach((enlace) => {
+    enlace.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = enlace.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        const id = href.slice(1); // quita el '#'
+        const seccion = document.getElementById(id);
+        if (seccion) {
+          setTimeout(() => {
+            scrollSuaveA(seccion, 3000);
+          }, 80);
+        }
+      }
+    });
+  });
+
+  // Avatar del nav: scroll suave al inicio de la página
+  const avatarNav = document.querySelector('.nav__avatar');
+  if (avatarNav) {
+    avatarNav.addEventListener('click', (e) => {
+      e.preventDefault();
+      setTimeout(() => {
+        scrollSuaveA(document.documentElement, 3000, 0);
+      }, 80);
     });
   }
 })();
