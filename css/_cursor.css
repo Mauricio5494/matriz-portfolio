@@ -9,7 +9,7 @@
   width: 24px;
   height: 24px;
   pointer-events: none;
-  z-index: 5000;
+  z-index: 999999;
   transform: translate(-50%, -50%);
   background-image: none !important;
   background-color: transparent !important;
