@@ -31,6 +31,16 @@
       if (matrixCanvas) matrixCanvas.style.display = 'none';
       if (bgOverlay) bgOverlay.style.background = 'transparent';
     }
+
+    // Si el tema no es femboy y el idioma es eswu/uwuen, revertir a base (es/en)
+    const idiomaGuardado = localStorage.getItem('idioma');
+    if (tema !== 'femboy' && (idiomaGuardado === 'eswu' || idiomaGuardado === 'uwuen')) {
+      const nuevoIdioma = idiomaGuardado === 'eswu' ? 'es' : 'en';
+      localStorage.setItem('idioma', nuevoIdioma);
+      if (typeof window.cambiarIdiomaPortfolio === 'function') {
+        window.cambiarIdiomaPortfolio(nuevoIdioma);
+      }
+    }
   }
 
   selector.value = temaActual;

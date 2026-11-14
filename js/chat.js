@@ -44,13 +44,114 @@
       .replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, '<a href="mailto:$1" target="_blank" rel="noopener noreferrer">$1</a>');
   }
 
-  function agregarMensaje(texto, quien) {
+  // ── Funciones uwu (duplicadas de i18n.js para uso local en chat.js) ──
+  function uwuifyLocal(texto) {
+    return texto
+      .replace(/u/g, 'uwu')
+      .replace(/U/g, 'Uwu')
+      .replace(/\./g, ' OwO.');
+  }
+
+  function desUwuify(texto) {
+    return texto
+      .replace(/Uwu/g, 'U')
+      .replace(/uwu/g, 'u')
+      .replace(/ OwO\./g, '.');
+  }
+
+  // ── Base de datos local (IndexedDB) para enseñanzas privadas por usuario ──
+  // Cada usuario tiene su propia BD en el navegador; nada se comparte con otros.
+  const DB_NAME = 'portfolio-chat-db';
+  const STORE_NAME = 'enseñanzas';
+  let db = null;
+
+  function abrirDB() {
+    return new Promise((resolve, reject) => {
+      if (!window.indexedDB) {
+        return reject(new Error('IndexedDB no disponible'));
+      }
+      const req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = () => {
+        const dbLocal = req.result;
+        if (!dbLocal.objectStoreNames.contains(STORE_NAME)) {
+          dbLocal.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+        }
+      };
+      req.onsuccess = () => { db = req.result; resolve(db); };
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  function guardarEnseñanza(pregunta, respuesta) {
+    return new Promise((resolve, reject) => {
+      if (!db) return reject(new Error('DB no abierta'));
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      const req = store.add({ pregunta, respuesta, fecha: Date.now() });
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  function buscarEnseñanza(pregunta) {
+    return new Promise((resolve) => {
+      if (!db) return resolve(null);
+      const tx = db.transaction(STORE_NAME, 'readonly');
+      const store = tx.objectStore(STORE_NAME);
+      const req = store.openCursor();
+      const p = pregunta.toLowerCase();
+      req.onsuccess = (e) => {
+        const cursor = e.target.result;
+        while (cursor) {
+          if (cursor.value.pregunta.toLowerCase() === p) {
+            return resolve(cursor.value);
+          }
+          cursor.continue();
+        }
+        resolve(null);
+      };
+      req.onerror = () => resolve(null);
+    });
+  }
+
+  function borrarEnseñanza(id) {
+    return new Promise((resolve, reject) => {
+      if (!db) return reject(new Error('DB no abierta'));
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      const req = store.delete(id);
+      req.onsuccess = () => resolve();
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  function agregarMensaje(texto, quien, idEnseñanza = null) {
     const div = document.createElement('div');
     div.className = 'message ' + quien;
     const bubble = document.createElement('div');
     bubble.className = 'bubble';
     bubble.innerHTML = enlazarTexto(texto);
     div.appendChild(bubble);
+
+    // Botón de borrar solo para mensajes del bot que son enseñanzas del usuario
+    if (quien === 'bot' && idEnseñanza !== null) {
+      const btnBorrar = document.createElement('button');
+      btnBorrar.className = 'chat-borrar-enseñanza';
+      btnBorrar.title = 'Borrar esta respuesta';
+      btnBorrar.textContent = '🗑️';
+      btnBorrar.dataset.id = idEnseñanza;
+      btnBorrar.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        try {
+          await borrarEnseñanza(parseInt(btnBorrar.dataset.id, 10));
+          div.remove();
+        } catch (err) {
+          console.error('Error al borrar enseñanza:', err);
+        }
+      });
+      div.appendChild(btnBorrar);
+    }
+
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
   }
@@ -82,19 +183,68 @@
     if (match) {
       const pregunta = match[1].trim();
       const respuesta = match[2].trim();
-      try {
-        const resp = await fetch(`${RAILWAY_BACKEND_URL}/api/teach`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ pregunta, respuesta }),
-        });
-        if (resp.ok) {
-          return `Aprendido. Si preguntás "${pregunta}", responderé "${respuesta}".`;
-        }
-        return 'No pude guardar esa respuesta. Probá de nuevo más tarde.';
-      } catch (e) {
-        return 'Error al conectar con el backend para guardar la respuesta.';
+
+      // ── Validaciones de seguridad para el comando "enséñame" ──
+      if (!pregunta || !respuesta) {
+        return 'La pregunta y la respuesta no pueden estar vacías.';
       }
+      if (pregunta.length < 3 || pregunta.length > 100) {
+        return 'La pregunta debe tener entre 3 y 100 caracteres.';
+      }
+      if (respuesta.length < 3 || respuesta.length > 300) {
+        return 'La respuesta debe tener entre 3 y 300 caracteres.';
+      }
+      const palabrasProhibidas = [
+        // insultos / ofensas básicas (español e inglés)
+        'estúpido','estupido','idiota','imbécil','imbecil','tonto','tonto',
+        'puta','mierda','joder','cabrón','cabron','gilipollas','boludo','pendejo',
+        'stupid','idiot','moron','dumb','asshole','bitch','crap','damn','hell',
+        // intentos de phishing / enlaces sospechosos
+        'http://','https://','www.','bit.ly','tinyurl',
+        // inyección de comandos
+        'rm ','sudo ','chmod ','chown ','format ','del /',
+      ];
+      const textoCompleto = (pregunta + ' ' + respuesta).toLowerCase();
+      for (const palabra of palabrasProhibidas) {
+        if (textoCompleto.includes(palabra)) {
+          return 'No puedo guardar esa respuesta: contiene lenguaje o contenido no permitido.';
+        }
+      }
+
+      try {
+        // Guardar en IndexedDB local (privado por usuario)
+        await abrirDB();
+        const id = await guardarEnseñanza(pregunta, respuesta);
+
+        // También intentar enviar al backend si está disponible (no bloqueante)
+        try {
+          const resp = await fetch(`${RAILWAY_BACKEND_URL}/api/teach`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pregunta, respuesta }),
+          });
+          if (!resp.ok) {
+            // Si el backend falla, no importa: ya está guardado localmente
+          }
+        } catch (e) {
+          // Backend no disponible, la enseñanza queda guardada localmente
+        }
+
+        return `Aprendido (guardado localmente). Si preguntás "${pregunta}", responderé "${respuesta}".`;
+      } catch (e) {
+        return 'No pude guardar esa respuesta en el almacenamiento local.';
+      }
+    }
+
+    // ── 2. Consultar enseñanzas locales (IndexedDB) antes del backend ──
+    try {
+      await abrirDB();
+      const enseñanza = await buscarEnseñanza(texto);
+      if (enseñanza) {
+        return enseñanza.respuesta;
+      }
+    } catch (e) {
+      // Si IndexedDB falla, continuamos con el backend
     }
 
     try {
@@ -367,7 +517,19 @@
       habilidades: ['Sus habilidades incluyen: Python, JavaScript, TypeScript, React, HTML5/CSS3, Tailwind CSS, Node.js, Docker, Git, CI/CD básico, SQL, análisis de logs y Blender (Python API).'],
       contacto: ['Podés escribirle a mauriciogorilluberas@gmail.com o visitar su GitHub en github.com/Mauricio5494.'],
       idiomas: ['El portfolio está disponible en español, inglés, ruso e hindi. Podés cambiar el idioma desde el selector en el menú de navegación.'],
-      generico: ['Interesante pregunta. En este modo demo puedo responder sobre sus proyectos, habilidades, experiencia, tecnologías y cómo contactarlo.'],
+      como_funcionas: ['Soy un asistente virtual de demostración. Funciono así: (1) Detecto palabras clave en tu mensaje y las comparo contra una lista de intents (saludos, proyectos, habilidades, contacto, precios, idiomas, horario, derechos). (2) Si coincide un intent, respondo con una frase predefinida en el idioma que hayas elegido. (3) Si no coincide nada, uso una respuesta genérica. (4) Podés enseñarme nuevas respuestas con el comando "enséñame: pregunta -> respuesta" o desde el panel "Enseñarle al bot"; esas parejas quedan guardadas en IndexedDB, una base de datos local de tu navegador, así solo vos las ves y nadie más. No uso servidores externos para guardar lo que me enseñás.'],
+      generico: [
+        'Perdona, no entendí tu pregunta. ¿Puedes repetirla?',
+        '¿Cómo has dicho? No te he captado bien.',
+        'Estoy pensando… pero la verdad no sé qué responderte a eso.',
+        'Esa pregunta se me escapa. Pregúntame sobre los proyectos, habilidades o contacto de Mauricio.',
+        'Uy, esa no la tengo aprendida aún. Intenta con algo sobre sus proyectos o habilidades.',
+        'No estoy seguro de haber entendido. ¿Podrías decirlo de otra forma?',
+        'Lo siento, no tengo una respuesta para eso. ¿Sobre qué más te gustaría saber?',
+        'Esa se me fue de las manos. Pregúntame sobre lo que hace Mauricio o cómo contactarlo.',
+        'No tengo esa respuesta guardada. Enséñame con "enséñame: pregunta → respuesta" si quieres.',
+        'Mmm… no sé qué responder a eso. Prueba con algo sobre proyectos, habilidades o precios.'
+      ],
     },
     en: {
       saludo: ['Hello! I am Mauricio\'s chatbot. Ask me about his projects, skills, experience or how to contact him.'],
@@ -383,7 +545,19 @@
       habilidades: ['His skills include: Python, JavaScript, TypeScript, React, HTML5/CSS3, Tailwind CSS, Node.js, Docker, Git, basic CI/CD, SQL, log analysis and Blender (Python API).'],
       contacto: ['You can write to him at mauriciogorilluberas@gmail.com or visit his GitHub at github.com/Mauricio5494.'],
       idiomas: ['This portfolio is available in Spanish, English, Russian and Hindi. You can change the language from the selector in the navigation menu.'],
-      generico: ['Interesting question. In demo mode I can answer about his projects, skills, experience, technologies and how to contact him.'],
+      como_funcionas: ['I am a virtual assistant demo. I work like this: (1) I detect keywords in your message and match them against a list of intents (greetings, projects, skills, contact, prices, languages, schedule, rights). (2) If an intent matches, I reply with a predefined sentence in your chosen language. (3) If nothing matches, I use a generic fallback. (4) You can teach me new answers using the command "teach me: question -> answer" or the "Teach the bot" panel; those pairs are stored in IndexedDB, a local database in your browser, so only you see them and no one else. I do not use external servers to save what you teach me.'],
+      generico: [
+        "Sorry, I didn't understand your question. Can you repeat it?",
+        'What did you say? I didn\'t quite catch that.',
+        "I'm thinking… but honestly I don't know what to answer to that.",
+        "That question slips past me. Ask me about Mauricio's projects, skills, or contact.",
+        "I haven't learned that one yet. Try something about his projects or skills.",
+        "I'm not sure I understood. Could you say it another way?",
+        "Sorry, I don't have an answer for that. What else would you like to know?",
+        "That one got away from me. Ask me about what Mauricio does or how to contact him.",
+        "I don't have that answer saved. Teach me with \"teach me: question → answer\" if you'd like.",
+        "Hmm… I don't know what to answer to that. Try something about projects, skills, or prices."
+      ],
     },
     ru: {
       saludo: ['Привет! Я чат-бот Маурисио. Спросите о его проектах, навыках, опыте или как с ним связаться.'],
@@ -399,7 +573,19 @@
       habilidades: ['Его навыки включают: Python, JavaScript, TypeScript, React, HTML5/CSS3, Tailwind CSS, Node.js, Docker, Git, базовый CI/CD, SQL, анализ логов и Blender (Python API).'],
       contacto: ['Свяжитесь с ним по mauriciogorilluberas@gmail.com или посетите его GitHub github.com/Mauricio5494.'],
       idiomas: ['Это портфолио доступно на четырех языках: испанский, английский, русский и хинди. Вы можете сменить язык через селектор в меню навигации.'],
-      generico: ['Интересный вопрос. В демо-режиме я могу ответить о его проектах, навыках, опыте, технологиях и как с ним связаться.'],
+      como_funcionas: ['Я виртуальный ассистент для демо. Я работаю так: (1) Я определяю ключевые слова в вашем сообщении и сравниваю их со списком интентов (приветствия, проекты, навыки, контакты, цены, языки, расписание, права). (2) Если совпадает интент, я отвечаю заранее определенной фразой на выбранном языке. (3) Если ничего не совпадает, я использую общий ответ по умолчанию. (4) Вы можете научить меня новым ответам через команду "научи меня: вопрос -> ответ" или панель "Научить бота"; эти пары сохраняются в IndexedDB — локальной базе данных вашего браузера, поэтому только вы их видите и никто другой. Я не использую внешние серверы для сохранения того, что вы мне научили.'],
+      generico: [
+        'Извините, я не понял ваш вопрос. Можете повторить?',
+        'Как вы сказали? Я не совсем расслышал.',
+        'Я думаю… но честно не знаю, что на это ответить.',
+        'Этот вопрос ускользает от меня. Спросите о проектах, навыках или контактах Маурисио.',
+        'Я еще не выучил этот ответ. Попробуйте спросить о его проектах или навыках.',
+        'Не уверен, что понял. Можете сказать по-другому?',
+        'Извините, у меня нет ответа на это. О чем еще вы хотите узнать?',
+        'Этот вопрос меня застал врасплох. Спросите, чем занимается Маурисио или как с ним связаться.',
+        'Я не сохранил этот ответ. Научите меня с помощью "научи меня: вопрос → ответ", если хотите.',
+        'Хм… не знаю, что на это ответить. Попробуйте спросить о проектах, навыках или ценах.'
+      ],
     },
     hi: {
       saludo: ['नमस्ते! मैं मॉरिसियो का चैटबॉट हूँ। उनके प्रोजेक्ट्स, स्किल्स, अनुभव या संपर्क के बारे में पूछें।'],
@@ -415,19 +601,35 @@
       habilidades: ['उनके स्किल्स में शामिल हैं: पायथन, जावास्क्रिप्ट, टाइपस्क्रिप्ट, रिएक्ट, HTML5/CSS3, टेलविंड CSS, नोड.जेएस, डॉकर, गिट, बेसिक CI/CD, SQL, लॉग विश्लेषण और ब्लेंडर (पायथन API)।'],
       contacto: ['उनसे mauriciogorilluberas@gmail.com पर संपर्क करें या उनका गिटहब github.com/Mauricio5494 पर जाएँ।'],
       idiomas: ['यह पोर्टफोलियो चार भाषाओं में उपलब्ध है: स्पेनिश, अंग्रेजी, रूसी और हिंदी। आप नेविगेशन मेनू में भाषा सेलेक्टर से भाषा बदल सकते हैं।'],
-      generico: ['मैं उस विषय के बारे में निश्चित नहीं हूँ। कृपया मॉरिसियो के प्रोजेक्ट्स, कौशल या संपर्क के बारे में पूछें।'],
+      como_funcionas: ['मैं एक डेमो वर्चुअल असिस्टेंट हूँ। मैं इस तरह काम करता हूँ: (1) मैं आपके संदेश में कीवर्ड्स का पता लगाता हूँ और उन्हें इंटेंट्स की सूची से मिलाता हूँ (अभिवादन, प्रोजेक्ट्स, स्किल्स, संपर्क, कीमत, भाषाएं, शेड्यूल, अधिकार)। (2) अगर कोई इंटेंट मेल खाता है, तो मैं आपकी चुनी हुई भाषा में पूर्वनिर्धारित वाक्य का जवाब देता हूँ। (3) अगर कुछ भी मेल नहीं खाता, तो मैं सामान्य जवाब का उपयोग करता हूँ। (4) आप मुझे "सिखाओ: प्रश्न -> उत्तर" कमांड या "बॉट को सिखाएं" पैनल से नए उत्तर सिखा सकते हैं; ये जोड़े IndexedDB में संग्रहीत होते हैं, जो आपके ब्राउज़र का स्थानीय डेटाबेस है, इसलिए केवल आप उन्हें देखते हैं और कोई और नहीं। मैं आपके द्वारा सिखाई गई बातों को सेव करने के लिए बाहरी सर्वर का उपयोग नहीं करता।'],
+      generico: [
+        'कृपया अपना प्रश्न दोहराएं, मैं समझ नहीं पाया।',
+        'आपने क्या कहा? मैं ठीक से समझ नहीं सका।',
+        'मैं सोच रहा हूँ… लेकिन सचमुच नहीं जानता कि इसका क्या जवाब दूँ।',
+        'यह प्रश्न मुझसे छूट गया। मॉरिसियो के प्रोजेक्ट्स, स्किल्स या संपर्क के बारे में पूछें।',
+        'मैंने अभी तक यह जवाब नहीं सीखा। उनके प्रोजेक्ट्स या स्किल्स के बारे में पूछने की कोशिश करें।',
+        'मुझे यकीन नहीं है कि समझा। क्या आप इसे किसी दूसरे तरीके से कह सकते हैं?',
+        'क्षमा करें, मेरे पास इसका जवाब नहीं है। आप और क्या जानना चाहते हैं?',
+        'यह प्रश्न मुझे अचानक मिला। पूछें कि मॉरिसियो क्या करता है या उनसे कैसे संपर्क करें।',
+        'मेरे पास यह जवाब सेव नहीं है। अगर चाहें तो "सिखाओ: प्रश्न → उत्तर" कमांड से मुझे सिखाएं।',
+        'हम्म… मैं नहीं जानता इसका क्या जवाब दूँ। प्रोजेक्ट्स, स्किल्स या कीमत के बारे में पूछने की कोशिश करें।'
+      ],
     },
   };
 
   // Respuestas simuladas (demo) como fallback absoluto si el backend no responde.
   // Ahora multidioma: detecta el idioma del mensaje y responde en ese idioma.
   function respuestaDemo(texto) {
-    const t = texto.trim().toLowerCase();
-    const idioma = detectarIdiomaTexto(texto);
+    // Detectar si el usuario escribió en modo uwu (Espuwuñol / UwUnglish)
+    const esUwuTexto = /uwu|OwO|Uwu/i.test(texto);
+    // Revertir la transformación uwu para poder detectar idioma e intents correctamente
+    const textoLimpio = esUwuTexto ? desUwuify(texto) : texto;
+    const t = textoLimpio.trim().toLowerCase();
+    const idioma = detectarIdiomaTexto(textoLimpio);
     const tabla = RESPUESTAS_DEMO_IDIOMAS[idioma] || RESPUESTAS_DEMO_IDIOMAS.es;
 
     // Cambio de idioma (modo demo)
-    const cambioIdioma = texto.match(/cambiar.*(español|ingl[ée]s|ruso|hindi)|idioma.*(español|ingl[ée]s|ruso|hindi)|pon.*(español|ingl[ée]s|ruso|hindi)|idioma a (español|ingl[ée]s|ruso|hindi)|quiero (en |en )?(español|ingl[ée]s|ruso|hindi)|change.*(spanish|english|russian|hindi)|language.*(spanish|english|russian|hindi)|switch to (spanish|english|russian|hindi)/i);
+    const cambioIdioma = textoLimpio.match(/cambiar.*(español|ingl[ée]s|ruso|hindi)|idioma.*(español|ingl[ée]s|ruso|hindi)|pon.*(español|ingl[ée]s|ruso|hindi)|idioma a (español|ingl[ée]s|ruso|hindi)|quiero (en |en )?(español|ingl[ée]s|ruso|hindi)|change.*(spanish|english|russian|hindi)|language.*(spanish|english|russian|hindi)|switch to (spanish|english|russian|hindi)/i);
     if (cambioIdioma && typeof window.cambiarIdiomaPortfolio === 'function') {
       const mapaIdiomas = { español: 'es', ingles: 'en', inglés: 'en', ruso: 'ru', hindi: 'hi', spanish: 'es', english: 'en', russian: 'ru', hindi: 'hi' };
       let clave = '';
@@ -438,7 +640,8 @@
       if (codigo) {
         window.cambiarIdiomaPortfolio(codigo);
         const nombreIdioma = { es: 'español', en: 'inglés', ru: 'ruso', hi: 'hindi' }[codigo] || codigo;
-        return `Idioma cambiado a ${nombreIdioma}. ${tabla.generico[0]}`;
+        const respuestaCambio = `Idioma cambiado a ${nombreIdioma}. ${tabla.generico[Math.floor(Math.random() * tabla.generico.length)]}`;
+        return esUwuTexto ? uwuifyLocal(respuestaCambio) : respuestaCambio;
       }
     }
 
@@ -454,6 +657,7 @@
         { patrones: [/habilidad|skill|tecnolog[ií]a|tecnolog[ií]as|stack|qu[eé]\s+sabe/i], intent: 'habilidades' },
         { patrones: [/contacto|email|correo|escribir|mail|escr[ií]beme/i], intent: 'contacto' },
         { patrones: [/idioma|idiomas|en\s+qué\s+idiomas|idiomas\s+disponibles|qué\s+lenguas|lenguas|traducci[oó]n|traducir|español|ingl[ée]s|ruso|hindi|multidioma/i], intent: 'idiomas' },
+        { patrones: [/cómo funcionas|cómo funciona el bot|como funciona el bot|bot funciona|cómo\s+eres|cómo\s+trabajas/i], intent: 'como_funcionas' },
         { patrones: [/precio|precios|cu[aá]nto\s+costa|cu[aá]nto\s+cobra|tarifa|presupuesto|costo/i], intent: 'precios' },
         { patrones: [/tiempo\s+de\s+entrega|cu[aá]nto\s+tarda|plazo|entrega/i], intent: 'tiempos' },
         { patrones: [/horario|disponibilidad|cu[aá]ndo\s+trabajas|hora\s+de\s+atenci[oó]n|diferencia\s+horaria|qu[eé]\s+hora\s+es\s+en\s+uruguay/i], intent: 'horario' },
@@ -469,6 +673,7 @@
         { patrones: [/skill|skills|technology|technologies|stack|what does he know/i], intent: 'habilidades' },
         { patrones: [/contact|email|write to|mail|reach/i], intent: 'contacto' },
         { patrones: [/language|languages|what languages|translate/i], intent: 'idiomas' },
+        { patrones: [/how do you work|how does the bot work|how does it work|what are you|how do you function/i], intent: 'como_funcionas' },
         { patrones: [/price|prices|how much|cost|tariff|budget/i], intent: 'precios' },
         { patrones: [/delivery time|how long|deadline|turnaround/i], intent: 'tiempos' },
         { patrones: [/schedule|availability|when do you work|time zone|time difference|what time is it in uruguay/i], intent: 'horario' },
@@ -484,6 +689,7 @@
         { patrones: [/навык|навыки|технология|технологии|стек/i], intent: 'habilidades' },
         { patrones: [/контакт|почте|написать|связаться/i], intent: 'contacto' },
         { patrones: [/язык|языки|какие языки|перевод/i], intent: 'idiomas' },
+        { patrones: [/как ты работаешь|как работает бот|как это работает|кто ты|как ты функционируешь/i], intent: 'como_funcionas' },
         { patrones: [/цена|цены|сколько стоит|бюджет|тариф/i], intent: 'precios' },
         { patrones: [/срок|доставка|сколько времени/i], intent: 'tiempos' },
         { patrones: [/график|время работы|часовая зона|разница во времени|сколько время в уругвае/i], intent: 'horario' },
@@ -499,6 +705,7 @@
         { patrones: [/स्किल|स्किल्स|तकनीक|तकनीकें/i], intent: 'habilidades' },
         { patrones: [/संपर्क|ईमेल|लिखें|मेल/i], intent: 'contacto' },
         { patrones: [/भाषा|भाषाएं|कौन सी भाषा|अनुवाद/i], intent: 'idiomas' },
+        { patrones: [/बॉट कैसे काम करता है|बॉट कैसे काम करता|तुम कैसे काम करते हो|तुम कौन हो/i], intent: 'como_funcionas' },
         { patrones: [/कीमत|कीमतें|कितना खर्च|बजट|शुल्क/i], intent: 'precios' },
         { patrones: [/डिलीवरी समय|कितना समय|डेडलाइन/i], intent: 'tiempos' },
         { patrones: [/समय|उपलब्धता|कब काम करते हैं|टाइम ज़ोन|समय अंतर|उरुग्वे में क्या समय है/i], intent: 'horario' },
@@ -512,13 +719,15 @@
         if (pat.test(t)) {
           const claveIntent = grupo.intent;
           const respuestas = tabla[claveIntent] || tabla.generico;
-          return respuestas[Math.floor(Math.random() * respuestas.length)];
+          const respuestaIntent = respuestas[Math.floor(Math.random() * respuestas.length)];
+          return esUwuTexto ? uwuifyLocal(respuestaIntent) : respuestaIntent;
         }
       }
     }
 
     // Fallback genérico en el idioma detectado
-    return tabla.generico[0];
+    const respuestaFallback = tabla.generico[Math.floor(Math.random() * tabla.generico.length)];
+    return esUwuTexto ? uwuifyLocal(respuestaFallback) : respuestaFallback;
   }
 
   async function enviar() {
@@ -580,6 +789,115 @@
       // Al borrar chat, volver a mostrar quick replies
       const qr = document.getElementById('chat-quick-replies');
       if (qr) qr.classList.remove('collapsed');
+    });
+  }
+
+  // ── Panel: Enseñarle al bot ──
+  const btnEnseñarToggle = document.getElementById('chat-enseñar-toggle');
+  const btnEnseñarCerrar = document.getElementById('chat-enseñar-cerrar');
+  const panelEnseñar = document.getElementById('chat-enseñar');
+  const inputPregunta = document.getElementById('enseñar-pregunta');
+  const inputRespuesta = document.getElementById('enseñar-respuesta');
+  const btnEnseñarGuardar = document.getElementById('enseñar-guardar');
+  const mensajeEnseñar = document.getElementById('enseñar-mensaje');
+
+  if (btnEnseñarToggle && panelEnseñar) {
+    btnEnseñarToggle.addEventListener('click', () => {
+      panelEnseñar.classList.toggle('open');
+      // Cerrar quick replies para que no tapen la vista
+      const qr = document.getElementById('chat-quick-replies');
+      if (qr) qr.classList.add('collapsed');
+      if (panelEnseñar.classList.contains('open')) {
+        inputPregunta.focus();
+      }
+    });
+  }
+
+  if (btnEnseñarCerrar && panelEnseñar) {
+    btnEnseñarCerrar.addEventListener('click', () => {
+      panelEnseñar.classList.remove('open');
+    });
+  }
+
+  function mostrarMensajeEnseñar(texto, esExito) {
+    if (!mensajeEnseñar) return;
+    mensajeEnseñar.textContent = texto;
+    mensajeEnseñar.className = 'chat-enseñar-mensaje ' + (esExito ? 'exito' : 'error');
+  }
+
+  if (btnEnseñarGuardar && inputPregunta && inputRespuesta) {
+    btnEnseñarGuardar.addEventListener('click', async () => {
+      const pregunta = inputPregunta.value.trim();
+      const respuesta = inputRespuesta.value.trim();
+
+      if (!pregunta || !respuesta) {
+        mostrarMensajeEnseñar('Completá ambos campos.', false);
+        return;
+      }
+
+      // Validaciones rápidas (mismas que el comando "enséñame:")
+      if (pregunta.length < 3 || pregunta.length > 100) {
+        mostrarMensajeEnseñar('La pregunta debe tener entre 3 y 100 caracteres.', false);
+        return;
+      }
+      if (respuesta.length < 3 || respuesta.length > 300) {
+        mostrarMensajeEnseñar('La respuesta debe tener entre 3 y 300 caracteres.', false);
+        return;
+      }
+      const palabrasProhibidas = [
+        'estúpido','estupido','idiota','imbécil','imbecil','tonto','puta','mierda','joder',
+        'cabrón','cabron','gilipollas','boludo','pendejo','stupid','idiot','moron','dumb',
+        'asshole','bitch','crap','damn','hell','http://','https://','www.','bit.ly','tinyurl',
+        'rm ','sudo ','chmod ','chown ','format ','del /',
+      ];
+      const textoCompleto = (pregunta + ' ' + respuesta).toLowerCase();
+      for (const palabra of palabrasProhibidas) {
+        if (textoCompleto.includes(palabra)) {
+          mostrarMensajeEnseñar('No puedo guardar esa respuesta: contenido no permitido.', false);
+          return;
+        }
+      }
+
+      try {
+        await abrirDB();
+        const id = await guardarEnseñanza(pregunta, respuesta);
+
+        // Mostrar en el chat: pregunta del usuario + respuesta del bot (con botón de borrar)
+        agregarMensaje(pregunta, 'user');
+        escribir(respuesta, 'bot', 400);
+
+        // Agregar el mensaje del bot con id para poder borrarlo después
+        // (se crea un mensaje temporal y se le añade el id después de renderizar)
+        setTimeout(() => {
+          const ultimoBot = messages.querySelector('.message.bot:last-child');
+          if (ultimoBot && !ultimoBot.dataset.idEnseñanza) {
+            ultimoBot.dataset.idEnseñanza = id;
+            const btnBorrar = document.createElement('button');
+            btnBorrar.className = 'chat-borrar-enseñanza';
+            btnBorrar.title = 'Borrar esta respuesta';
+            btnBorrar.textContent = '🗑️';
+            btnBorrar.dataset.id = id;
+            btnBorrar.addEventListener('click', async (e) => {
+              e.stopPropagation();
+              try {
+                await borrarEnseñanza(parseInt(btnBorrar.dataset.id, 10));
+                ultimoBot.remove();
+              } catch (err) {
+                console.error('Error al borrar enseñanza:', err);
+              }
+            });
+            ultimoBot.appendChild(btnBorrar);
+          }
+        }, 450);
+
+        mostrarMensajeEnseñar('¡Guardado localmente!', true);
+        inputPregunta.value = '';
+        inputRespuesta.value = '';
+        setTimeout(() => mostrarMensajeEnseñar('', false), 4000);
+      } catch (err) {
+        console.error('Error al guardar enseñanza:', err);
+        mostrarMensajeEnseñar('No se pudo guardar en el almacenamiento local.', false);
+      }
     });
   }
 })();

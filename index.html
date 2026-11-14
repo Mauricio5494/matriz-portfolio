@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/style.css?v=8">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -61,6 +61,8 @@
           <option value="en">English</option>
           <option value="ru">Русский</option>
           <option value="hi">हिन्दी</option>
+          <option value="eswu">Espuwuñol</option>
+          <option value="uwuen">UwUnglish</option>
         </select>
       </li>
       <li class="tema-selector">
@@ -87,7 +89,7 @@
           <h2 data-i18n="hero.enfoque">Enfoque en Python, JavaScript y automatización creativa</h2>
           <p data-i18n="hero.descripcion">Construyendo herramientas que resuelven problemas reales. Enfocado en pilas tecnológicas demandadas por el mercado actual.</p>
           <span class="badge" data-i18n="hero.badge">Código abierto &middot; En constante aprendizaje</span>
-          <a href="#proyectos" class="cta-hero">Ver mis proyectos →</a>
+          <a href="#proyectos" class="cta-hero" data-i18n="cta.hero">Ver mis proyectos →</a>
         </header>
       </div>
     </div>
@@ -300,11 +302,14 @@
 
   <!-- Chat IA demo -->
   <div id="chat-widget">
-    <button id="chat-toggle" class="chat-toggle" aria-label="Abrir asistente IA">🤖</button>
+    <button id="chat-toggle" class="chat-toggle" data-i18n="chat.aria.abrir" data-i18n-attr="aria-label">🤖</button>
     <div id="chat-panel">
-      <div class="chat-header">Chatbot simple</div>
+      <div class="chat-header">
+  <span data-i18n="chat.header">Chatbot simple</span>
+  <button id="chat-enseñar-toggle" data-i18n="chat.enseñar.abrir" class="chat-enseñar-toggle">Enseñarle al bot</button>
+</div>
       <div id="chat-messages" class="chat-messages">
-        <div class="message bot"><div class="bubble">¡Hola! Soy el asistente virtual de Mauricio. Pregúntame sobre sus proyectos, habilidades o cómo contactarlo.</div></div>
+        <div class="message bot"><div class="bubble" data-i18n="chat.bienvenida">¡Hola! Soy el asistente virtual de Mauricio. Pregúntame sobre sus proyectos, habilidades o cómo contactarlo.</div></div>
       </div>
       <div class="chat-quick-replies" id="chat-quick-replies">
         <button class="qr" data-q-key="chat.qr.quien_es" data-i18n="chat.qr.quien_es">¿Quién es Mauricio?</button>
@@ -312,12 +317,26 @@
         <button class="qr" data-q-key="chat.qr.habilidades" data-i18n="chat.qr.habilidades">¿Qué habilidades tiene?</button>
         <button class="qr" data-q-key="chat.qr.contacto" data-i18n="chat.qr.contacto">¿Cómo contacto a Mauricio?</button>
         <button class="qr" data-q-key="chat.qr.idiomas" data-i18n="chat.qr.idiomas">¿Qué idiomas tiene el sitio?</button>
+        <button class="qr" data-q-key="chat.qr.como_funcionas" data-i18n="chat.qr.como_funcionas">¿Cómo funcionas, bot?</button>
+        <button class="qr" data-q-key="chat.qr.precios" data-i18n="chat.qr.precios">¿Qué precios tiene?</button>
         <button class="qr-toggle" id="qr-toggle" aria-label="Mostrar/ocultar sugerencias">✕</button>
       </div>
+      <div class="chat-enseñar" id="chat-enseñar">
+        <div class="chat-enseñar-header">
+          <span data-i18n="chat.enseñar.titulo">Enseñarle al bot</span>
+          <button id="chat-enseñar-cerrar" class="chat-enseñar-cerrar" aria-label="Cerrar">✕</button>
+        </div>
+        <div class="chat-enseñar-form">
+          <input type="text" id="enseñar-pregunta" autocomplete="off" data-i18n="chat.enseñar.pregunta" data-i18n-attr="placeholder">
+          <input type="text" id="enseñar-respuesta" autocomplete="off" data-i18n="chat.enseñar.respuesta" data-i18n-attr="placeholder">
+          <button id="enseñar-guardar" data-i18n="chat.enseñar.btn.guardar">Guardar</button>
+          <div id="enseñar-mensaje" class="chat-enseñar-mensaje"></div>
+        </div>
+      </div>
       <div class="chat-footer">
-        <input type="text" id="chat-input" placeholder="Escribe un mensaje..." autocomplete="off">
-        <button id="chat-send">Enviar</button>
-        <button class="chat-clear">Borrar chat</button>
+        <input type="text" id="chat-input" placeholder="Escribe un mensaje..." autocomplete="off" data-i18n="chat.input.placeholder" data-i18n-attr="placeholder">
+        <button id="chat-send" data-i18n="chat.btn.enviar">Enviar</button>
+        <button class="chat-clear" data-i18n="chat.btn.borrar">Borrar chat</button>
       </div>
     </div>
   </div>

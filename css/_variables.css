@@ -13,7 +13,7 @@
   --matrix-amber: #ffaa00;
   --border: #330000;
   --accent-glow: rgba(255, 26, 26, 0.35);
-  --font-mono: 'Courier Prime', Courier, monospace;
+  --font-mono: 'Inter', sans-serif;
   --particle-color: rgba(255, 26, 26, 0.35);
   --particle-line: rgba(255, 170, 0, 0.15);
 

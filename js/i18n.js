@@ -9,7 +9,9 @@
     es: { nombre: 'Español', nativo: 'Español' },
     en: { nombre: 'English', nativo: 'English' },
     ru: { nombre: 'Русский', nativo: 'Русский' },
-    hi: { nombre: 'हिन्दी', nativo: 'हिन्दी' }
+    hi: { nombre: 'हिन्दी', nativo: 'हिन्दी' },
+    eswu: { nombre: 'Espuwuñol', nativo: 'Espuwuñol' },
+    uwuen: { nombre: 'UwUnglish', nativo: 'UwUnglish' }
   };
 
   const TRADUCCIONES = {
@@ -23,6 +25,7 @@
       'hero.enfoque': 'Enfoque en Python, JavaScript y automatización creativa',
       'hero.descripcion': 'Construyendo herramientas que resuelven problemas reales. Enfocado en pilas tecnológicas demandadas por el mercado actual.',
       'hero.badge': 'Código abierto · En constante aprendizaje',
+      'cta.hero': 'Ver mis proyectos →',
       'seccion.sobre-mi': 'Sobre mí',
       'seccion.habilidades': 'Habilidades',
       'seccion.proyectos': 'Proyectos',
@@ -75,6 +78,12 @@
       'proyecto3.demo': 'Ver demo en vivo →',
       'mejor-proyecto.desc': 'Herramienta completa en Python diseñada para validar archivos de motor de juegos (.inc, .ext, .mdl) antes de instalarlos. Detecta errores comunes en includes SDL, rutas mal formadas, CRLF incorrecto en archivos .inc, y problemas de jerarquía de huesos en modelos 3D. Ideal para modders que quieren evitar CTD (crash to desktop) y asegurar la compatibilidad de sus assets con el motor GEM2.',
       'proyecto1.github': 'Ver código en GitHub →',
+      'proyecto4.titulo': 'Por agregar',
+      'proyecto4.desc': 'Próximamente...',
+      'proyecto5.titulo': 'Por agregar',
+      'proyecto5.desc': 'Próximamente...',
+      'proyecto6.titulo': 'Por agregar',
+      'proyecto6.desc': 'Próximamente...',
       'tag.python': 'Python',
       'tag.cli': 'CLI',
       'tag.modding': 'Modding',
@@ -91,7 +100,23 @@
       'chat.qr.proyectos': '¿Qué proyectos tiene?',
       'chat.qr.habilidades': '¿Qué habilidades tiene?',
       'chat.qr.contacto': '¿Cómo contacto a Mauricio?',
-      'chat.qr.idiomas': '¿Qué idiomas tiene el sitio?'
+      'chat.qr.idiomas': '¿Qué idiomas tiene el sitio?',
+      'chat.qr.como_funcionas': '¿Cómo funcionas, bot?',
+      'chat.qr.precios': '¿Qué precios tiene?',
+      'chat.header': 'Chatbot simple',
+      'chat.bienvenida': '¡Hola! Soy el asistente virtual de Mauricio. Pregúntame sobre sus proyectos, habilidades o cómo contactarlo.',
+      'chat.input.placeholder': 'Escribe un mensaje...',
+      'chat.btn.enviar': 'Enviar',
+      'chat.btn.borrar': 'Borrar chat',
+      'chat.aria.abrir': 'Abrir asistente IA',
+      'page.title': 'Portafolio — Desarrollo de Software',
+      'chat.enseñar.abrir': 'Enseñarle al bot',
+      'chat.enseñar.titulo': 'Enseñarle al bot',
+      'chat.enseñar.pregunta': '¿Pregunta? (ej: ¿cómo estás?)',
+      'chat.enseñar.respuesta': 'Respuesta (ej: estoy bien)',
+      'chat.enseñar.btn.guardar': 'Guardar',
+      'chat.enseñar.btn.cerrar': 'Cerrar',
+      'chat.enseñar.campos_vacios': 'Completá ambos campos.'
     },
     en: {
       'nav.sobre-mi': 'About me',
@@ -103,6 +128,7 @@
       'hero.enfoque': 'Focus on Python, JavaScript and creative automation',
       'hero.descripcion': 'Building tools that solve real problems. Focused on technology stacks in demand by the current market.',
       'hero.badge': 'Open source · Constantly learning',
+      'cta.hero': 'View my projects →',
       'seccion.sobre-mi': 'About me',
       'seccion.habilidades': 'Skills',
       'seccion.proyectos': 'Projects',
@@ -155,6 +181,12 @@
       'proyecto3.demo': 'View live demo →',
       'mejor-proyecto.desc': 'Complete Python tool designed to validate game engine files (.inc, .ext, .mdl) before installing them. Detects common errors in SDL includes, malformed paths, incorrect CRLF in .inc files, and bone hierarchy issues in 3D models. Ideal for modders who want to avoid CTD (crash to desktop) and ensure compatibility of their assets with the GEM2 engine.',
       'proyecto1.github': 'View code on GitHub →',
+      'proyecto4.titulo': 'Coming soon',
+      'proyecto4.desc': 'Coming soon...',
+      'proyecto5.titulo': 'Coming soon',
+      'proyecto5.desc': 'Coming soon...',
+      'proyecto6.titulo': 'Coming soon',
+      'proyecto6.desc': 'Coming soon...',
       'tag.python': 'Python',
       'tag.cli': 'CLI',
       'tag.modding': 'Modding',
@@ -171,7 +203,23 @@
       'chat.qr.proyectos': 'What projects does he have?',
       'chat.qr.habilidades': 'What skills does he have?',
       'chat.qr.contacto': 'How do I contact Mauricio?',
-      'chat.qr.idiomas': 'What languages does the site have?'
+      'chat.qr.idiomas': 'What languages does the site have?',
+      'chat.qr.como_funcionas': 'How do you work, bot?',
+      'chat.qr.precios': 'What are the prices?',
+      'chat.header': 'Simple chatbot',
+      'chat.bienvenida': "Hello! I am Mauricio's virtual assistant. Ask me about his projects, skills or how to contact him.",
+      'chat.input.placeholder': 'Write a message...',
+      'chat.btn.enviar': 'Send',
+      'chat.btn.borrar': 'Clear chat',
+      'chat.aria.abrir': 'Open AI assistant',
+      'page.title': 'Portfolio — Software Development',
+      'chat.enseñar.abrir': 'Teach the bot',
+      'chat.enseñar.titulo': 'Teach the bot',
+      'chat.enseñar.pregunta': 'Question? (e.g. how are you?)',
+      'chat.enseñar.respuesta': 'Answer (e.g. I am fine)',
+      'chat.enseñar.btn.guardar': 'Save',
+      'chat.enseñar.btn.cerrar': 'Close',
+      'chat.enseñar.campos_vacios': 'Fill in both fields.'
     },
     ru: {
       'nav.sobre-mi': 'Обо мне',
@@ -183,6 +231,7 @@
       'hero.enfoque': 'Фокус на Python, JavaScript и креативная автоматизация',
       'hero.descripcion': 'Создаю инструменты, которые решают реальные задачи. Сосредоточен на технологических стеках, востребованных на текущем рынке.',
       'hero.badge': 'Открытый код · Постоянное обучение',
+      'cta.hero': 'Посмотреть мои проекты →',
       'seccion.sobre-mi': 'Обо мне',
       'seccion.habilidades': 'Навыки',
       'seccion.proyectos': 'Проекты',
@@ -234,6 +283,12 @@
       'proyecto3.demo': 'Посмотреть живую демо-версию →',
       'mejor-proyecto.desc': 'Полный инструмент на Python для проверки файлов игрового движка (.inc, .ext, .mdl) перед их установкой. Выявляет частые ошибки в include SDL, неправильные пути, некорректный CRLF в файлах .inc и проблемы с иерархией костей в 3D-моделях. Идеально для моддеров, которые хотят избежать CTD (вылет на рабочий стол) и обеспечить совместимость своих ассетов с движком GEM2.',
       'proyecto1.github': 'Посмотреть код на GitHub →',
+      'proyecto4.titulo': 'Скоро',
+      'proyecto4.desc': 'Скоро...',
+      'proyecto5.titulo': 'Скоро',
+      'proyecto5.desc': 'Скоро...',
+      'proyecto6.titulo': 'Скоро',
+      'proyecto6.desc': 'Скоро...',
       'tag.python': 'Python',
       'tag.cli': 'CLI',
       'tag.modding': 'Моддинг',
@@ -251,7 +306,23 @@
       'chat.qr.habilidades': 'Какие у него навыки?',
       'chat.qr.contacto': 'Как связаться с Маурисио?',
       'chat.qr.contratar': 'Доступен ли он для найма?',
-      'chat.qr.idiomas': 'На каких языках сайт?'
+      'chat.qr.idiomas': 'На каких языках сайт?',
+      'chat.qr.como_funcionas': 'Как ты работаешь, бот?',
+      'chat.qr.precios': 'Какие цены?',
+      'chat.header': 'Простой чат-бот',
+      'chat.bienvenida': 'Привет! Я виртуальный ассистент Маурисио. Спросите о его проектах, навыках или как с ним связаться.',
+      'chat.input.placeholder': 'Напишите сообщение...',
+      'chat.btn.enviar': 'Отправить',
+      'chat.btn.borrar': 'Очистить чат',
+      'chat.aria.abrir': 'Открыть помощника ИИ',
+      'page.title': 'Портфолио — Разработка ПО',
+      'chat.enseñar.abrir': 'Научить бота',
+      'chat.enseñar.titulo': 'Научить бота',
+      'chat.enseñar.pregunta': 'Вопрос? (например, как дела?)',
+      'chat.enseñar.respuesta': 'Ответ (например, я в порядке)',
+      'chat.enseñar.btn.guardar': 'Сохранить',
+      'chat.enseñar.btn.cerrar': 'Закрыть',
+      'chat.enseñar.campos_vacios': 'Заполните оба поля.'
     },
     hi: {
       'nav.sobre-mi': 'मेरे बारे में',
@@ -263,6 +334,7 @@
       'hero.enfoque': 'फोकस पायथन, जावास्क्रिप्ट और रचनात्मक ऑटोमेशन पर',
       'hero.descripcion': 'वास्तविक समस्याओं को हल करने वाले टूल बना रहे हैं। वर्तमान बाजार की मांग के अनुसार प्रौद्योगिकी स्टैक पर ध्यान केंद्रित किया गया है।',
       'hero.badge': 'ओपन सोर्स · लगातार सीख रहे हैं',
+      'cta.hero': 'अपने प्रोजेक्ट देखें →',
       'seccion.sobre-mi': 'मेरे बारे में',
       'seccion.habilidades': 'कौशल',
       'seccion.proyectos': 'परियोजनाएं',
@@ -314,6 +386,12 @@
       'proyecto3.demo': 'लाइव डेमो देखें →',
       'mejor-proyecto.desc': 'गेम इंजन फाइलों (.inc, .ext, .mdl) को इंस्टॉल करने से पहले मान्य करने के लिए पायथन में डिज़ाइन किया गया एक पूरा टूल। यह SDL में शामिल करने में सामान्य त्रुटियों, गलत रास्तों, .inc फाइलों में गलत CRLF और 3D मॉडल में हड्डी पदानुक्रम मुद्दों का पता लगाता है। सीटीडी (क्रैश टू डेस्कटॉप) से बचने के लिए और जीईएम2 इंजन के साथ अपनी संपत्तियों की अनुकूलता सुनिश्चित करने के लिए मोडर्स के लिए आदर्श।',
       'proyecto1.github': 'गिटहब पर कोड देखें →',
+      'proyecto4.titulo': 'जल्द आ रहा है',
+      'proyecto4.desc': 'जल्द आ रहा है...',
+      'proyecto5.titulo': 'जल्द आ रहा है',
+      'proyecto5.desc': 'जल्द आ रहा है...',
+      'proyecto6.titulo': 'जल्द आ रहा है',
+      'proyecto6.desc': 'जल्द आ रहा है...',
       'tag.python': 'पायथन',
       'tag.cli': 'सीएलआई',
       'tag.modding': 'मॉडिंग',
@@ -331,22 +409,85 @@
       'chat.qr.habilidades': 'उनके पास क्या कौशल हैं?',
       'chat.qr.contacto': 'मैं मॉरिसियो से कैसे संपर्क करूँ?',
       'chat.qr.contratar': 'क्या वे काम के लिए उपलब्ध हैं?',
-      'chat.qr.idiomas': 'साइट पर कौन सी भाषा है?'
+      'chat.qr.idiomas': 'साइट पर कौन सी भाषा है?',
+      'chat.qr.como_funcionas': 'बॉट कैसे काम करता है?',
+      'chat.qr.precios': 'कीमतें क्या हैं?',
+      'chat.header': 'सरल चैटबॉट',
+      'chat.bienvenida': 'नमस्ते! मैं मॉरिसियो का वर्चुअल असिस्टेंट हूँ। उसके प्रोजेक्ट्स, स्किल्स या संपर्क के बारे में पूछें।',
+      'chat.input.placeholder': 'संदेश लिखें...',
+      'chat.btn.enviar': 'भेजें',
+      'chat.btn.borrar': 'चैट साफ़ करें',
+      'chat.aria.abrir': 'एआई सहायक खोलें',
+      'page.title': 'पोर्टफोलियो — सॉफ्टवेयर विकास',
+      'chat.enseñar.abrir': 'बॉट को सिखाएं',
+      'chat.enseñar.titulo': 'बॉट को सिखाएं',
+      'chat.enseñar.pregunta': 'प्रश्न? (उदाहरण: आप कैसे हैं?)',
+      'chat.enseñar.respuesta': 'उत्तर (उदाहरण: मैं ठीक हूँ)',
+      'chat.enseñar.btn.guardar': 'सहेजें',
+      'chat.enseñar.btn.cerrar': 'बंद करें',
+      'chat.enseñar.campos_vacios': 'दोनों फ़ील्ड भरें।'
     }
   };
+
+  // ── Función uwu: inserta "wu" después de cada "u" o "U", y "OwO" antes de cada punto ──
+  function uwuify(texto) {
+    return texto
+      .replace(/u/g, 'uwu')
+      .replace(/U/g, 'Uwu')
+      .replace(/\./g, ' OwO.');
+  }
+
+  // Aplica uwu solo a nodos de texto (evita romper etiquetas HTML como <a>)
+  function applyUwuToElement(el) {
+    for (let i = 0; i < el.childNodes.length; i++) {
+      const node = el.childNodes[i];
+      if (node.nodeType === Node.TEXT_NODE) {
+        node.textContent = uwuify(node.textContent);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        applyUwuToElement(node);
+      }
+    }
+  }
 
   const selector = document.getElementById('idioma-selector');
   let idiomaActual = localStorage.getItem('idioma') || 'es';
 
+  // Si el idioma guardado es eswu/uwuen pero el tema actual NO es femboy, revertir a base
+  if ((idiomaActual === 'eswu' || idiomaActual === 'uwuen') &&
+      !document.body.classList.contains('tema-femboy')) {
+    idiomaActual = idiomaActual === 'eswu' ? 'es' : 'en';
+    localStorage.setItem('idioma', idiomaActual);
+  }
+
   function render(idioma) {
-    const t = TRADUCCIONES[idioma];
+    let baseIdioma = idioma;
+    let esUwu = false;
+
+    if (idioma === 'eswu') {
+      baseIdioma = 'es';
+      esUwu = true;
+    } else if (idioma === 'uwuen') {
+      baseIdioma = 'en';
+      esUwu = true;
+    }
+
+    const t = TRADUCCIONES[baseIdioma];
     if (!t) return;
 
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       const clave = el.getAttribute('data-i18n');
       const texto = t[clave];
       if (texto !== undefined) {
-        el.innerHTML = texto;
+        const attr = el.getAttribute('data-i18n-attr');
+        const textoFinal = esUwu ? uwuify(texto) : texto;
+        if (attr) {
+          el.setAttribute(attr, textoFinal);
+        } else {
+          el.innerHTML = texto;
+          if (esUwu) {
+            applyUwuToElement(el);
+          }
+        }
       }
     });
 
@@ -355,7 +496,7 @@
       const key = btn.getAttribute('data-q-key');
       const texto = t[key];
       if (texto !== undefined) {
-        btn.setAttribute('data-q', texto);
+        btn.setAttribute('data-q', esUwu ? uwuify(texto) : texto);
       }
     });
 
@@ -365,8 +506,17 @@
       const clave = mejorProyectoH2.getAttribute('data-i18n');
       const texto = t[clave];
       if (texto !== undefined) {
-        mejorProyectoH2.setAttribute('data-text', texto);
+        mejorProyectoH2.setAttribute('data-text', esUwu ? uwuify(texto) : texto);
       }
+    }
+
+    // Actualizar lang del <html> y title de la página
+    const htmlEl = document.documentElement;
+    if (htmlEl) htmlEl.lang = baseIdioma;
+
+    const titleEl = document.querySelector('title');
+    if (titleEl && t['page.title']) {
+      titleEl.textContent = esUwu ? uwuify(t['page.title']) : t['page.title'];
     }
 
     if (selector) selector.value = idioma;
