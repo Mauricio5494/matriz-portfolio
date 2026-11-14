@@ -8,7 +8,7 @@
   const selector = document.getElementById('tema-selector');
   if (!selector) return;
 
-  const temasValidos = ['matrix', 'claro', 'sepia', 'milk-chan', 'azul-oscuro'];
+  const temasValidos = ['matrix', 'claro', 'sepia', 'milk-chan', 'azul-oscuro', 'femboy'];
   let temaActual = localStorage.getItem('tema-portfolio') || 'matrix';
 
   function aplicarTema(tema) {
