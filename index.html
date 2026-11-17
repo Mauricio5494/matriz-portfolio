@@ -319,15 +319,33 @@
         <section id="contacto" class="contacto reveal fade-in">
           <h2 data-i18n="seccion.contacto">Contacto</h2>
           <p data-i18n="contacto.p1">¿Tienes un proyecto en mente? Escríbeme:</p>
-          <p><a href="mailto:mauriciogorilluberas@gmail.com" data-i18n="contacto.email">mauriciogorilluberas@gmail.com</a></p>
-          <p><a href="https://github.com/Mauricio5494" target="_blank" rel="noopener" data-i18n="contacto.github">GitHub</a></p>
 
-          <p data-i18n="contacto.telegram">Telegram</p>
-          <div class="contacto__qr">
-            <a href="https://t.me/sparky_4532" target="_blank" rel="noopener">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://t.me/sparky_4532&format=png&ecc=L" alt="Código QR de Telegram" width="180" height="180">
-            </a>
-            <p class="contacto__qr-lema" data-i18n="contacto.telegram-lema">Escríbeme por Telegram</p>
+          <div class="contacto__grupo">
+            <div class="contacto__formulario">
+              <form id="form-contacto" action="https://formspree.io/f/meagglrj" method="POST">
+                <input type="text" name="nombre" placeholder="Tu nombre" required>
+                <input type="email" name="email" placeholder="tu@correo.com" required>
+                <textarea name="mensaje" placeholder="¿En qué puedo ayudarte?" rows="5" required></textarea>
+                <button type="submit" data-i18n="contacto.btn.enviar">Enviar mensaje</button>
+              </form>
+
+              <p id="contacto-mensaje-ok" style="display:none; color: var(--matrix-amber); font-weight: bold; margin-top: 0.5rem;"></p>
+            </div>
+
+            <div class="contacto__datos">
+              <h3 data-i18n="contacto.directo">¿Quieres contactarme más directamente?</h3>
+
+              <p><a href="mailto:mauriciogorilluberas@gmail.com" data-i18n="contacto.email">mauriciogorilluberas@gmail.com</a></p>
+              <p><a href="https://github.com/Mauricio5494" target="_blank" rel="noopener" data-i18n="contacto.github">GitHub</a></p>
+
+              <p data-i18n="contacto.telegram">Telegram</p>
+              <div class="contacto__qr">
+                <a href="https://t.me/sparky_4532" target="_blank" rel="noopener">
+                  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://t.me/sparky_4532&format=png&ecc=L" alt="Código QR de Telegram" width="180" height="180">
+                </a>
+                <p class="contacto__qr-lema" data-i18n="contacto.telegram-lema">Escríbeme por Telegram</p>
+              </div>
+            </div>
           </div>
         </section>
       </div>
@@ -389,5 +407,6 @@
 <script src="js/scroll-anim.js?v=2" defer></script>
 <script src="js/cards-tilt.js?v=6" defer></script>
 <script src="js/femboy-bg.js?v=1" defer></script>
+<script src="js/contacto.js?v=1" defer></script>
 </body>
 </html>
