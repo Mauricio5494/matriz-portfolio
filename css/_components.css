@@ -719,7 +719,8 @@ footer {
 
 .contacto input::placeholder,
 .contacto textarea::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: currentColor;
+  opacity: 0.55;
 }
 
 .contacto input:focus,
@@ -766,6 +767,19 @@ footer {
 #contacto-mensaje-ok {
   margin-top: 0.6rem;
   font-size: 0.9rem;
+}
+
+/* ── Highlight en subtítulo de contacto directo cuando el formulario falla ── */
+.contacto--error-highlight {
+  animation: contacto-error-pulse 1.2s infinite;
+  border-color: var(--matrix-amber) !important;
+  outline: 2px solid var(--matrix-amber);
+  outline-offset: 3px;
+}
+
+@keyframes contacto-error-pulse {
+  0%, 100% { outline-offset: 3px; opacity: 1; }
+  50% { outline-offset: 6px; opacity: 0.8; }
 }
 
 /* ── Separación visual del contacto ── */
