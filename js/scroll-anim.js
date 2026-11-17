@@ -34,4 +34,30 @@
       observer.observe(el);
     });
   }
+
+  // ── Ocultar nav al scrollear hacia abajo, mostrar al subir ──
+  var nav = document.querySelector('nav');
+  if (nav) {
+    var lastScrollY = window.scrollY;
+    var ticking = false;
+
+    function updateNav() {
+      if (window.scrollY > lastScrollY && window.scrollY > 100) {
+        nav.classList.add('nav--hidden');
+      } else {
+        nav.classList.remove('nav--hidden');
+      }
+      lastScrollY = window.scrollY;
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          updateNav();
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
 })();
