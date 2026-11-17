@@ -697,13 +697,13 @@ let accionPostRespuesta = null; // { tipo: 'scroll', target: 'id-seccion' } | nu
 
   // Respuestas simuladas (demo) como fallback absoluto si el backend no responde.
   // Ahora multidioma: detecta el idioma del mensaje y responde en ese idioma.
-  function respuestaDemo(texto) {
+  function respuestaDemo(texto, idiomaForzado) {
     // Detectar si el usuario escribió en modo uwu (Espuwuñol / UwUnglish)
     const esUwuTexto = /uwu|OwO|Uwu/i.test(texto);
     // Revertir la transformación uwu para poder detectar idioma e intents correctamente
     const textoLimpio = esUwuTexto ? desUwuify(texto) : texto;
     const t = textoLimpio.trim().toLowerCase();
-    const idioma = detectarIdiomaTexto(textoLimpio);
+    const idioma = idiomaForzado || detectarIdiomaTexto(textoLimpio);
     const tabla = RESPUESTAS_DEMO_IDIOMAS[idioma] || RESPUESTAS_DEMO_IDIOMAS.es;
 
     // Cambio de idioma (modo demo)
@@ -876,7 +876,7 @@ let accionPostRespuesta = null; // { tipo: 'scroll', target: 'id-seccion' } | nu
       const typingDiv = mostrarEscribiendo();
       setTimeout(() => {
         try {
-          const respuesta = respuestaDemo(q);
+          const respuesta = respuestaDemo(q, document.documentElement.lang || 'es');
           escribir(respuesta, 'bot');
           ejecutarAccionPostRespuesta();
         } finally {
