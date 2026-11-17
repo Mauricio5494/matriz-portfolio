@@ -469,6 +469,11 @@ footer {
   backdrop-filter: blur(8px);
   background: var(--bg);
   border-bottom: 1px solid var(--bg);
+  transition: transform 0.3s ease-in-out;
+}
+
+.nav--hidden {
+  transform: translateY(-100%);
 }
 
 .nav__content {
