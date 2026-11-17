@@ -1,6 +1,6 @@
 /* ============================================================
    TEMA CLARO — Variables y variaciones de componentes
-   Fondo blanco suave, texto oscuro, acentos en azul oscuro (#1a237e)
+   Fondo blanco suave, texto oscuro, acentos en azul oscuro (#2563eb)
    ============================================================ */
 
 /* ── Variables del tema Claro ── */
@@ -12,7 +12,7 @@ body.tema-claro {
   --text: #222222;
   --matrix-red: #d32f2f;
   --matrix-red-dark: #8e1e1e;
-  --matrix-amber: #f57c00;
+  --matrix-amber: #2563eb;
   --border: #dddddd;
   --particle-color: rgba(211, 47, 47, 0.2);
   --particle-line: rgba(245, 124, 0, 0.1);
@@ -70,7 +70,7 @@ body.tema-claro .hero h2,
 body.tema-claro .hero-subtitulo,
 body.tema-claro .skill-card h3,
 body.tema-claro .project-card h3 {
-  color: #1a237e !important;
+  color: #2563eb !important;
 }
 
 body.tema-claro .hero p {
@@ -80,21 +80,21 @@ body.tema-claro .hero p {
 
 /* ── Nav y selectores ── */
 body.tema-claro nav a {
-  color: #1a237e !important;
+  color: #2563eb !important;
 }
 body.tema-claro nav #idioma-selector,
 body.tema-claro nav #idioma-selector option {
-  color: #1a237e !important;
-  border-color: #1a237e !important;
+  color: #2563eb !important;
+  border-color: #2563eb !important;
 }
 
 /* ── Badge ── */
 body.tema-claro .badge {
-  border-color: #1a237e !important;
-  color: #1a237e !important;
+  border-color: #2563eb !important;
+  color: #2563eb !important;
 }
 body.tema-claro .badge:hover {
-  background: #1a237e !important;
+  background: #2563eb !important;
   color: #ffffff !important;
   transform: scale(1.08) !important;
   transition: all 0.2s ease !important;
@@ -102,17 +102,17 @@ body.tema-claro .badge:hover {
 
 /* ── Enlaces ── */
 body.tema-claro .hero a {
-  color: #1a237e !important;
+  color: #2563eb !important;
 }
 body.tema-claro .hero a:hover {
-  color: #303f9f !important;
+  color: #1e40af !important;
 }
 body.tema-claro .skill-card li:hover {
-  color: #303f9f !important;
+  color: #1e40af !important;
 }
 body.tema-claro .project-card .tag {
   border-color: #bbbbbb !important;
-  color: #1a237e !important;
+  color: #2563eb !important;
   background: rgba(26, 35, 126, 0.05) !important;
 }
 body.tema-claro .project-card .tag:hover {
@@ -121,33 +121,33 @@ body.tema-claro .project-card .tag:hover {
 
 /* ── Contacto ── */
 body.tema-claro .contacto a {
-  color: #1a237e !important;
+  color: #2563eb !important;
 }
 body.tema-claro .contacto a:hover {
-  color: #303f9f !important;
-  border-bottom-color: rgba(26, 35, 126, 0.6) !important;
+  color: #1e40af !important;
+  border-bottom-color: rgba(30, 64, 175, 0.6) !important;
 }
 
 /* ── Chat ── */
 body.tema-claro .chat-toggle {
-  border-color: #1a237e !important;
-  color: #1a237e !important;
+  border-color: #2563eb !important;
+  color: #2563eb !important;
 }
 body.tema-claro .chat-quick-replies .qr {
-  border-color: #1a237e !important;
-  color: #1a237e !important;
+  border-color: #2563eb !important;
+  color: #2563eb !important;
 }
 body.tema-claro .chat-quick-replies .qr:hover {
-  background: #1a237e !important;
-  border-color: #1a237e !important;
+  background: #2563eb !important;
+  border-color: #2563eb !important;
   color: #ffffff !important;
 }
 body.tema-claro .chat-clear {
-  border-color: #1a237e !important;
-  color: #1a237e !important;
+  border-color: #2563eb !important;
+  color: #2563eb !important;
 }
 body.tema-claro .chat-clear:hover {
-  background: #1a237e !important;
+  background: #2563eb !important;
   color: #ffffff !important;
 }
 
@@ -186,7 +186,7 @@ body.tema-claro #cursor-custom::after {
 
 /* ── Nav hover en tema Claro ── */
 body.tema-claro nav a:hover {
-  color: #303f9f !important;
+  color: #1e40af !important;
 }
 
 /* ── Chat en tema Claro ── */
@@ -267,16 +267,41 @@ body.tema-claro {
   --glow-card-content: rgba(235, 235, 235, 1);
   --glow-core-size: 90px;
   --glow-core-color: rgba(26, 35, 126, 0.25);
-  --glow-border-color: #1a237e;
-  --glow-conic-colors: #1a237e 0%, #303f9f 11%, #303f9f 15%, #7986cb 27%, #7986cb 31%, #5c6bc0 42%, #5c6bc0 46%, #9fa8da 55%, #9fa8da 59%, #c5cae9 70%, #c5cae9 74%, #e8eaf6 87%, #e8eaf6 91%, #1a237e 100%;
+  --glow-border-color: #2563eb;
+  --glow-conic-colors: #2563eb 0%, #1e40af 11%, #1e40af 15%, #7986cb 27%, #7986cb 31%, #5c6bc0 42%, #5c6bc0 46%, #9fa8da 55%, #9fa8da 59%, #c5cae9 70%, #c5cae9 74%, #e8eaf6 87%, #e8eaf6 91%, #2563eb 100%;
 }
 
 /* ── Variables de componente: tarjetas de servicio en tema Claro ── */
 body.tema-claro {
   --service-card-bg: var(--panel);
   --service-card-border: var(--border);
-  --service-card-title-color: #1a237e;
+  --service-card-title-color: #2563eb;
   --service-card-text-color: var(--text);
-  --service-card-hover-border: #1a237e;
+  --service-card-hover-border: #2563eb;
   --service-card-hover-shadow: 0 8px 24px rgba(26, 35, 126, 0.15);
 }
+
+
+/* ── Links de proyectos en tema Claro ── */
+body.tema-claro .project-card a,
+body.tema-claro .mejor-proyecto-card a,
+body.tema-claro .mejor-proyecto .card-tilt-inner a {
+  color: #2563eb !important;
+  text-decoration: underline;
+}
+
+body.tema-claro .project-card a:hover,
+body.tema-claro .mejor-proyecto-card a:hover,
+body.tema-claro .mejor-proyecto .card-tilt-inner a:hover {
+  color: #1e40af !important;
+}
+
+/* ── Links de Habilidades en tema Claro ── */
+body.tema-claro .skill-card li a {
+  color: #2563eb !important;
+}
+
+body.tema-claro .skill-card li a:hover {
+  color: #1e40af !important;
+}
+
